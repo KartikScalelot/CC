@@ -26,7 +26,7 @@ export default function SingleCardDetails() {
 	const [isPhotoViewPopUpOpen, setIsPhotoViewPopUpOpen] = useState(false);
 	const [isPayPopUpOpen, setIsPayPopUpOpen] = useState(false);
 	const [payerData, setPayerData] = useState({});
-	const [id, setId] = useState();
+	const [id2, setId2] = useState({});
 	let totalDueAmount = 0;
 	const header = {
 		Authorization: `Bearer ${token}`,
@@ -201,7 +201,7 @@ export default function SingleCardDetails() {
 									</svg>
 									Edit Details
 								</button>
-								<button to='createaccount' className="btn-secondary flex" onClick={() => { setId(cardDetails.card_photo); setIsPhotoViewPopUpOpen(true); }}>View Card Photo</button>
+								<button to='createaccount' className="btn-secondary flex" onClick={() => { setId2(cardDetails); setIsPhotoViewPopUpOpen(true); }}>View Card Photo</button>
 							</div>
 							{/* </div> */}
 						</div>
@@ -272,7 +272,7 @@ export default function SingleCardDetails() {
 							: "No Due Amount Found."}
 					</div>
 					<Modal isOpen={isPhotoViewPopUpOpen}>
-						<SinglePhotoView handleClose={setIsPhotoViewPopUpOpen} id={id} />
+						<SinglePhotoView handleClose={setIsPhotoViewPopUpOpen} id2={id2} />
 					</Modal>
 					<Modal isOpen={isPayPopUpOpen}>
 						<PaymentDetails handleClose={setIsPayPopUpOpen} payerData={payerData} />

@@ -122,7 +122,7 @@ function CreateAccount() {
 					</div>
 					<div className='w-full sm:w-1/2 mb-4'>
 						<label htmlFor="" className="input-title2">Phone number</label>
-						<input type="tel" name="phone_no" className="input_box2 placeholder:text-[#94A3B8] placeholder:text-sm sm:placeholder:text-xl" placeholder='Enter phone number' required onChange={(e) => setInputValue("phone_no", e.target.value)} />
+						<input type="tel" name="phone_no" maxLength={10} className="input_box2 placeholder:text-[#94A3B8] placeholder:text-sm sm:placeholder:text-xl" placeholder='Enter phone number' required onChange={(e) => setInputValue("phone_no", e.target.value)} />
 						<small className="text-red-500 text-xs">{formik.errors.phone_no}</small>
 					</div>
 				</div>

@@ -13,7 +13,7 @@ export default function CardDetails() {
 	// const { state } = useLocation();
 	// const { data } = state;
 	const [data, setData] = useState({});
-	const [id, setId] = useState();
+	const [id2, setId2] = useState({});
 
 	const token = localStorage.getItem("Token");
 	const navigate = useNavigate();
@@ -76,7 +76,7 @@ export default function CardDetails() {
 									</svg>
 									Edit Details
 								</button>
-								<button to='createaccount' className="btn-secondary flex" onClick={() => { setId(data.card_photo); setIsPhotoViewPopUpOpen(true); }}>
+								<button to='createaccount' className="btn-secondary flex" onClick={() => { setId2(data); setIsPhotoViewPopUpOpen(true); }}>
 									Card Photo
 								</button>
 								{/* onClick={(e) => { e.stopPropagation(); setDueData(row); setDueAmountPop(true); }} */}
@@ -144,7 +144,7 @@ export default function CardDetails() {
 						</div>
 					</div>
 					<Modal isOpen={isPhotoViewPopUpOpen}>
-						<SinglePhotoView handleClose={setIsPhotoViewPopUpOpen} id={id} />
+						<SinglePhotoView handleClose={setIsPhotoViewPopUpOpen} id2={id2} />
 					</Modal>
 					<Modal isOpen={isPayPopUpOpen}>
 						<PaymentDetails handleClose={setIsPayPopUpOpen} payerData={card} />

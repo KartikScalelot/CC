@@ -136,7 +136,7 @@ export default function SingleCardHolderCardsList() {
         },
         {
             header: 'Add Due', field: (row) => {
-                return <div onClick={(e) => { e.stopPropagation(); setDueData(row);  setDueAmountPop(true); }} className="relative text-base font-semibold text-white inline-block bg-[#8FB50B] rounded-lg px-3 py-2">Add Due</div>
+                return <div onClick={(e) => { e.stopPropagation(); setDueData(row); setDueAmountPop(true); }} className="relative text-base font-semibold text-white inline-block bg-[#8FB50B] rounded-lg px-3 py-2">Add Due</div>
             }
         },
 
@@ -210,32 +210,32 @@ export default function SingleCardHolderCardsList() {
                     </div>
                 </div>
             </div> */}
-            {listCards.length > 0 ? 
-                        !listView ?
-                            <>
-                                {/* List View  */}
-                                <div className="sm:mt-9">
-                                    {/* <DataTable value={listCreditCard}>
+                        {listCards.length > 0 ?
+                            !listView ?
+                                <>
+                                    {/* List View  */}
+                                    <div className="sm:mt-9">
+                                        {/* <DataTable value={listCreditCard}>
                     {columns.map((col, i) => (
                         <Column key={col.field} field={col.field} header={col.header} />
                     ))}
                 </DataTable> */}
-                                    {/* <DataTable columns={columns} data={listCards}
+                                        {/* <DataTable columns={columns} data={listCards}
                                 Clicked 
                                 onRowClicked={(row) => {localStorage.setItem("card_id", row.card_id); navigate("../singlecarddetails")}}
                                 /> */}
-                                    <DataTable value={listCards} selectionMode="single" columnResizeMode={"expand"} resizableColumns={true} scrollable={true}
-                                        onSelectionChange={(col) => { localStorage.setItem("card_id", col.value.card_id); navigate("../singlecarddetails") }} paginator rows={5}>
-                                        {columns.map((col, i) => (
+                                        <DataTable value={listCards} selectionMode="single" columnResizeMode={"expand"} resizableColumns={true} scrollable={true}
+                                            onSelectionChange={(col) => { localStorage.setItem("card_id", col.value.card_id); navigate("../singlecarddetails") }} paginator rows={5}>
+                                            {columns.map((col, i) => (
 
-                                            <Column className="relative" key={col.field} field={col.field} header={col.header} />
+                                                <Column className="relative" key={col.field} field={col.field} header={col.header} />
 
-                                        ))}
-                                    </DataTable>
-                                </div>
-                            </>
-                            :
-                           
+                                            ))}
+                                        </DataTable>
+                                    </div>
+                                </>
+                                :
+
                                 <>
 
                                     {/* Card View  */}
@@ -308,7 +308,7 @@ export default function SingleCardHolderCardsList() {
                                         )}
                                     </div>
                                 </>
-                                : <div className="flex items-center justify-center">
+                            : <div className="flex items-center justify-center">
                                 <div className="flex items-center justify-center flex-col">
                                     <img
                                         src={creditCard}
