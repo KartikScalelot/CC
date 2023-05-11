@@ -88,6 +88,7 @@ export default function AdminEditCard() {
     }
 
     const clickNextHandler = async (values) => {
+        loading(true);
         values.card_id = data.card_id;
         const requestObj = { ...values };
         try {
@@ -104,10 +105,12 @@ export default function AdminEditCard() {
             } else {
                 toast.error(response.data.Message);
             }
+            loading(false);
         } catch (error) {
             toast.error("Something Went Wrong.");
             // navigate(`/auth/login`);
             console.log(error);
+            loading(false);
         }
     }
 
@@ -182,14 +185,14 @@ export default function AdminEditCard() {
                                     <label htmlFor="card_category" className="input-title2" >Card category</label>
                                     <div className="cardType flex items-center space-x-10 md:px-4 py-3">
                                         <label className='flex items-center relative' htmlFor='business'>
-                                            <input type="radio" name="card_category" id='business' value='business' className="absolute inset-0 z-10 cursor-pointer opacity-0 transactiongroup" defaultChecked onChange={(e) => setInputValue("card_category", e.target.value)} defaultValue={formik.values?.card_category || ""} readOnly/>
+                                            <input type="radio" name="card_category" id='business' value='business' className="absolute inset-0 z-10 cursor-pointer opacity-0 transactiongroup" defaultChecked onChange={(e) => setInputValue("card_category", e.target.value)} defaultValue={formik.values?.card_category || ""} readOnly />
                                             <div className='flex items-center'>
                                                 <span className="inline-block w-5 h-5 rounded-full border-2 border-black/20 mr-4 radio"></span>
                                             </div>
                                             <span className="text-[#475569] text-sm md:text-xl font-semibold md:pl-3">Business</span>
                                         </label>
                                         <label className='flex items-center relative' htmlFor='personal'>
-                                            <input type="radio" name="card_category" id='personal' value='personal' className="absolute inset-0 z-10 cursor-pointer opacity-0 transactiongroup" onChange={(e) => setInputValue("card_category", e.target.value)} defaultValue={formik.values?.card_category || ""} readOnly/>
+                                            <input type="radio" name="card_category" id='personal' value='personal' className="absolute inset-0 z-10 cursor-pointer opacity-0 transactiongroup" onChange={(e) => setInputValue("card_category", e.target.value)} defaultValue={formik.values?.card_category || ""} readOnly />
                                             <div className='flex items-center'>
                                                 <span className="inline-block w-5 h-5 rounded-full border-2 border-black/20 mr-4 radio"></span>
                                             </div>
@@ -243,7 +246,7 @@ export default function AdminEditCard() {
                                         <span className="text-[#94A3B8] font-normal text-sm md:text-xl pl-4">
                                             {formik.values.frontside_card_photo && formik.values.frontside_card_photo !== "" ?
                                                 // formik.values.frontside_card_photo.name
-                                                <img src={formik.values.frontside_card_photo} alt="Frontside Card Photo"/>
+                                                <img src={formik.values.frontside_card_photo} alt="Frontside Card Photo" />
                                                 :
                                                 "Upload"
                                             }
@@ -286,7 +289,17 @@ export default function AdminEditCard() {
                                 </div>
                             </div>
                             <div className="w-full flex flex-wrap md:flex-nowrap md:space-x-6 md:mb-7">
-                                <button type="submit" className="btn-secondary w-full">Save</button>
+                                {loading ?
+                                    <button type="button" className="flex items-center justify-center btn-secondary w-full mt-5 sm:mt-0 cursor-not-allowed" disabled="">
+                                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        Processing...
+                                    </button>
+                                    :
+                                    <button type="submit" className="btn-secondary w-full">Save</button>
+                                }
                             </div>
                         </div>
                     </form>

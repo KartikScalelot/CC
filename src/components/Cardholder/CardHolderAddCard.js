@@ -133,12 +133,12 @@ export default function CardHolderAddCard() {
                 <form onSubmit={formik.handleSubmit}>
                     <div className="w-full">
                         <div className="w-full flex flex-wrap md:flex-nowrap items-center md:space-x-6 md:mb-7">
-                            <div className='w-full md:w-1/2 mb-4 md:md-0'>
+                            <div className='w-full md:w-1/2 mb-4 md:mb-0'>
                                 <label htmlFor="card_number" className="input-title2">Card Number*</label>
                                 <input maxLength={12} type="text" name="card_number" className="input_box2 placeholder:text-[#94A3B8] placeholder:text-sm md:placeholder:text-xl" placeholder='Enter card number' onChange={(e) => setInputValue("card_number", e.target.value)} />
                                 <small className="text-red-500 text-xs">{formik.errors.card_number}</small>
                             </div>
-                            <div className='w-full md:w-1/2 mb-4 md:md-0'>
+                            <div className='w-full md:w-1/2 mb-4 md:mb-0'>
                                 <label htmlFor="card_category" className="input-title2" >Card category</label>
                                 <div className="cardType flex items-center space-x-10 md:px-4 py-3">
                                     <label className='flex items-center relative' htmlFor='business'>
@@ -160,100 +160,97 @@ export default function CardHolderAddCard() {
                             </div>
                         </div>
                         <div className="w-full flex flex-wrap md:flex-nowrap md:space-x-6 md:mb-7">
-                            <div className='w-full md:w-1/2 mb-4 md:md-0'>
+                            <div className='w-full md:w-1/2 mb-4 md:mb-0'>
                                 <label htmlFor="card_bank_name" className="input-title2">Card bank name*</label>
                                 <input type="text" name="card_bank_name" className="input_box2 placeholder:text-[#94A3B8] placeholder:text-sm md:placeholder:text-xl" placeholder='Enter bank name' onChange={(e) => setInputValue("card_bank_name", e.target.value)} />
                                 <small className="text-red-500 text-xs">{formik.errors.card_bank_name}</small>
                             </div>
-                            <div className='w-full md:w-1/2 mb-4 md:md-0'>
+                            <div className='w-full md:w-1/2 mb-4 md:mb-0'>
                                 <label htmlFor="card_holder_name" className="input-title2">Card holder name*</label>
                                 <input type="text" name="card_holder_name" className="input_box2 placeholder:text-[#94A3B8] placeholder:text-sm md:placeholder:text-xl" placeholder='Enter card holder name' onChange={(e) => setInputValue("card_holder_name", e.target.value)} />
                                 <small className="text-red-500 text-xs">{formik.errors.card_holder_name}</small>
                             </div>
                         </div>
                         <div className="w-full flex flex-wrap md:flex-nowrap md:space-x-6 md:mb-7">
-                            <div className='flex flex-wrap md:flex-nowrap items-center w-full md:w-1/2 mb-4 md:md-0 md:space-x-3'>
-                                <div className='w-full md:w-1/2 mb-4 md:md-0'>
-                                    <label htmlFor="frontside_card_photo" className="input-title2">Card Front photo*</label>
-                                    <label className='input_box2 flex items-center border-dashed justify-start' htmlFor='card-photo'>
-                                        <svg width="22" height="17" viewBox="0 0 22 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path fillRule="evenodd" clipRule="evenodd" d="M10.4444 1.75C7.65101 1.75 5.35585 3.88704 5.10594 6.6149C5.07 7.0073 4.74063 7.306 4.34837 7.3056C2.9362 7.3044 1.75 8.4797 1.75 9.8889C1.75 11.3156 2.9066 12.4722 4.33333 12.4722H5C5.41421 12.4722 5.75 12.808 5.75 13.2222C5.75 13.6364 5.41421 13.9722 5 13.9722H4.33333C2.07817 13.9722 0.25 12.1441 0.25 9.8889C0.25 7.8644 1.76567 6.1724 3.69762 5.858C4.28682 2.66679 7.08302 0.25 10.4444 0.25C12.947 0.25 15.1354 1.5899 16.3334 3.58865C19.2024 3.47555 21.75 5.8223 21.75 8.7778C21.75 11.4717 19.6998 13.6859 17.0741 13.9466C16.6619 13.9875 16.2946 13.6866 16.2537 13.2744C16.2127 12.8622 16.5137 12.4949 16.9259 12.4539C18.792 12.2687 20.25 10.693 20.25 8.7778C20.25 6.565 18.2032 4.80912 16.0261 5.1209C15.7057 5.1668 15.3871 5.0044 15.239 4.70953C14.3572 2.95291 12.5406 1.75 10.4444 1.75Z" fill="#94A3B8" />
-                                            <path fillRule="evenodd" clipRule="evenodd" d="M11 10.0606L12.9696 12.0302C13.2625 12.3231 13.7374 12.3231 14.0303 12.0302C14.3232 11.7373 14.3232 11.2625 14.0303 10.9696L11.8839 8.82311C11.3957 8.33501 10.6043 8.33501 10.1161 8.82311L7.96967 10.9696C7.67678 11.2625 7.67678 11.7373 7.96967 12.0302C8.26256 12.3231 8.73744 12.3231 9.0303 12.0302L11 10.0606Z" fill="#94A3B8" />
-                                            <path fillRule="evenodd" clipRule="evenodd" d="M11 16.75C11.4142 16.75 11.75 16.4142 11.75 16V10C11.75 9.5858 11.4142 9.25 11 9.25C10.5858 9.25 10.25 9.5858 10.25 10V16C10.25 16.4142 10.5858 16.75 11 16.75Z" fill="#94A3B8" />
-                                        </svg>
-                                        <span className="text-[#94A3B8] font-normal text-sm md:text-xl pl-4">
-                                            {formik.values.frontside_card_photo && formik.values.frontside_card_photo !== "" ?
-                                                formik.values.frontside_card_photo.name
-                                                :
-                                                "Upload"
-                                            }
-                                        </span>
-                                    </label>
-                                    <input type="file" name="frontside_card_photo" id='card-photo' className="input_box2 placeholder:text-[#94A3B8] placeholder:text-base hidden" placeholder='upload' accept='image/*' onChange={(e) => setInputValue("frontside_card_photo", e.currentTarget.files[0])} />
-                                    <small className="text-red-500 text-xs">{formik.errors.frontside_card_photo}</small>
-                                </div>
-                                <div className='w-full md:w-1/2 mb-4 md:md-0'>
-                                    <label htmlFor="backside_card_photo" className="input-title2">Card back photo*</label>
-                                    <label className='input_box2 flex items-center border-dashed justify-start' htmlFor='card-photo-1'>
-                                        <svg width="22" height="17" viewBox="0 0 22 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path fillRule="evenodd" clipRule="evenodd" d="M10.4444 1.75C7.65101 1.75 5.35585 3.88704 5.10594 6.6149C5.07 7.0073 4.74063 7.306 4.34837 7.3056C2.9362 7.3044 1.75 8.4797 1.75 9.8889C1.75 11.3156 2.9066 12.4722 4.33333 12.4722H5C5.41421 12.4722 5.75 12.808 5.75 13.2222C5.75 13.6364 5.41421 13.9722 5 13.9722H4.33333C2.07817 13.9722 0.25 12.1441 0.25 9.8889C0.25 7.8644 1.76567 6.1724 3.69762 5.858C4.28682 2.66679 7.08302 0.25 10.4444 0.25C12.947 0.25 15.1354 1.5899 16.3334 3.58865C19.2024 3.47555 21.75 5.8223 21.75 8.7778C21.75 11.4717 19.6998 13.6859 17.0741 13.9466C16.6619 13.9875 16.2946 13.6866 16.2537 13.2744C16.2127 12.8622 16.5137 12.4949 16.9259 12.4539C18.792 12.2687 20.25 10.693 20.25 8.7778C20.25 6.565 18.2032 4.80912 16.0261 5.1209C15.7057 5.1668 15.3871 5.0044 15.239 4.70953C14.3572 2.95291 12.5406 1.75 10.4444 1.75Z" fill="#94A3B8" />
-                                            <path fillRule="evenodd" clipRule="evenodd" d="M11 10.0606L12.9696 12.0302C13.2625 12.3231 13.7374 12.3231 14.0303 12.0302C14.3232 11.7373 14.3232 11.2625 14.0303 10.9696L11.8839 8.82311C11.3957 8.33501 10.6043 8.33501 10.1161 8.82311L7.96967 10.9696C7.67678 11.2625 7.67678 11.7373 7.96967 12.0302C8.26256 12.3231 8.73744 12.3231 9.0303 12.0302L11 10.0606Z" fill="#94A3B8" />
-                                            <path fillRule="evenodd" clipRule="evenodd" d="M11 16.75C11.4142 16.75 11.75 16.4142 11.75 16V10C11.75 9.5858 11.4142 9.25 11 9.25C10.5858 9.25 10.25 9.5858 10.25 10V16C10.25 16.4142 10.5858 16.75 11 16.75Z" fill="#94A3B8" />
-                                        </svg>
-                                        <span className="text-[#94A3B8] font-normal text-sm md:text-xl pl-4">
-                                            {formik.values.backside_card_photo && formik.values.backside_card_photo !== "" ?
-                                                formik.values.backside_card_photo.name
-                                                :
-                                                "Upload"
-                                            }
-                                        </span>
-                                    </label>
-                                    <input type="file" name="backside_card_photo" id='card-photo-1' className="input_box2 placeholder:text-[#94A3B8] placeholder:text-base hidden" placeholder='Card photo upload' accept='image/*' onChange={(e) => setInputValue("backside_card_photo", e.currentTarget.files[0])} />
-                                    <small className="text-red-500 text-xs">{formik.errors.backside_card_photo}</small>
-                                </div>
-                            </div>
-                            <div className='w-full md:w-1/2 mb-4 md:md-0'>
-                                <label htmlFor="card_network" className="input-title2">Card network*</label>
-                                <input type="text" name="card_network" className="input_box2 placeholder:text-[#94A3B8] placeholder:text-sm md:placeholder:text-xl" placeholder='Visa' onChange={(e) => setInputValue("card_network", e.target.value)} />
-                                <small className="text-red-500 text-xs">{formik.errors.card_network}</small>
-                            </div>
-                        </div>
-
-
-                        <div className="w-full flex flex-wrap md:flex-nowrap md:space-x-6 md:mb-7">
-                            <div className='w-full md:w-1/2 mb-4 md:md-0'>
+                            <div className='w-full md:w-1/2 mb-4 md:mb-0'>
                                 <label htmlFor="card_exp_date" className="input-title2 relative">Card Expiry Date *</label>
                                 {/* <input type="date" name="card_exp_date" className="input_box2 placeholder:text-[#94A3B8] placeholder:text-sm md:placeholder:text-xl" placeholder='Enter card expiry date' required onChange={(e) => setInputValue("card_exp_date", e.target.value)} /> */}
                                 <Calendar name="card_exp_date" className='w-full py-[2px] box-shadow' placeholder={new Date().toISOString().slice(0, 10)} value={formik.values.card_exp_date} onChange={(e) => setInputValue("card_exp_date", (e.target.value).toISOString().slice(0, 10))} />
                                 <small className="text-red-500 text-xs">{formik.errors.card_exp_date}</small>
                                 {/* <img src={CalendarIcon} alt="Calendar icon" className='absolute top-1/2 translate-y-1/2 right-10' /> */}
                             </div>
-                            <div className='flex flex-wrap md:flex-nowrap items-center w-full md:w-1/2 mb-4 md:md-0 md:space-x-3'>
-                                <div className='w-full md:w-1/2 mb-4 md:md-0'>
-                                    <label htmlFor="card_cvv" className="input-title2">Card CVV *</label>
-                                    <input maxLength={3} type="text" name="card_cvv" className="input_box2 placeholder:text-[#94A3B8] placeholder:text-sm md:placeholder:text-xl" placeholder='Enter cvv' onChange={(e) => setInputValue("card_cvv", e.target.value)} />
-                                    <small className="text-red-500 text-xs">{formik.errors.card_cvv}</small>
-                                </div>
-                                <div className='w-full md:w-1/2 mb-4 md:md-0'>
-                                    <label htmlFor="" className="input-title2">Commission *</label>
-                                    <input step="any" type="number" name="commission" className="input_box2 placeholder:text-[#94A3B8] placeholder:text-xl" placeholder='Enter commission in %' onChange={(e) => setInputValue("commission", e.target.value)} />
-                                    <small className="text-red-500 text-xs">{formik.errors.commission}</small>
-                                </div>
+                            <div className='w-full md:w-1/2 mb-4 md:mb-0'>
+                                <label htmlFor="card_network" className="input-title2">Card network*</label>
+                                <input type="text" name="card_network" className="input_box2 placeholder:text-[#94A3B8] placeholder:text-sm md:placeholder:text-xl" placeholder='Visa' onChange={(e) => setInputValue("card_network", e.target.value)} />
+                                <small className="text-red-500 text-xs">{formik.errors.card_network}</small>
                             </div>
                         </div>
-                        <div className="w-full flex space-x-6 mb-7">
-                            {loading ?
-                                <button type="button" class="flex items-center justify-center btn-secondary w-full mt-5 sm:mt-0" disabled="">
-                                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        <div className="w-full flex flex-wrap md:flex-nowrap md:space-x-6 md:mb-7">
+
+                            <div className='w-full md:w-1/2 mb-4 md:mb-0'>
+                                <label htmlFor="frontside_card_photo" className="input-title2">Card Front photo*</label>
+                                <label className='input_box2 flex items-center border-dashed justify-start' htmlFor='card-photo'>
+                                    <svg width="22" height="17" viewBox="0 0 22 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fillRule="evenodd" clipRule="evenodd" d="M10.4444 1.75C7.65101 1.75 5.35585 3.88704 5.10594 6.6149C5.07 7.0073 4.74063 7.306 4.34837 7.3056C2.9362 7.3044 1.75 8.4797 1.75 9.8889C1.75 11.3156 2.9066 12.4722 4.33333 12.4722H5C5.41421 12.4722 5.75 12.808 5.75 13.2222C5.75 13.6364 5.41421 13.9722 5 13.9722H4.33333C2.07817 13.9722 0.25 12.1441 0.25 9.8889C0.25 7.8644 1.76567 6.1724 3.69762 5.858C4.28682 2.66679 7.08302 0.25 10.4444 0.25C12.947 0.25 15.1354 1.5899 16.3334 3.58865C19.2024 3.47555 21.75 5.8223 21.75 8.7778C21.75 11.4717 19.6998 13.6859 17.0741 13.9466C16.6619 13.9875 16.2946 13.6866 16.2537 13.2744C16.2127 12.8622 16.5137 12.4949 16.9259 12.4539C18.792 12.2687 20.25 10.693 20.25 8.7778C20.25 6.565 18.2032 4.80912 16.0261 5.1209C15.7057 5.1668 15.3871 5.0044 15.239 4.70953C14.3572 2.95291 12.5406 1.75 10.4444 1.75Z" fill="#94A3B8" />
+                                        <path fillRule="evenodd" clipRule="evenodd" d="M11 10.0606L12.9696 12.0302C13.2625 12.3231 13.7374 12.3231 14.0303 12.0302C14.3232 11.7373 14.3232 11.2625 14.0303 10.9696L11.8839 8.82311C11.3957 8.33501 10.6043 8.33501 10.1161 8.82311L7.96967 10.9696C7.67678 11.2625 7.67678 11.7373 7.96967 12.0302C8.26256 12.3231 8.73744 12.3231 9.0303 12.0302L11 10.0606Z" fill="#94A3B8" />
+                                        <path fillRule="evenodd" clipRule="evenodd" d="M11 16.75C11.4142 16.75 11.75 16.4142 11.75 16V10C11.75 9.5858 11.4142 9.25 11 9.25C10.5858 9.25 10.25 9.5858 10.25 10V16C10.25 16.4142 10.5858 16.75 11 16.75Z" fill="#94A3B8" />
                                     </svg>
-                                    Processing...
-                                </button>
-                                :
-                                <button type="submit" className="btn-secondary w-full">Add Card</button>
-                            }
+                                    <span className="text-[#94A3B8] font-normal text-sm md:text-xl pl-4">
+                                        {formik.values.frontside_card_photo && formik.values.frontside_card_photo !== "" ?
+                                            formik.values.frontside_card_photo.name
+                                            :
+                                            "Upload"
+                                        }
+                                    </span>
+                                </label>
+                                <input type="file" name="frontside_card_photo" id='card-photo' className="input_box2 placeholder:text-[#94A3B8] placeholder:text-base hidden" placeholder='upload' accept='image/*' onChange={(e) => setInputValue("frontside_card_photo", e.currentTarget.files[0])} />
+                                <small className="text-red-500 text-xs">{formik.errors.frontside_card_photo}</small>
+                            </div>
+                            <div className='w-full md:w-1/2 mb-4 md:mb-0'>
+                                <label htmlFor="backside_card_photo" className="input-title2">Card back photo*</label>
+                                <label className='input_box2 flex items-center border-dashed justify-start' htmlFor='card-photo-1'>
+                                    <svg width="22" height="17" viewBox="0 0 22 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fillRule="evenodd" clipRule="evenodd" d="M10.4444 1.75C7.65101 1.75 5.35585 3.88704 5.10594 6.6149C5.07 7.0073 4.74063 7.306 4.34837 7.3056C2.9362 7.3044 1.75 8.4797 1.75 9.8889C1.75 11.3156 2.9066 12.4722 4.33333 12.4722H5C5.41421 12.4722 5.75 12.808 5.75 13.2222C5.75 13.6364 5.41421 13.9722 5 13.9722H4.33333C2.07817 13.9722 0.25 12.1441 0.25 9.8889C0.25 7.8644 1.76567 6.1724 3.69762 5.858C4.28682 2.66679 7.08302 0.25 10.4444 0.25C12.947 0.25 15.1354 1.5899 16.3334 3.58865C19.2024 3.47555 21.75 5.8223 21.75 8.7778C21.75 11.4717 19.6998 13.6859 17.0741 13.9466C16.6619 13.9875 16.2946 13.6866 16.2537 13.2744C16.2127 12.8622 16.5137 12.4949 16.9259 12.4539C18.792 12.2687 20.25 10.693 20.25 8.7778C20.25 6.565 18.2032 4.80912 16.0261 5.1209C15.7057 5.1668 15.3871 5.0044 15.239 4.70953C14.3572 2.95291 12.5406 1.75 10.4444 1.75Z" fill="#94A3B8" />
+                                        <path fillRule="evenodd" clipRule="evenodd" d="M11 10.0606L12.9696 12.0302C13.2625 12.3231 13.7374 12.3231 14.0303 12.0302C14.3232 11.7373 14.3232 11.2625 14.0303 10.9696L11.8839 8.82311C11.3957 8.33501 10.6043 8.33501 10.1161 8.82311L7.96967 10.9696C7.67678 11.2625 7.67678 11.7373 7.96967 12.0302C8.26256 12.3231 8.73744 12.3231 9.0303 12.0302L11 10.0606Z" fill="#94A3B8" />
+                                        <path fillRule="evenodd" clipRule="evenodd" d="M11 16.75C11.4142 16.75 11.75 16.4142 11.75 16V10C11.75 9.5858 11.4142 9.25 11 9.25C10.5858 9.25 10.25 9.5858 10.25 10V16C10.25 16.4142 10.5858 16.75 11 16.75Z" fill="#94A3B8" />
+                                    </svg>
+                                    <span className="text-[#94A3B8] font-normal text-sm md:text-xl pl-4">
+                                        {formik.values.backside_card_photo && formik.values.backside_card_photo !== "" ?
+                                            formik.values.backside_card_photo.name
+                                            :
+                                            "Upload"
+                                        }
+                                    </span>
+                                </label>
+                                <input type="file" name="backside_card_photo" id='card-photo-1' className="input_box2 placeholder:text-[#94A3B8] placeholder:text-base hidden" placeholder='Card photo upload' accept='image/*' onChange={(e) => setInputValue("backside_card_photo", e.currentTarget.files[0])} />
+                                <small className="text-red-500 text-xs">{formik.errors.backside_card_photo}</small>
+                            </div>
                         </div>
+                        <div className="w-full flex flex-wrap md:flex-nowrap md:space-x-6 md:mb-7">
+                            <div className='w-full md:w-1/2 mb-4 md:mb-0'>
+                                <label htmlFor="card_cvv" className="input-title2">Card CVV *</label>
+                                <input maxLength={3} type="text" name="card_cvv" className="input_box2 placeholder:text-[#94A3B8] placeholder:text-sm md:placeholder:text-xl" placeholder='Enter cvv' onChange={(e) => setInputValue("card_cvv", e.target.value)} />
+                                <small className="text-red-500 text-xs">{formik.errors.card_cvv}</small>
+                            </div>
+                            <div className='w-full md:w-1/2 mb-4 md:mb-0'>
+                                <label htmlFor="" className="input-title2">Commission *</label>
+                                <input step="any" type="number" name="commission" className="input_box2 placeholder:text-[#94A3B8] placeholder:text-xl" placeholder='Enter commission in %' onChange={(e) => setInputValue("commission", e.target.value)} />
+                                <small className="text-red-500 text-xs">{formik.errors.commission}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="w-full flex space-x-6 mb-7">
+                        {loading ?
+                            <button type="button" class="flex items-center justify-center btn-secondary w-full mt-5 sm:mt-0" disabled="">
+                                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Processing...
+                            </button>
+                            :
+                            <button type="submit" className="btn-secondary w-full">Add Card</button>
+                        }
                     </div>
                 </form>
             </div>

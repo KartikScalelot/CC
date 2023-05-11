@@ -39,9 +39,11 @@ function Payments() {
             } else {
                 toast.error("Something went wrong!!");
             }
+            setLoading(false);
         } catch (error) {
             toast.error("Something went wrong!!");
             console.log(error);
+            setLoading(false);
         }
     }
     paymentRequests.map((amount) => totalDueAmount += amount.due_amount);

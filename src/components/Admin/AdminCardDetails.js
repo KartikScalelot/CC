@@ -12,7 +12,7 @@ export default function AdminCardDetails() {
 	// const { state } = useLocation();
 	// const { data } = state;
 	const [data, setData] = useState({});
-	const [id, setId] = useState();
+	const [id2, setId2] = useState();
 
 	const token = localStorage.getItem("Token");
 	const navigate = useNavigate();
@@ -68,7 +68,7 @@ export default function AdminCardDetails() {
 									</svg>
 									Edit Details
 								</button>
-								<button to='createaccount' className="btn-secondary flex" onClick={() => { setId(data.card_photo); setIsPhotoViewPopUpOpen(true); }}>
+								<button to='createaccount' className="btn-secondary flex" onClick={() => { setId2(data); setIsPhotoViewPopUpOpen(true); }}>
 									Card Photo
 								</button>
 							</div>
@@ -110,7 +110,7 @@ export default function AdminCardDetails() {
 						</div>
 					</div>
 					<Modal isOpen={isPhotoViewPopUpOpen}>
-						<SinglePhotoView handleClose={setIsPhotoViewPopUpOpen} id={id} />
+						<SinglePhotoView handleClose={setIsPhotoViewPopUpOpen} id2={id2} />
 					</Modal>
 				</div>
 			}

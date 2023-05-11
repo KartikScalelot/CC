@@ -70,6 +70,8 @@ export default function SingleCardDetails() {
 		getCardDetails();
 	}, []);
 
+	console.log("cardDetails",requestDetails);
+
 	const columns = [
 		// {
 		// 	header: 'Holder Name', field: (row) => {
@@ -175,7 +177,7 @@ export default function SingleCardDetails() {
 									/>
 								</svg>
 								<h3 className="text-yankeesBlue leading-8 pl-7">
-									{data.card_holder_name}
+									{cardDetails.card_holder_name} Details
 								</h3>
 							</div>
 							<div className="flex justify-end space-x-3 mt-2">
@@ -261,7 +263,6 @@ export default function SingleCardDetails() {
 						</div>
 						{requestDetails.length > 0 ?
 							<div className="card">
-
 								<DataTable value={requestDetails} selectionMode="single" columnResizeMode={"expand"} resizableColumns={true} scrollable={true}
 									paginator rows={5}>
 									{columns.map((col, i) => (

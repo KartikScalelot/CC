@@ -135,33 +135,38 @@ export default function CardList() {
             }
         },
         {
-            header: 'Deposit Charge', field: (row) => {
-                return <div className="text-lg font-semibold text-yankeesBlue">
-                    ₹ {0}
-                </div>
+            header: 'Card Network', field: (row) => {
+                return <div className="text-lg font-semibold text-yankeesBlue">{row.card_network}</div>
             }
         },
-        {
-            header: 'Withdraw Charge', field: (row) => {
-                return <div className="text-lg font-semibold text-yankeesBlue">
-                    ₹ {0}
-                </div>
-            }
-        },
-        {
-            header: 'Profit', field: (row) => {
-                return <div className="text-lg font-semibold text-yankeesBlue">
-                    ₹ {0}
-                </div>
-            }
-        },
-        {
-            header: 'Total Amount', field: (row) => {
-                return <div className="text-lg font-semibold text-yankeesBlue">
-                    ₹ {0}
-                </div>
-            }
-        },
+        // {
+        //     header: 'Deposit Charge', field: (row) => {
+        //         return <div className="text-lg font-semibold text-yankeesBlue">
+        //             ₹ {0}
+        //         </div>
+        //     }
+        // },
+        // {
+        //     header: 'Withdraw Charge', field: (row) => {
+        //         return <div className="text-lg font-semibold text-yankeesBlue">
+        //             ₹ {0}
+        //         </div>
+        //     }
+        // },
+        // {
+        //     header: 'Profit', field: (row) => {
+        //         return <div className="text-lg font-semibold text-yankeesBlue">
+        //             ₹ {0}
+        //         </div>
+        //     }
+        // },
+        // {
+        //     header: 'Total Amount', field: (row) => {
+        //         return <div className="text-lg font-semibold text-yankeesBlue">
+        //             ₹ {0}
+        //         </div>
+        //     }
+        // },
         // {
         //     header: 'Due Date', field: (row) => {
         //         return <div className="text-lg font-semibold text-yankeesBlue">
