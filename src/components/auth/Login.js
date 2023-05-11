@@ -4,45 +4,22 @@ import bgImage from "../../assets/images/login-images.png"
 import logo from "../../assets/images/logo.png"
 import topCircle from "../../assets/images/top-circle.png"
 import bottomCircle from "../../assets/images/bottom-circle.png";
-import { baseurl } from '../../api/baseurl';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { handleSubmit } from './services/loginServices';
+import { setUserData } from './services/events';
+import { store } from '../../redux/store';
+import { push } from 'react-router-redux';
 
-import axios from 'axios';
 
 const Login = () => {
-    const navigate = useNavigate();
-    const [userData, setUserData] = useState({ email: "", password: "" });
-    const [error, setError] = useState(false);
-    const [loading, setLoading] = useState(false);
+
+    const navigate = useNavigate()
+    const loading = useSelector(state => state.authState.loading)
+    const userData = useSelector(state => state.authState.userData)
 
     const setFormField = (field, value) => {
         setUserData({ ...userData, [field]: value })
-    }
-
-
-
-    const handleSubmit = async (data) => {
-        data.preventDefault();
-        setLoading(true);
-        try {
-            const response = await axios.post(`${baseurl}/api/user/login-admin`, { email: userData.email, password: userData.password });
-            if (response.data?.IsSuccess) {
-                toast.success("Login successfully.");
-                setTimeout(() => {
-                    localStorage.clear();
-                    localStorage.setItem("Token", response.data?.Data.token);
-                    navigate("../dashboard")
-                }, 1000);
-                setLoading(true);
-            } else {
-                toast.error(response.data.Message);
-                setLoading(true);
-            }
-        } catch (error) {
-            toast.error("Something went wrong!!");
-            setError(true);
-            setLoading(true);
-        }
     }
 
     useEffect(() => {
@@ -67,17 +44,18 @@ const Login = () => {
                     <Link to='' className='absolute'><img src={logo} alt="Alt Text" /></Link>
                     <div className="max-w-md w-full m-auto">
                         <h1>Welcome back</h1>
+
                         <p className="text-base sm:text-lg text-[#64748B] font-normal pt-3.5 xl:pr-8">Welcome back! Please enter your details</p>
                         {/* <small className='text-[#FB7181] text-xs font-semibold leading-4'>Invalid Mobile or Password Please Try Again!</small> */}
                         <div className="w-full pt-7 sm:pt-9">
                             <form className="space-y-5">
                                 <div>
                                     <label htmlFor="" className="input-titel">Email or Phone</label>
-                                    <input type="text" name="username" className="input_box placeholder:text-[#94A3B8] placeholder:text-base" placeholder='Enter your email' value={userData.email} onChange={(e) => { setFormField('email', e.target.value); setError(false) }} required />
+                                    <input type="text" name="username" className="input_box placeholder:text-[#94A3B8] placeholder:text-base" placeholder='Enter your email' value={userData.email} onChange={(e) => { setFormField('email', e.target.value) }} required />
                                 </div>
                                 <div>
                                     <label htmlFor="" className="input-titel">Password</label>
-                                    <input type="Password" name="Password" placeholder='Enter your password' className="input_box placeholder:text-[#94A3B8] placeholder:text-base" value={userData.password} onChange={(e) => { setFormField('password', e.target.value); setError(false) }} required />
+                                    <input type="Password" name="Password" placeholder='Enter your password' className="input_box placeholder:text-[#94A3B8] placeholder:text-base" value={userData.password} onChange={(e) => { setFormField('password', e.target.value) }} required />
                                 </div>
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center">
@@ -108,18 +86,6 @@ const Login = () => {
                     <img src={bgImage} alt="login-bg" className="w-full h-full object-cover object-bottom" />
                 </div>
             </div>
-            <ToastContainer
-                position="bottom-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="colored"
-            />
         </div>
     )
 }
