@@ -19,7 +19,8 @@ function PaymentDetails({ handleClose, payerData, setReloade }) {
     }
     const [paymentRecord, setPaymentRecord] = useState([]);
     // const [sumOfAmount, setSumOfAmount] = useState(0);
-    let sumOfAmount = 0;
+    // let sumOfAmount = 0;
+    const [sumOfAmount, setSumOfAmount] = useState(0)
     const [acceptTerm, setAcceptTerm] = useState(false);
     const [isCheck, setIsCheck] = useState(false)
     const [get, setGet] = useState(false)
@@ -149,8 +150,12 @@ function PaymentDetails({ handleClose, payerData, setReloade }) {
         getPaymentRecords();
     }, [get])
 
-    paymentRecord.map((r, i) => <div key={i}>{sumOfAmount += r.paid_amount}</div>);
+    useEffect(() => {
+        paymentRecord.map((r, i) => r.payment_method_flag === "Cycle Deposit" ?setSumOfAmount(prev=>prev+r.paid_amount)  : setSumOfAmount(prev=>prev-r.paid_amount) );
+    }, [paymentRecord])
 
+    // paymentRecord.map((r, i) => <div key={i}>{sumOfAmount += r.paid_amount}</div>);
+   
     // console.log(">>>>>>>>", paymentRecord);
     return (
         <div className='fixed inset-0 w-screen h-screen bg-[rgba(0,0,0,0.4)] overflow-auto flex backdrop-blur-[1px] z-50 select-none'>
@@ -217,11 +222,11 @@ function PaymentDetails({ handleClose, payerData, setReloade }) {
                             <div className='w-full md:w-1/2 mb-3 md:mb-0'>
                                 <div className="w-full flex space-x-6">
                                     <div className='w-full md:w-1/2 mb-3 md:mb-0'>
-                                        <label htmlFor="" className="inline-block text-sm font-bold text-yankeesBlue mb-1">{payerData.payment_method === "Withdraw" ? "Withdraw Date" : "Due Date"}</label>
+                                        <label htmlFor="" className="inline-block text-sm font-bold text-yankeesBlue mb-1">{payerData.payment_method === "Withdraw" ? "Withdraw Date" : payerData.payment_method === "Deposit" ? "Due Date" : payerData.cycle_deposit_status === false ? "Due Date" : "Withdraw Date"}</label>
                                         <input type="text" name="" defaultValue={moment(payerData.due_date).format('ll')} className="input_box placeholder:text-[#94A3B8] placeholder:text-base" placeholder='20, Jan 2022' readOnly />
                                     </div>
                                     <div className='w-full md:w-1/2 mb-3 md:mb-0'>
-                                        <label htmlFor="" className="inline-block text-sm font-bold text-yankeesBlue mb-1">{payerData.payment_method === "Withdraw" ? "Withdraw Amount" : "Due Amount"}</label>
+                                        <label htmlFor="" className="inline-block text-sm font-bold text-yankeesBlue mb-1">{payerData.payment_method === "Withdraw" ? "Withdraw Amount" : payerData.payment_method === "Deposit" ? "Due Amount" : payerData.cycle_deposit_status === false ? "Due Amount" : "Withdraw Amount"}</label>
                                         <input type="text" name="" defaultValue={`₹ ${payerData.due_amount}`} className="input_box placeholder:text-[#94A3B8] placeholder:text-base" placeholder='$2,000' readOnly />
                                     </div>
                                 </div>
@@ -230,19 +235,14 @@ function PaymentDetails({ handleClose, payerData, setReloade }) {
                         </div>
                     </div>
                     <span className="blocktext-yankeesBlue text-2xl font-bold pb-5">{payerData.payment_method === "Withdraw" ? "Withdraw From" : "Deposit From"}</span>
-                    {paymentRecord.length > 0 ?
+                    {payerData.cycle_deposit_status === false && paymentRecord.length > 0 ?
                         paymentRecord.map((rec, i) => <>
                             <div key={i} className="flex flex-wrap items-center justify-between rounded-xl bg-white py-4 px-6 drop-shadow-vshadow mb-1 cursor-pointer">
                                 <div className="flex items-center space-x-4">
                                     <span className="text-xl text-darkGreen font-bold">{rec.due_paid_through}</span>
                                 </div>
                                 <div className="flex items-center space-x-4">
-                                    {/* <span className="text-xl text-darkGreen font-bold">
-                                        ₹ {rec.deposit_charges + rec.paid_amount + (rec.paid_amount * rec.commission) / 100}
-                                    </span> */}
-
                                     <span className="text-xl text-darkGreen font-bold inline-block">
-                                        {/* ₹ {rec.paid_amount} + ₹ {payerData.payment_method === "Deposit" ? (rec.deposit_charges) : payerData.payment_method === "Withdraw" ? ((rec.deposit_charges * rec.due_amount) / 100) : payerData.payment_method === "Cycle" && payerData.cycle_deposit_status === false ? (rec.deposit_charges) : ((rec.deposit_charges * rec.due_amount) / 100)} + ₹ {(rec.profit * rec.paid_amount) / 100} = {rec.deposit_charges + rec.paid_amount + ((rec.profit * rec.paid_amount) / 100)} */}
                                     </span>
                                     <div className="text-xl text-darkGreen font-bold inline-block space-x-2">
                                         <span>₹ {rec.paid_amount}</span> +
@@ -250,13 +250,6 @@ function PaymentDetails({ handleClose, payerData, setReloade }) {
                                         <span>₹ {((rec.profit * rec.paid_amount) / 100)}</span> =
                                         <span>₹ {(payerData.payment_method === "Deposit" ? rec.deposit_charges : payerData.payment_method === "Withdraw" ? ((rec.withdraw_charges * rec.paid_amount) / 100) : payerData.payment_method === "Cycle" && payerData.cycle_deposit_status === false ? rec.deposit_charges : ((rec.withdraw_charges * rec.paid_amount) / 100)) + rec.paid_amount + ((rec.profit * rec.paid_amount) / 100)}</span>
                                     </div>
-
-                                    {/* <span className="text-xl text-darkGreen font-bold inline-block">₹ {rec.paid_amount}</span> */}
-                                    {/* <span className="text-xl text-darkGreen font-bold inline-block">₹ {rec.deposit_charges + rec.paid_amount}</span> */}
-                                    {/* <span className="text-[#94A3B8] text-base font-normal"> */}
-                                    {/* <svg width="13" height="6" viewBox="0 0 13 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12.0327 1.52796C12.3243 1.23376 12.3222 0.758893 12.028 0.467309C11.7338 0.175726 11.2589 0.177844 10.9673 0.472041L9.22 2.23501C8.51086 2.9505 8.02282 3.44131 7.6093 3.77341C7.2076 4.096 6.94958 4.20668 6.7185 4.23613C6.57341 4.25462 6.42659 4.25462 6.2815 4.23613C6.05042 4.20668 5.7924 4.09601 5.39071 3.77341C4.97718 3.44131 4.48914 2.95051 3.78 2.23501L2.03269 0.472042C1.74111 0.177845 1.26624 0.175726 0.972041 0.46731C0.677844 0.758894 0.675726 1.23376 0.967309 1.52796L2.74609 3.32269C3.41604 3.99866 3.96359 4.55114 4.45146 4.94294C4.95879 5.35037 5.47373 5.64531 6.09184 5.72409C6.36287 5.75864 6.63714 5.75864 6.90816 5.72409C7.52628 5.64531 8.04122 5.35037 8.54854 4.94294C9.03641 4.55114 9.58396 3.99867 10.2539 3.32269L12.0327 1.52796Z" fill="#1E293B" />
-                            </svg> */}
                                 </div>
                             </div>
                         </>)
@@ -314,7 +307,7 @@ function PaymentDetails({ handleClose, payerData, setReloade }) {
                     </div>
                     <div className='flex items-center justify-end ml-auto mb-6 mt-2 space-x-5'>
                         <div className='text-xs font-bold text-red-600'>
-                            {payerData.due_amount - sumOfAmount >= 0 ? <>Remain : ₹ {payerData.due_amount - sumOfAmount} </> : <>advanced : ₹ {sumOfAmount - payerData.due_amount}</>}
+                            { sumOfAmount >= 0 ? <>Remain : ₹ {sumOfAmount} </> : <>advanced : ₹ {sumOfAmount - payerData.due_amount}</>}
                         </div>
                     </div>
                     <div className="flex justify-center border-t-[1px] border-[#CBD5E1] space-x-5 pt-6">.

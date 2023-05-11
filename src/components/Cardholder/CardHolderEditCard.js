@@ -56,7 +56,7 @@ export default function CardHolderEditCard() {
 
     const getCardDetails = async () => {
         try {
-            const response = await axios.get(`${baseurl}/api/cards/cards-list?card_id=${card_id}&user_id=${user_id}`, { headers: header });           
+            const response = await axios.get(`${baseurl}/api/cards/cards-list?card_id=${card_id}&user_id=${user_id}`, { headers: header });
             if (response.data.IsSuccess) {
                 setData(response.data.Data);
                 formik.setValues({
@@ -89,20 +89,21 @@ export default function CardHolderEditCard() {
         const requestObj = { ...values };
         const formData = new FormData();
         requestObj.card_exp_date = (formik.values.card_exp_date).toISOString().slice(0, 10);
-        console.log("requestObj", requestObj);
         for (const key in requestObj) {
-            if (Object.hasOwnProperty.call(requestObj, key)) {
-                if(key === "frontside_card_photo" || key === "backside_card_photo"){
-                    continue;
-                }
-                const element = requestObj[key];
-                formData.append(key,element)
+            if (key === "frontside_card_photo" && typeof requestObj[key] === 'string') {
+                continue;
             }
+            if (key === "backside_card_photo" && typeof requestObj[key] === 'string') {
+                continue;
+            }
+            const element = requestObj[key];
+            formData.append(key, element)
+
         }
 
         try {
             const response = await axios.patch(`${baseurl}/api/cards/edit-user-card`, formData, { headers: header });
-            console.log("response------------>",response.data.Data);
+            console.log("response------------>", response.data.Data);
             if (response.data.IsSuccess) {
                 toast.success(response.data.Message);
                 // toast.success(response.data.Message);
@@ -234,7 +235,7 @@ export default function CardHolderEditCard() {
                                     <small className="text-red-500 text-xs">{formik.errors.card_photo}</small>
                                 </div> */}
 
-                                <div className='w-full md:w-1/2 mb-4 md:md-0'>
+                                <div className='w-full md:w-1/2 mb-4 md:mb-0'>
                                     <label htmlFor="frontside_card_photo" className="input-title2">Card Front photo*</label>
                                     <label className='input_box2 flex items-center border-dashed justify-start' htmlFor='card-photo'>
                                         <svg width="22" height="17" viewBox="0 0 22 17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -253,7 +254,7 @@ export default function CardHolderEditCard() {
                                     <input type="file" name="frontside_card_photo" id='card-photo' className="input_box2 placeholder:text-[#94A3B8] placeholder:text-base hidden" placeholder='upload' accept='image/*' onChange={(e) => setInputValue("frontside_card_photo", e.currentTarget.files[0])} />
                                     <small className="text-red-500 text-xs">{formik.errors.frontside_card_photo}</small>
                                 </div>
-                                <div className='w-full md:w-1/2 mb-4 md:md-0'>
+                                <div className='w-full md:w-1/2 mb-4 md:mb-0'>
                                     <label htmlFor="backside_card_photo" className="input-title2">Card back photo*</label>
                                     <label className='input_box2 flex items-center border-dashed justify-start' htmlFor='card-photo-1'>
                                         <svg width="22" height="17" viewBox="0 0 22 17" fill="none" xmlns="http://www.w3.org/2000/svg">
