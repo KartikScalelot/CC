@@ -87,11 +87,22 @@ export default function CardHolderEditCard() {
         values.user_id = data.user_id.id;
         values.card_id = data.card_id;
         const requestObj = { ...values };
+        const formData = new FormData();
         requestObj.card_exp_date = (formik.values.card_exp_date).toISOString().slice(0, 10);
         console.log("requestObj", requestObj);
+        for (const key in requestObj) {
+            if (Object.hasOwnProperty.call(requestObj, key)) {
+                if(key === "frontside_card_photo" || key === "backside_card_photo"){
+                    continue;
+                }
+                const element = requestObj[key];
+                formData.append(key,element)
+            }
+        }
+
         try {
-            const response = await axios.patch(`${baseurl}/api/cards/edit-user-card`, requestObj, { headers: header });
-            console.log("response",response.data.Data);
+            const response = await axios.patch(`${baseurl}/api/cards/edit-user-card`, formData, { headers: header });
+            console.log("response------------>",response.data.Data);
             if (response.data.IsSuccess) {
                 toast.success(response.data.Message);
                 // toast.success(response.data.Message);
