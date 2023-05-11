@@ -2,8 +2,8 @@ import { toast } from "react-toastify";
 import { baseurl } from "../../../api/baseurl";
 import axios from "axios";
 import { store } from "../../../redux/store";
-import { navigate, setLoading } from "./events";
-import { push } from "react-router-redux";
+import { setLoading } from "./events";
+import { history } from "../../_utils";
 
 export const handleSubmit = async (data) => {
     const { userData } = store.getState().authState
@@ -18,7 +18,7 @@ export const handleSubmit = async (data) => {
                 localStorage.clear();
                 localStorage.setItem("Token", response.data?.Data.token);
 
-                store.dispatch(push("../dashboard"));
+               history.navigate("../dashboard");
             }, 1000);
             setLoading(true);
         } else {

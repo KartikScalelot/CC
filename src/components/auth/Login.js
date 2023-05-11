@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import bgImage from "../../assets/images/login-images.png"
 import logo from "../../assets/images/logo.png"
 import topCircle from "../../assets/images/top-circle.png"
 import bottomCircle from "../../assets/images/bottom-circle.png";
-import { ToastContainer } from 'react-toastify';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { handleSubmit } from './services/loginServices';
-import { setUserData } from './services/events';
-import { store } from '../../redux/store';
-import { push } from 'react-router-redux';
+import { setLoading, setUserData } from './services/events';
 
 
 const Login = () => {
@@ -23,9 +20,10 @@ const Login = () => {
     }
 
     useEffect(() => {
+        setLoading(false)
         const token = localStorage.getItem("Token");
         if (token && token !== "") {
-            navigate("dashboard");
+            navigate("/dashboard");
         }
     }, []);
 

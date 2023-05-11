@@ -1,10 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { routerReducer } from 'react-router-redux'
-import authReducer from '../components/auth/authSlice'
+import authReducer from '../components/auth/services/authSlice'
 
 export const store = configureStore({
     reducer: {
-        authState: authReducer,
-        routeState: routerReducer,
+        authState: authReducer
     },
 })

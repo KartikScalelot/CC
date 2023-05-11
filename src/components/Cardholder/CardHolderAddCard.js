@@ -15,6 +15,7 @@ export default function CardHolderAddCard() {
     // const dispatch = useDispatch();
     // const { state } = useLocation();
     // const { data } = state;
+  
     const user_id = localStorage.getItem("user_id");
     const token = localStorage.getItem("Token");
     const [loading, setLoading] = useState(false);
@@ -59,10 +60,6 @@ export default function CardHolderAddCard() {
             .lessThan(101, "Commission should not be more than 100%"),
     });
 
-    const clickBackHander = () => {
-        // dispatch(decrement());
-        // navigate(-1);
-    }
     const clickNextHandler = async (values) => {
         setLoading(true);
         values.user_id = user_id;
@@ -254,18 +251,6 @@ export default function CardHolderAddCard() {
                     </div>
                 </form>
             </div>
-            <ToastContainer
-                position="bottom-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="colored"
-            />
         </div>
     )
 }
