@@ -7,6 +7,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { baseurl } from '../../../api/baseurl';
 import { Dropdown } from 'primereact/dropdown';
+import Summary from './Summary';
+import Modal from '../../../common/Modals/Modal';
+
 function PaymentDetails({ handleClose, payerData, setReloade }) {
 
     const navigate = useNavigate();
@@ -26,6 +29,7 @@ function PaymentDetails({ handleClose, payerData, setReloade }) {
     const [get, setGet] = useState(false)
     const [selectedPayment, setSelectedPayment] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [isSummary, setIsSummary] = useState(false);
 
     const initialState = {
         request_id: payerData.request_id,
@@ -151,11 +155,11 @@ function PaymentDetails({ handleClose, payerData, setReloade }) {
     }, [get])
 
     useEffect(() => {
-        paymentRecord.map((r, i) => r.payment_method_flag === "Cycle Deposit" ?setSumOfAmount(prev=>prev+r.paid_amount)  : setSumOfAmount(prev=>prev-r.paid_amount) );
+        paymentRecord.map((r, i) => r.payment_method_flag === "Cycle Deposit" ? setSumOfAmount(prev => prev + r.paid_amount) : setSumOfAmount(prev => prev - r.paid_amount));
     }, [paymentRecord])
 
     // paymentRecord.map((r, i) => <div key={i}>{sumOfAmount += r.paid_amount}</div>);
-   
+
     // console.log(">>>>>>>>", paymentRecord);
     return (
         <div className='fixed inset-0 w-screen h-screen bg-[rgba(0,0,0,0.4)] overflow-auto flex backdrop-blur-[1px] z-50 select-none'>
@@ -307,7 +311,7 @@ function PaymentDetails({ handleClose, payerData, setReloade }) {
                     </div>
                     <div className='flex items-center justify-end ml-auto mb-6 mt-2 space-x-5'>
                         <div className='text-xs font-bold text-red-600'>
-                            { sumOfAmount >= 0 ? <>Remain : ₹ {sumOfAmount} </> : <>advanced : ₹ {sumOfAmount - payerData.due_amount}</>}
+                            {sumOfAmount >= 0 ? <>Remain : ₹ {sumOfAmount} </> : <>advanced : ₹ {sumOfAmount - payerData.due_amount}</>}
                         </div>
                     </div>
                     <div className="flex justify-center border-t-[1px] border-[#CBD5E1] space-x-5 pt-6">.
@@ -321,11 +325,14 @@ function PaymentDetails({ handleClose, payerData, setReloade }) {
                                 Wait...
                             </button>
                             :
-                            <button type="submit" className={`max-w-[216px] w-full text-center text-base font-extrabold cursor-pointer bg-darkGreen text-white border-2 border-transparent rounded-xl px-6 py-2`}>{formik.values.payment_type === 'Full payment' ? payerData.payment_method === "Withdraw" ? "Withdraw" : "Paid" : payerData.payment_method === "Withdraw" ? "Withdraw Recorded" : "Paid Recorded"}</button>
+                            <>
+                                <button type="submit" className={`max-w-[216px] w-full text-center text-base font-extrabold cursor-pointer bg-darkGreen text-white border-2 border-transparent rounded-xl px-6 py-2`}>{formik.values.payment_type === 'Full payment' ? payerData.payment_method === "Withdraw" ? "Withdraw" : "Paid" : payerData.payment_method === "Withdraw" ? "Withdraw Recorded" : "Paid Recorded"}</button>
+                                <button type="button" onClick={() => setIsSummary(true)} className={`max-w-[216px] w-full text-center text-base font-extrabold cursor-pointer bg-darkGreen text-white border-2 border-transparent rounded-xl px-6 py-2`}>open Summary Popup</button>
+                    </>
                         }
-                    </div>
-                </form>
             </div>
+        </form>
+            </div >
             <ToastContainer
                 position="bottom-right"
                 autoClose={5000}
@@ -338,7 +345,10 @@ function PaymentDetails({ handleClose, payerData, setReloade }) {
                 pauseOnHover
                 theme="colored"
             />
-        </div>
+            <Modal isOpen={isSummary}>
+                <Summary handleClose={setIsSummary} paymentRecord={paymentRecord}/>
+            </Modal>
+        </div >
     )
 }
 

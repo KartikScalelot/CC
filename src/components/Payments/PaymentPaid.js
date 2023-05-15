@@ -14,6 +14,7 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import moment from 'moment/moment';
 import { classNames } from 'primereact/utils';
+import Summary from '../Admin/Popup/Summary';
 
 function PaymentPaid({ paymentPaidData, setReloade }) {
     const navigate = useNavigate();
@@ -21,6 +22,7 @@ function PaymentPaid({ paymentPaidData, setReloade }) {
     const [paymentPaid, setPaymentPaid] = useState([]);
     const [payerData, setPayerData] = useState({});
     const [isPayPopUpOpen, setIsPayPopUpOpen] = useState(false);
+
 
     const token = localStorage.getItem("Token");
 
@@ -166,7 +168,7 @@ function PaymentPaid({ paymentPaidData, setReloade }) {
                     : "No Payment Done."
             }
             <Modal isOpen={isPayPopUpOpen}>
-                <PaymentDetails handleClose={setIsPayPopUpOpen} payerData={payerData} setReloade={setReloade} />
+                <PaymentDetails handleClose={setIsPayPopUpOpen} payerData={payerData} setReloade={setReloade} />              
             </Modal>
         </>)
 }
