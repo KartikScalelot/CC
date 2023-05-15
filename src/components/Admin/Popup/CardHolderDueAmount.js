@@ -1,7 +1,7 @@
 import { useFormik } from 'formik';
 import { Calendar } from 'primereact/calendar';
 import { Dropdown } from 'primereact/dropdown';
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import * as Yup from 'yup';
 import { baseurl } from '../../../api/baseurl';
 import { toast } from 'react-toastify';
@@ -40,7 +40,6 @@ function PaymentDetails({ handleClose, dueData }) {
     const DueDateSend = async (values) => {
         setLoading(true);
         const requestObj = { ...values };
-        console.log("b3351a59-6a46-47e7-aa21-9f219d66dac2", requestObj);
         try {
             const response = await axios.post(`${baseurl}/api/paymentRequest/add-payment-request-byadmin`, requestObj, { headers: header });
             console.log("Response data", response.data);

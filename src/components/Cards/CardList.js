@@ -139,6 +139,16 @@ export default function CardList() {
                 return <div className="text-lg font-semibold text-yankeesBlue">{row.card_network}</div>
             }
         },
+        {
+            header: 'Charges', field: (row) => {
+                return <div className="text-lg font-semibold text-yankeesBlue">₹ {0}</div>
+            }
+        },
+        {
+            header: 'Profit', field: (row) => {
+                return <div className="text-lg font-semibold text-yankeesBlue">₹ {0}</div>
+            }
+        },
         // {
         //     header: 'Deposit Charge', field: (row) => {
         //         return <div className="text-lg font-semibold text-yankeesBlue">

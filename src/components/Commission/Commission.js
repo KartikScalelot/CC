@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import DemoImage from "../../assets/images/profile.png"
@@ -15,6 +15,7 @@ import moment from 'moment/moment';
 function Commission() {
     const [commission, setCommission] = useState([]);
     const navigate = useNavigate();
+    const [first, setFirst] = useState(false);
 
     const [loading, setLoading] = useState(true);
     let totalEarningAmount = 0;
@@ -22,9 +23,9 @@ function Commission() {
     const header = {
         'Authorization': `Bearer ${token}`,
     }
-    localStorage.removeItem("card_id");
-    localStorage.removeItem("user_id");
-    localStorage.removeItem("request_id");
+    // localStorage.removeItem("card_id");
+    // localStorage.removeItem("user_id");
+    // localStorage.removeItem("request_id");
     const getCommision = async () => {
         try {
             const response = await axios.get(`${baseurl}/api/transaction/all-payment-record-list?payment_status=True`, { headers: header });
@@ -45,9 +46,9 @@ function Commission() {
     }, []);
 
     const [globalFilterValue, setGlobalFilterValue] = useState('');
-	const [filters, setFilters] = useState({
-		global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-	});
+    const [filters, setFilters] = useState({
+        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    });
 
     const initFilters = () => {
         setFilters({
@@ -56,43 +57,43 @@ function Commission() {
         setGlobalFilterValue('');
     };
 
-	const clearFilter = () => {
+    const clearFilter = () => {
         initFilters();
     };
 
-	const onGlobalFilterChange = (e) => {
-		const value = e.target.value;
-		let _filters = { ...filters };
+    const onGlobalFilterChange = (e) => {
+        const value = e.target.value;
+        let _filters = { ...filters };
 
-		_filters['global'].value = value;
+        _filters['global'].value = value;
 
-		setFilters(_filters);
-		setGlobalFilterValue(value);
-	};
+        setFilters(_filters);
+        setGlobalFilterValue(value);
+    };
 
-	const renderHeader = () => {
-		return (
-			<div className={"flex justify-between dataTables"}>
-				<span className="p-input-icon-left bg-white">
-					<i className="pi pi-search" />
-					<InputText className='bg-white' value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search" />
-				</span>
-				<div className='flex space-x-3 items-center'>
-					<Button type="button" icon="pi pi-filter-slash" label="Clear" outlined onClick={clearFilter} />
-				</div>
-			</div>
-		);
-	};
-	const headerf = renderHeader();
+    const renderHeader = () => {
+        return (
+            <div className={"flex justify-between dataTables"}>
+                <span className="p-input-icon-left bg-white">
+                    <i className="pi pi-search" />
+                    <InputText className='bg-white' value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search" />
+                </span>
+                <div className='flex space-x-3 items-center'>
+                    <Button type="button" icon="pi pi-filter-slash" label="Clear" onClick={clearFilter} />
+                </div>
+            </div>
+        );
+    };
+    const headerf = renderHeader();
     const columns = [
         {
             header: 'Card Holder', field: (row) => {
                 return <div className="flex items-center gap-2">
                     <div className='w-12 h-12 object-cover rounded-full overflow-hidden'>
-							<img alt="Demom Images" src={row?.user.profile_pic && row?.user.profile_pic !== "" ? row?.user.profile_pic : DemoImage} className='w-full h-full object-cover rounded-full overflow-hidden' />
-						</div>
+                        <img alt="Demom Images" src={row?.user.profile_pic && row?.user.profile_pic !== "" ? row?.user.profile_pic : DemoImage} className='w-full h-full object-cover rounded-full overflow-hidden' />
+                    </div>
                     {/* <div className="pl-4"> */}
-                        <span className="text-lg font-bold text-[#2D3643] block">{row.card.card_holder_name}</span>
+                    <span className="text-lg font-bold text-[#2D3643] block">{row.card.card_holder_name}</span>
                     {/* </div> */}
                 </div>
             },
@@ -103,13 +104,6 @@ function Commission() {
                     <span className="text-lg text-yankeesBlue font-semibold block">********{(row.card.card_number).toString().substr(-4)}</span>
                 </div>
             },
-        },
-        {
-            header: 'Due Amount', field: (row) => {
-                return <div className="text-yankeesBlue text-lg font-semibold">
-                    ₹ {row.payment_request.due_amount}
-                </div>
-            }
         },
         {
             header: 'Payment Method', field: (row) => {
@@ -126,24 +120,31 @@ function Commission() {
             }
         },
         {
-            header: 'Payment', field: (row) => {
+            header: 'Due Amount', field: (row) => {
+                return <div className="text-yankeesBlue text-lg font-semibold">
+                    ₹ {row.payment_request.due_amount}
+                </div>
+            }
+        },
+        {
+            header: 'Paid Payment', field: (row) => {
                 return <div className="text-yankeesBlue text-lg font-semibold">
                     ₹ {row.paid_amount}
                 </div>
             }
         },
-       
+
         {
-            header: 'Profit (%)', field: (row) => {
+            header: 'Profit Amount', field: (row) => {
                 return <div className="text-yankeesBlue text-lg font-semibold">
-                    {row.commission} %
+                    {row.profit_amount}
                 </div>
             }
         },
         {
             header: 'Charges', field: (row) => {
                 return <div className="text-yankeesBlue text-lg font-semibold">
-                    ₹ {row.charges}
+                    ₹ {row.deposit_charges || row.withdraw_charges}
                 </div>
             }
         },
@@ -159,18 +160,20 @@ function Commission() {
             header: 'Total Profit', field: (row) => {
                 return <div className="text-yankeesBlue text-lg font-semibold">
                     {/* ₹ {(row.due_amount + row.profit_amount).toFixed(2)} */}
-                    ₹ {(row.paid_amount + row.charges + ((row.paid_amount*row.commission)/100)).toFixed(2)}
+                    ₹ {row.total_amount}
                 </div>
             }
         },
         {
             header: 'Status', field: (row) => {
-                return <>{row.profit_received === false ? <div className="text-xs inline-block font-semibold text-[#F6A351] bg-[#FFF0E0] rounded-lg px-3 py-2">Remain</div> : <div className="text-xs inline-block font-semibold text-[#097C69] bg-[#E2F8F5] rounded-lg px-3 py-2">"Received"</div>
-                }</>
+                // return <>{row.profit_received === false ? <div className="text-xs inline-block font-semibold text-[#F6A351] bg-[#FFF0E0] rounded-lg px-3 py-2">Remain</div> : <div className="text-xs inline-block font-semibold text-[#097C69] bg-[#E2F8F5] rounded-lg px-3 py-2">"Received"</div>
+                return <>{<div onClick={(e) => {setFirst(!first); e.stopPropagation()}} className={`text-xs inline-block font-semibold rounded-lg px-3 py-2 select-none   ` + (first === false ? "text-[#F6A351] bg-[#FFF0E0]" : "text-[#097C69] bg-[#E2F8F5]")}>{first === false ? "Remain" : "Received"}</div>}</>
             }
         },
+        // <div className="text-xs inline-block font-semibold text-[#097C69] bg-[#E2F8F5] rounded-lg px-3 py-2">"Received"</div>
     ];
 
+    console.log("><><><><><><<<>", commission);
     return (
         <div className="wrapper min-h-full">
             <div className="relative flex flex-wrap items-center- justify-start md:mb-[50px]">
@@ -201,32 +204,24 @@ function Commission() {
             </div>
             <div className="flex items-center justify-between mb-5 sm:mb-10 mt-4 md:mt-0">
                 <h3 className="text-yankeesBlue leading-8">Profit History</h3>
-                {/* <div className="flex items-center rounded-lg border-2 border-lightGray cursor-pointer px-2 sm:px-5 py-2 sm:py-3.5">
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6 4.25C5.58579 4.25 5.25 4.58578 5.25 5C5.25 5.41421 5.58579 5.75 6 5.75L14 5.75C14.4142 5.75 14.75 5.41421 14.75 5C14.75 4.58579 14.4142 4.25 14 4.25L6 4.25Z" fill="#94A3B8" />
-                        <path fillRule="evenodd" clipRule="evenodd" d="M4.47246 0.25C2.16114 0.25 0.25 2.07558 0.25 4.37307C0.25 5.53648 0.752889 6.64108 1.62728 7.41966L4.87987 10.3159C5.75613 11.0961 6.25 12.1925 6.25 13.336V17.5134C6.25 19.3745 8.38547 20.367 9.85896 19.3261L11.8002 17.9547C12.7061 17.3147 13.25 16.2855 13.25 15.1817V13.4521C13.25 12.2522 13.7936 11.107 14.7465 10.3238L18.2668 7.43032C19.2037 6.66027 19.75 5.52281 19.75 4.318C19.75 2.05092 17.8642 0.25 15.5842 0.25H4.47246ZM1.75 4.37307C1.75 2.94477 2.94821 1.75 4.47246 1.75H15.5842C17.0772 1.75 18.25 2.92011 18.25 4.318C18.25 5.06517 17.9116 5.78069 17.3144 6.27151L13.7941 9.165C12.5015 10.2274 11.75 11.7946 11.75 13.4521V15.1817C11.75 15.7872 11.4519 16.3642 10.9347 16.7295L8.99346 18.101C8.44746 18.4867 7.75 18.0779 7.75 17.5134V13.336C7.75 11.7567 7.0674 10.2552 5.87738 9.19561L2.62479 6.29941C2.06416 5.80021 1.75 5.10064 1.75 4.37307Z" fill="#94A3B8" />
-                    </svg>
-
-                    <span className="text-base font-extrabold text-lightGray pl-3">Filter</span>
-                </div> */}
             </div>
             {loading ?
                 <div className="flex items-center justify-center">
                     <ProgressSpinner style={{ width: '50px', height: '50px' }} strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />
                 </div> :
-                commission.length > 0 ? 
-                <DataTable value={commission} selectionMode="single"
-                filters={filters}
-					globalFilterFields={['card.card_holder_name', 'card.card_number', 'card.card_bank_name', 'due_date']}
-					header={headerf}
-                    onSelectionChange={(col) => { localStorage.setItem("request_id", col.value.request_id); navigate("singleusercommissiondetails") }} columnResizeMode={"expand"} resizableColumns={true} scrollable={true} paginator rows={5}>
-                    {columns.map((col, i) => (
+                commission.length > 0 ?
+                    <DataTable value={commission} selectionMode="single"
+                        filters={filters}
+                        globalFilterFields={['card.card_holder_name', 'card.card_number', 'card.card_bank_name', 'due_date']}
+                        header={headerf}
+                        onSelectionChange={(col) => { localStorage.setItem("card_id", col.value.card.card_id); navigate("singleusercommissiondetails") }} columnResizeMode={"expand"} resizableColumns={true} scrollable={true} paginator rows={5}>
+                        {columns.map((col, i) => (
 
-                        <Column key={col.field} field={col.field} header={col.header} />
+                            <Column key={col.field} field={col.field} header={col.header} />
 
-                    ))}
-                </DataTable>
-                : "Profit record not found."
+                        ))}
+                    </DataTable>
+                    : "Profit record not found."
             }
 
         </div>

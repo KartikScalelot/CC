@@ -20,13 +20,13 @@ export const handleSubmit = async (data) => {
 
                history.navigate("../dashboard");
             }, 1000);
-            setLoading(true);
+            setLoading(false);
         } else {
             toast.error(response.data.Message);
-            setLoading(true);
+            setLoading(false);
         }
     } catch (error) {
         toast.error("Something went wrong!!");
-        setLoading(true);
+        setLoading(false);
     }
 }

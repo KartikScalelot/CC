@@ -88,7 +88,7 @@ export default function CardHolderEditCard() {
         values.card_id = data.card_id;
         const requestObj = { ...values };
         const formData = new FormData();
-        requestObj.card_exp_date = (formik.values.card_exp_date).toISOString().slice(0, 10);
+        requestObj.card_exp_date = moment(formik.values.card_exp_date).toISOString().slice(0, 10);
         for (const key in requestObj) {
             if (key === "frontside_card_photo" && typeof requestObj[key] === 'string') {
                 continue;

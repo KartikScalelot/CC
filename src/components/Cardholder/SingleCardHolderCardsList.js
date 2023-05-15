@@ -33,7 +33,6 @@ export default function SingleCardHolderCardsList() {
     }
 
     const [cards, setCards] = useState([]);
-
     const getUserProfile = async () => {
         try {
             const response = await axios.get(`${baseurl}/api/user/user-list?id=${user_id}`, { headers: header });
@@ -119,13 +118,13 @@ export default function SingleCardHolderCardsList() {
         //         </div>
         //     }
         // },
+        // {
+        //     header: 'Withdraw Charge', field: (row) => {
+        //         return <div className="text-lg font-semibold text-yankeesBlue">₹ {0}</div>
+        //     }
+        // },
         {
-            header: 'Deposit Charge', field: (row) => {
-                return <div className="text-lg font-semibold text-yankeesBlue">₹ {0}</div>
-            }
-        },
-        {
-            header: 'Withdraw Charge', field: (row) => {
+            header: 'Charges', field: (row) => {
                 return <div className="text-lg font-semibold text-yankeesBlue">₹ {0}</div>
             }
         },
@@ -228,7 +227,7 @@ export default function SingleCardHolderCardsList() {
                                             onSelectionChange={(col) => { localStorage.setItem("card_id", col.value.card_id); navigate("../singlecarddetails") }} paginator rows={5}>
                                             {columns.map((col, i) => (
 
-                                                <Column className="relative" key={col.field} field={col.field} header={col.header} />
+                                                <Column className="relative" key={col.field} field={col.field} header={col.header}/>
 
                                             ))}
                                         </DataTable>

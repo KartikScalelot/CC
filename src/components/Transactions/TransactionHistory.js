@@ -52,7 +52,7 @@ export default function TransactionHistory() {
         setGlobalFilterValue('');
     };
 
-	const clearFilter = () => {
+    const clearFilter = () => {
         initFilters();
     };
 
@@ -69,17 +69,17 @@ export default function TransactionHistory() {
     const renderHeader = () => {
         return (
             <div className={"flex justify-between dataTables"}>
-				<span className="p-input-icon-left bg-white">
-					<i className="pi pi-search" />
-					<InputText className='bg-white' value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search" />
-				</span>
-				<div className='flex space-x-3 items-center'>
-					<Button type="button" icon="pi pi-filter-slash" label="Clear" onClick={clearFilter} />
-				</div>
-			</div>
+                <span className="p-input-icon-left bg-white">
+                    <i className="pi pi-search" />
+                    <InputText className='bg-white' value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search" />
+                </span>
+                <div className='flex space-x-3 items-center'>
+                    <Button type="button" icon="pi pi-filter-slash" label="Clear" onClick={clearFilter} />
+                </div>
+            </div>
         );
     };
-	const headerf = renderHeader();
+    const headerf = renderHeader();
     const columns = [
         {
             header: 'Payment To', field: (row) => {
@@ -106,7 +106,7 @@ export default function TransactionHistory() {
                 return <div className="text-yankeesBlue text-lg font-semibold">
                     {moment(row.due_paid_at).format('ll')}
                     {/* {moment(row.due_paid_at).format('ll')} */}
-                {/* {(row.due_paid_at).toLocaleDateString("en-IN")} */}
+                    {/* {(row.due_paid_at).toLocaleDateString("en-IN")} */}
                 </div>
             }
         },
@@ -125,18 +125,34 @@ export default function TransactionHistory() {
             }
         },
         {
-            header: 'Status', field: (row) => {
-                return <>{row.payment_request.payment_status === false ? <div className="text-xs inline-block font-semibold text-[#F6A351] bg-[#FFF0E0] rounded-lg px-3 py-2">Unpaid</div> : <div className="text-xs inline-block font-semibold text-[#097C69] bg-[#E2F8F5] rounded-lg px-3 py-2">Paid</div>
-                }
-                {/* <div className="text-xs inline-block font-semibold text-[#097C69] bg-[#E2F8F5] rounded-lg px-3 py-2">Paid</div> */}
-                {/* div className="text-xs font-semibold text-[#F6A351] bg-[#FFF0E0] rounded-lg px-3 py-2">Pending</div> //pending box */}
-                </>
+            header: 'Charges', field: (row) => {
+                return <div className="text-yankeesBlue text-lg font-semibold">{row.deposit_charges || row.withdraw_charges}</div>
+                // <div className="text-xs font-semibold text-[#F6A351] bg-[#FFF0E0] rounded-lg px-3 py-2">Pending</div> //pending box
+            }
+        },
+        {
+            header: 'Profit Amount', field: (row) => {
+                return <div className="text-yankeesBlue text-lg font-semibold">{row.profit_amount}</div>
+                // <div className="text-xs font-semibold text-[#F6A351] bg-[#FFF0E0] rounded-lg px-3 py-2">Pending</div> //pending box
+            }
+        },
+        {
+            header: 'Total Amount', field: (row) => {
+                return <div className="text-yankeesBlue text-lg font-semibold">{row.total_amount}</div>
+                // <div className="text-xs font-semibold text-[#F6A351] bg-[#FFF0E0] rounded-lg px-3 py-2">Pending</div> //pending box
             }
         },
         {
             header: 'Payment Method', field: (row) => {
                 return <div className="text-yankeesBlue text-lg font-semibold">{row.payment_request.payment_method}</div>
                 // <div className="text-xs font-semibold text-[#F6A351] bg-[#FFF0E0] rounded-lg px-3 py-2">Pending</div> //pending box
+            }
+        },
+        {
+            header: 'Status', field: (row) => {
+                return <>{row.payment_request.payment_status === false ? <div className="text-xs inline-block font-semibold text-[#F6A351] bg-[#FFF0E0] rounded-lg px-3 py-2">Unpaid</div> : <div className="text-xs inline-block font-semibold text-[#097C69] bg-[#E2F8F5] rounded-lg px-3 py-2">Paid</div>
+                }
+                </>
             }
         },
     ];
@@ -159,19 +175,19 @@ export default function TransactionHistory() {
                     <ProgressSpinner style={{ width: '50px', height: '50px' }} strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />
                 </div>
                 :
-                transaction.length > 0 ? 
-                <DataTable value={transaction} 
-                filters={filters}
-					globalFilterFields={['card.card_holder_name', 'card.card_number', 'card.card_bank_name', 'due_paid_through']}
-					header={headerf}
-                    columnResizeMode={"expand"} resizableColumns={true} scrollable={true} paginator rows={5}>
-                    {columns.map((col, i) => (
+                transaction.length > 0 ?
+                    <DataTable value={transaction}
+                        filters={filters}
+                        globalFilterFields={['card.card_holder_name', 'card.card_number', 'card.card_bank_name', 'due_paid_through']}
+                        header={headerf}
+                        columnResizeMode={"expand"} resizableColumns={true} scrollable={true} paginator rows={5}>
+                        {columns.map((col, i) => (
 
-                        <Column key={col.field} field={col.field} header={col.header} />
+                            <Column key={col.field} field={col.field} header={col.header} />
 
-                    ))}
-                </DataTable>
-                : "Transaction record not found."
+                        ))}
+                    </DataTable>
+                    : "Transaction record not found."
             }
             <ToastContainer
                 position="bottom-right"
