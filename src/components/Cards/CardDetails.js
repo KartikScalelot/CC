@@ -80,7 +80,7 @@ export default function CardDetails() {
 									Card Photo
 								</button>
 								{/* onClick={(e) => { e.stopPropagation(); setDueData(row); setDueAmountPop(true); }} */}
-								<div onClick={() => { setDueAmountPop(true) }} className="btn-secondary flex cursor-pointer">Add Due</div>
+								<div onClick={() => { setDueAmountPop(true) }} className="btn-secondary flex cursor-pointer">Add Request</div>
 								{/* <div className="flex space-x-3"> */}
 								{/* <button onClick={() => setIsPayPopUpOpen(true)} className="btn-secondary flex px-5">Pay</button> */}
 								{/* </div> */}

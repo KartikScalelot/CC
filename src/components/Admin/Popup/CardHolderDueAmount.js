@@ -79,7 +79,7 @@ function PaymentDetails({ handleClose, dueData }) {
                 <button onClick={() => handleClose(false)} className="absolute top-1 right-1 md:top-5 md:right-5 text-xl max-[640px]:pl-6" >
                     <svg className="w-7 h-7" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"><g id="Close"><rect id="Rectangle" fillRule="nonzero" x="0" y="0" width="24" height="24"></rect><line x1="16.9999" y1="7" x2="7.00001" y2="16.9999" id="Path" stroke="#0C0310" strokeWidth="2" strokeLinecap="round"></line><line x1="7.00006" y1="7" x2="17" y2="16.9999" id="Path" stroke="#0C0310" strokeWidth="2" strokeLinecap="round"></line></g></g></svg>
                 </button>
-                <h2 className='flex justify-center mb-7'>Add Due</h2>
+                <h2 className='flex justify-center mb-7'>Add Request</h2>
                 <form onSubmit={formik.handleSubmit}>
                     <div className="w-full flex flex-wrap md:flex-nowrap md:space-x-6 md:mb-7">
                         <div className='paymentpop w-full mb-3 md:mb-0'>
@@ -113,7 +113,7 @@ function PaymentDetails({ handleClose, dueData }) {
                                 Processing...
                             </button>
                             :
-                            <button type="submit" className="btn-secondary w-full">Add Due</button>
+                            <button type="submit" className="btn-secondary w-full">Add Request</button>
                         }
                     </div>
                 </form>

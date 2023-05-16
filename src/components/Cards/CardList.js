@@ -139,16 +139,16 @@ export default function CardList() {
                 return <div className="text-lg font-semibold text-yankeesBlue">{row.card_network}</div>
             }
         },
-        {
-            header: 'Charges', field: (row) => {
-                return <div className="text-lg font-semibold text-yankeesBlue">₹ {0}</div>
-            }
-        },
-        {
-            header: 'Profit', field: (row) => {
-                return <div className="text-lg font-semibold text-yankeesBlue">₹ {0}</div>
-            }
-        },
+        // {
+        //     header: 'Charges', field: (row) => {
+        //         return <div className="text-lg font-semibold text-yankeesBlue">₹ {0}</div>
+        //     }
+        // },
+        // {
+        //     header: 'Profit', field: (row) => {
+        //         return <div className="text-lg font-semibold text-yankeesBlue">₹ {0}</div>
+        //     }
+        // },
         // {
         //     header: 'Deposit Charge', field: (row) => {
         //         return <div className="text-lg font-semibold text-yankeesBlue">
@@ -335,18 +335,6 @@ export default function CardList() {
                     <Modal isOpen={isPayPopUpOpen}>
                         <PaymentDetails handleClose={setIsPayPopUpOpen} payerData={payerData} />
                     </Modal>
-                    <ToastContainer
-                        position="bottom-right"
-                        autoClose={5000}
-                        hideProgressBar={false}
-                        newestOnTop={false}
-                        closeOnClick
-                        rtl={false}
-                        pauseOnFocusLoss
-                        draggable
-                        pauseOnHover
-                        theme="colored"
-                    />
                 </div>
             }</>
     )
