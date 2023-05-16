@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment/moment';
-function PaymentDetails({ handleClose, dueData }) {
+function CardHolderDueAmount({ handleClose, dueData }) {
     const [loading, setLoading] = useState(false);
     const token = localStorage.getItem("Token");
     const navigate = useNavigate();
@@ -122,4 +122,4 @@ function PaymentDetails({ handleClose, dueData }) {
     )
 }
 
-export default PaymentDetails
+export default CardHolderDueAmount

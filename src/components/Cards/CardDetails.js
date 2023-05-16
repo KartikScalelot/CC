@@ -126,18 +126,36 @@ export default function CardDetails() {
 						</div>
 						<div className="relative flex flex-wrap items-center- justify-start -mx-3 md:mb-[50px]">
 							<div className="w-full md:w-1/2 xl:w-1/4 p-3 2xl:px-5">
-								<div className="bg-[#ed4d3714] py-7 px-7 2xl::px-11 rounded-xl h-full">
-									<h2 className="text-[#ED4D37] mb-3">₹ {data.due_amount}</h2>
-									<span className="text-[# 64748B] text-base 2xl:text-xl font-semibold">
-										Total Due Amount
+								<div className="bg-white border border-[#CBD5E1] py-7 px-7 2xl::px-11 rounded-xl h-full">
+									<h2 className="text-yankeesBlue mb-3">{data.card_network}</h2>
+									<span className="text-[#64748B]  text-2xl:text-base xl font-semibold">
+										Card Network
 									</span>
 								</div>
 							</div>
 							<div className="w-full md:w-1/2 xl:w-1/4 p-3 2xl:px-5">
 								<div className="bg-white border border-[#CBD5E1] py-7 px-7 2xl::px-11 rounded-xl h-full">
-									<h2 className="text-yankeesBlue mb-3">{moment(data.due_date).format('ll')}</h2>
+									<h2 className="text-yankeesBlue mb-3">{moment(data.card_exp_date).format('ll')}</h2>
 									<span className="text-[#64748B]  text-2xl:text-base xl font-semibold">
-										Due Date
+										Card Expiry Date
+									</span>
+								</div>
+							</div>
+						</div>
+						<div className="relative flex flex-wrap items-center- justify-start -mx-3 md:mb-[50px]">
+							<div className="w-full md:w-1/2 xl:w-1/4 p-3 2xl:px-5">
+								<div className="bg-white border border-[#CBD5E1] py-7 px-7 2xl::px-11 rounded-xl h-full">
+									<h2 className="text-yankeesBlue mb-3">{data.card_cvv}</h2>
+									<span className="text-[#64748B]  text-2xl:text-base xl font-semibold">
+										Card CVV
+									</span>
+								</div>
+							</div>
+							<div className="w-full md:w-1/2 xl:w-1/4 p-3 2xl:px-5">
+								<div className="bg-white border border-[#CBD5E1] py-7 px-7 2xl::px-11 rounded-xl h-full">
+									<h2 className="text-yankeesBlue mb-3">{data.card_category}</h2>
+									<span className="text-[#64748B]  text-2xl:text-base xl font-semibold">
+										Card Category
 									</span>
 								</div>
 							</div>
