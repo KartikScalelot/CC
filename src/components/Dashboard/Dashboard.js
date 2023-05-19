@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { ProgressSpinner } from "primereact/progressspinner";
 // CHART
 import { Chart } from "primereact/chart";
+import { calcPaidProfitAmt, calcUnpaidProfitAmt, calculateTotalDue, calculateTotalPaid } from "./services/utils";
 
 export default function Dashboard() {
   localStorage.removeItem("card_id");
@@ -29,7 +30,11 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
 
   const [first, setfirst] = useState([]);
-
+  const [totalDue, setTotalDue] = useState();
+  const [totalPaid, setTotalPaid] = useState();
+  const [unpaidProfitAmt, setUnpaidProfitAmt] = useState();
+  const [paidProfitAmt, setPaidProfitAmt] = useState();
+  
   const header = {
     Authorization: `Bearer ${token}`,
   };
@@ -38,16 +43,19 @@ export default function Dashboard() {
   const getDashboardData = async () => {
     try {
       const response = await axios.get(
-        `${baseurl}/api/transaction/profit-unpaidprofit-view`,
+        `${baseurl}/api/transaction/profit-unpaidprofit-view?payment_status=True`,
         { headers: header }
       );
+
+      if(response.data.Data){
+        setUnpaidProfitAmt(calcUnpaidProfitAmt(response.data.Data))
+        setPaidProfitAmt(calcPaidProfitAmt(response.data.Data))
+      }
       // console.log("Dashboard Data ", response.data.Data);
     } catch (error) {
       toast.error("Something went wrong!!");
     }
   };
-
-
 
   // pai chart
 
@@ -57,36 +65,19 @@ export default function Dashboard() {
         `${baseurl}/api/transaction/paid-unpaid-withdraw`,
         { headers: header }
       );
-      console.log("Payment Data ", response.data.Data);
-      setfirst(response.data.Data);
+      if(response.data.Data){
+        console.log("Payment Data ", response.data.Data);
+        const paymentData = response.data.Data
+        setTotalDue(calculateTotalDue(paymentData))
+        setTotalPaid(calculateTotalPaid(paymentData))
+
+        setfirst(response.data.Data);
+      }
+     
     } catch (error) {
       toast.error("Something went wrong!!");
     }
   };
-
-  console.log(">>>", first);
-
-
-  // let paymentPaid = 0;
-  // let paymentUnpaid = 0;
-  // let paymentWithdraw = 0;
-  // first.map((e, i) => (
-  //   <div key={i}>
-  //     {e.payment_status === true && e.paid_amount.length > 0
-  //       ? e.paid_amount.map((j, i) => (
-  //         <div key={i}>{(paymentPaid += j.paid_amount)}</div>
-  //       ))
-  //       : e.payment_status === false
-  //         ? (paymentUnpaid += e.due_amount)
-  //         : e.payment_status === false && e.payment_method === "Withdraw"
-  //           ? (paymentWithdraw += e.due_amount)
-  //           : ""}
-  //   </div>
-  // ));
-
-  // console.log("paymentPaid >>", paymentPaid);
-  // console.log("paymentUnpaid >>", paymentUnpaid);
-  // console.log("paymentWithdraw >>", paymentWithdraw);
 
   useEffect(() => {
     getDashboardData();
@@ -124,16 +115,18 @@ export default function Dashboard() {
         {
           label: "Total Paid Amount",
           data: [65, 59, 80, 81, 56, 55, 40, 85.78, 12, 90, 50],
-          fill: false,
+          // fill: false,
           borderColor: documentStyle.getPropertyValue("--dash4"),
-          tension: 0.4,
+          backgroundColor: documentStyle.getPropertyValue("--dash4"),
+          // tension: 0.4,
         },
         {
           label: "Total Earning Amount",
           data: [28, 48, 40, 19, 86, 27, 90, 75, 48, 85, 69, 85],
-          fill: false,
+          // fill: false,
           borderColor: documentStyle.getPropertyValue("--dash1"),
-          tension: 0.4,
+          backgroundColor: documentStyle.getPropertyValue("--dash1"),
+          // tension: 0.4,
         },
       ],
     };
@@ -301,15 +294,24 @@ export default function Dashboard() {
       <div className="relative flex flex-wrap items-center- justify-start mb-[50px] -mx-3">
         <div className="w-full md:w-1/2 xl:w-1/4 p-3 2xl:px-5">
           <div className="bg-[#ed4d3714] py-7 px-7 2xl::px-11 rounded-xl h-full">
-            <h2 className="text-[#ED4D37] mb-3">₹ 2,20,000</h2>
+            <h2 className="text-[#ED4D37] mb-3">₹ {totalDue}</h2>
             <span className="text-[# 64748B] text-base 2xl:text-xl font-semibold">
               Total Due Amount
             </span>
           </div>
         </div>
+       
+        <div className="w-full md:w-1/2 xl:w-1/4 p-3 2xl:px-5">
+          <div className="bg-darkGreen bg-opacity-10 py-7 px-7 2xl::px-11 rounded-xl h-full">
+            <h2 className="text-yankeesBlue mb-3">₹ {totalPaid}</h2>
+            <span className="text-[# 64748B] text-base 2xl:text-xl font-semibold">
+              Total Payment Paid
+            </span>
+          </div>
+        </div>
         <div className="w-full md:w-1/2 xl:w-1/4 p-3 2xl:px-5">
           <div className="bg-[#FFF0E0] py-7 px-7 2xl::px-11 rounded-xl h-full">
-            <h2 className="text-[#F6A351] mb-3">₹ 20,00,000</h2>
+            <h2 className="text-[#F6A351] mb-3">₹ {unpaidProfitAmt}</h2>
             <span className="text-[#64748B]  text-2xl:text-base xl font-semibold">
               Total Unpaid Profit Amount
             </span>
@@ -317,15 +319,7 @@ export default function Dashboard() {
         </div>
         <div className="w-full md:w-1/2 xl:w-1/4 p-3 2xl:px-5">
           <div className="bg-darkGreen bg-opacity-10 py-7 px-7 2xl::px-11 rounded-xl h-full">
-            <h2 className="text-yankeesBlue mb-3">₹ 1,50,000</h2>
-            <span className="text-[# 64748B] text-base 2xl:text-xl font-semibold">
-              Total Payment Paid
-            </span>
-          </div>
-        </div>
-        <div className="w-full md:w-1/2 xl:w-1/4 p-3 2xl:px-5">
-          <div className="bg-darkGreen bg-opacity-10 py-7 px-7 2xl::px-11 rounded-xl h-full">
-            <h2 className="text-yankeesBlue mb-3">₹ 15,000</h2>
+            <h2 className="text-yankeesBlue mb-3">₹ {paidProfitAmt}</h2>
             <span className="text-[#64748B]  text-2xl:text-base xl font-semibold">
               Total Received Profit Amount
             </span>
@@ -336,7 +330,7 @@ export default function Dashboard() {
         <div className="w-full lg:w-1/2 max-h-[500px] lg:pr-5">
           <Chart
             className="w-full h-full bg-[#f8fafc] p-5 border-2 rounded-lg border-[#e5e7eb]"
-            type="line"
+            type="bar"
             data={chartData}
             options={chartOptions}
           />

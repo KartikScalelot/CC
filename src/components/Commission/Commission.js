@@ -11,13 +11,17 @@ import { FilterMatchMode } from 'primereact/api';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import moment from 'moment/moment';
+import { calcPaidProfitAmt, calcUnpaidProfitAmt } from '../Dashboard/services/utils';
 
 function Commission() {
     const [commission, setCommission] = useState([]);
     const navigate = useNavigate();
     const [first, setFirst] = useState(false);
-
+    
+    const [unpaidProfitAmt, setUnpaidProfitAmt] = useState();
+    const [paidProfitAmt, setPaidProfitAmt] = useState();
     const [loading, setLoading] = useState(true);
+    
     let totalEarningAmount = 0;
     const token = localStorage.getItem("Token");
     const header = {
@@ -31,6 +35,8 @@ function Commission() {
             const response = await axios.get(`${baseurl}/api/transaction/all-payment-record-list?payment_status=True`, { headers: header });
             if (response.data.IsSuccess) {
                 setCommission(response.data.Data);
+                setPaidProfitAmt(calcPaidProfitAmt(response.data.Data))
+                setUnpaidProfitAmt(calcUnpaidProfitAmt(response.data.Data))
                 setLoading(false);
             } else {
                 toast.error("Something went wrong!!");
@@ -40,6 +46,32 @@ function Commission() {
             console.log(error);
         }
     }
+
+    async function setPaymentReceived(transactionId,isPaymentReceived) {
+        const requestObj ={
+            "transaction_id":transactionId,
+            "payment_received": !isPaymentReceived
+        }
+        try {
+            const response = await axios.patch(`${baseurl}/api/transaction/edit-payment-record`, requestObj, { headers: header });
+            const data = response.data.Data
+            if(data){
+                getCommision();
+                if (data.payment_received) {
+                    toast.info("Status changed to received.")
+                } else {
+                    toast.info("Status changed to remaining.")
+                }
+            }else{
+                toast.error("Something went wrong!!");
+            }
+
+        } catch (error) {
+            toast.error("Something went wrong!!");
+            console.log(error);
+        }
+    }
+
     commission.map((profit) => totalEarningAmount += profit.profit_amount);
     useEffect(() => {
         getCommision();
@@ -157,7 +189,7 @@ function Commission() {
         // },
 
         {
-            header: 'Total Profit', field: (row) => {
+            header: 'Total Amount', field: (row) => {
                 return <div className="text-yankeesBlue text-lg font-semibold">
                     {/* ₹ {(row.due_amount + row.profit_amount).toFixed(2)} */}
                     ₹ {row.total_amount}
@@ -167,7 +199,7 @@ function Commission() {
         {
             header: 'Status', field: (row) => {
                 // return <>{row.profit_received === false ? <div className="text-xs inline-block font-semibold text-[#F6A351] bg-[#FFF0E0] rounded-lg px-3 py-2">Remain</div> : <div className="text-xs inline-block font-semibold text-[#097C69] bg-[#E2F8F5] rounded-lg px-3 py-2">"Received"</div>
-                return <>{<div onClick={(e) => {setFirst(!first); e.stopPropagation()}} className={`text-xs inline-block font-semibold rounded-lg px-3 py-2 select-none   ` + (first === false ? "text-[#F6A351] bg-[#FFF0E0]" : "text-[#097C69] bg-[#E2F8F5]")}>{first === false ? "Remain" : "Received"}</div>}</>
+                return <>{<div onClick={(e) => {setPaymentReceived(row.transaction_id,row.payment_received); e.stopPropagation()}} className={`text-xs inline-block font-semibold rounded-lg px-3 py-2 select-none   ` + (row.payment_received ? "text-[#097C69] bg-[#E2F8F5]" :"text-[#F6A351] bg-[#FFF0E0]" )}>{row.payment_received ? "Received" : "Remain"}</div>}</>
             }
         },
         // <div className="text-xs inline-block font-semibold text-[#097C69] bg-[#E2F8F5] rounded-lg px-3 py-2">"Received"</div>
@@ -187,17 +219,17 @@ function Commission() {
                 </div>
                 <div className="w-full md:w-1/2 xl:w-1/4 p-3 2xl:px-5">
                     <div className="bg-[#F3F4F6] py-7 px-7 2xl::px-11 rounded-xl h-full border border-[#CBD5E1]">
-                        <h2 className="text-yankeesBlue mb-3">₹ 0</h2>
+                        <h2 className="text-yankeesBlue mb-3">₹ {paidProfitAmt}</h2>
                         <span className="text-[#64748B]  text-2xl:text-base xl font-semibold">
-                            Total Earnings Amount
+                            Total Earnings Received
                         </span>
                     </div>
                 </div>
                 <div className="w-full md:w-1/2 xl:w-1/4 p-3 2xl:px-5">
                     <div className="bg-[#F3F4F6] py-7 px-7 2xl::px-11 rounded-xl h-full border border-[#CBD5E1]">
-                        <h2 className="text-yankeesBlue mb-3">₹ 0</h2>
+                        <h2 className="text-yankeesBlue mb-3">₹ {unpaidProfitAmt}</h2>
                         <span className="text-[#64748B]  text-2xl:text-base xl font-semibold">
-                            Earnings Pending
+                            Total Earnings Pending
                         </span>
                     </div>
                 </div>

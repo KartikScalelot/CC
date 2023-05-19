@@ -42,8 +42,8 @@ function PaymentDetails({ handleClose, payerData, setReloade }) {
         profit: "",
         cycle_deposit_status: false,
         cycle_withdraw_status: false,
-        payment_method_flag: ""
-    }   
+        // payment_method_flag: ""
+    }
 
     const ValidationSchema = Yup.object().shape({
         paid_amount: Yup.number().positive('Due Amount should be greater than 0*').required('Due amount is required*'),
@@ -90,11 +90,14 @@ function PaymentDetails({ handleClose, payerData, setReloade }) {
             }
             console.log("......", requestObj);
 
-            if (payerData.cycle_deposit_status === false) {
-                requestObj.payment_method_flag = "Cycle Deposit"
-            } else {
-                requestObj.payment_method_flag = "Cycle Withdraw"
+            if (payerData.payment_method === "Cycle") {
+                if (payerData.cycle_deposit_status === false) {
+                    requestObj["payment_method_flag"] = "Cycle Deposit"
+                } else {
+                    requestObj["payment_method_flag"] = "Cycle Withdraw"
+                }
             }
+
             if (payerData.payment_method === "Cycle" && payerData.cycle_deposit_status === false && parseFloat(parseFloat(formik.values.paid_amount) + parseFloat(sumOfAmount)) >= parseFloat(payerData.due_amount)) {
                 requestObj.cycle_deposit_status = true;
                 requestObj.cycle_withdraw_status = false;
@@ -106,7 +109,10 @@ function PaymentDetails({ handleClose, payerData, setReloade }) {
             // console.log("Payment Data >> ", response.data.Data);
             if (response.data.IsSuccess) {
                 setGet(!get);
-                handleClose(false);
+                if(requestObj.payment_status){
+                    setIsSummary(true)                    
+                }
+                // handleClose(false);
                 // setReloade(true);
             } else {
                 toast.error(response.data.Message);
@@ -139,17 +145,17 @@ function PaymentDetails({ handleClose, payerData, setReloade }) {
             const response = await axios.get(`${baseurl}/api/transaction/all-payment-record-list?request_id=${payerData.request_id}`, { headers: header })
             if (response.data.IsSuccess) {
 
-                if(payerData.payment_method !== "Cycle"){
+                if (payerData.payment_method !== "Cycle") {
                     // for method `Deposit` and `Withdraw`
-                    const filteredPayments = response.data.Data.filter((r) => r.payment_request.payment_method ===payerData.payment_method );
+                    const filteredPayments = response.data.Data.filter((r) => r.payment_request.payment_method === payerData.payment_method);
                     setPaymentRecord(filteredPayments)
-                }else{
+                } else {
                     // for method `Cycle`
                     if (payerData.cycle_deposit_status === false) {
-                        const filteredPayments = response.data.Data.filter((r) => r.payment_method_flag === "Cycle Deposit"  );
+                        const filteredPayments = response.data.Data.filter((r) => r.payment_method_flag === "Cycle Deposit");
                         setPaymentRecord(filteredPayments)
                     } else {
-                        const filteredPayments =  response.data.Data.filter((r, i) => r.payment_method_flag === "Cycle Withdraw" );
+                        const filteredPayments = response.data.Data.filter((r, i) => r.payment_method_flag === "Cycle Withdraw");
                         setPaymentRecord(filteredPayments)
                     }
                 }
@@ -165,12 +171,12 @@ function PaymentDetails({ handleClose, payerData, setReloade }) {
     }
 
     useEffect(() => {
-        console.log("payerData",payerData);
+        console.log("payerData", payerData);
         getPaymentRecords();
     }, [get])
 
     useEffect(() => {
-        paymentRecord.map((r) =>setSumOfAmount(prev=>prev+r.paid_amount) );
+        paymentRecord.map((r) => setSumOfAmount(prev => prev + r.paid_amount));
 
     }, [paymentRecord])
 
@@ -182,7 +188,7 @@ function PaymentDetails({ handleClose, payerData, setReloade }) {
             <div className="max-w-[1005px] w-full  m-auto bg-white rounded-3xl shadow-shadowbox p-5 md:p-11">
                 <h2 className='flex justify-center'>Payment Details</h2>
                 <form onSubmit={formik.handleSubmit}>
-                    <span className="block text-yankeesBlue text-2xl font-bold py-6">{payerData.payment_method === "Withdraw" ||  payerData.cycle_deposit_status === true ? "Withdraw To" : "Deposit To"}</span>
+                    <span className="block text-yankeesBlue text-2xl font-bold py-6">{payerData.payment_method === "Withdraw" || payerData.cycle_deposit_status === true ? "Withdraw To" : "Deposit To"}</span>
                     <div className="w-full">
                         <div className="w-full flex flex-wrap md:flex-nowrap md:space-x-6 md:mb-7">
                             <div className='w-full md:w-1/2 mb-3 md:mb-0'>
@@ -254,8 +260,8 @@ function PaymentDetails({ handleClose, payerData, setReloade }) {
                             </div>
                         </div>
                     </div>
-                    <span className="blocktext-yankeesBlue text-2xl font-bold pb-5">{payerData.payment_method === "Withdraw"  ||  payerData.cycle_deposit_status === true ? "Withdraw From" : "Deposit From"}</span>
-                    { paymentRecord.length > 0 ?
+                    <span className="blocktext-yankeesBlue text-2xl font-bold pb-5">{payerData.payment_method === "Withdraw" || payerData.cycle_deposit_status === true ? "Withdraw From" : "Deposit From"}</span>
+                    {paymentRecord.length > 0 ?
                         paymentRecord.map((rec, i) => <>
                             <div key={i} className="flex flex-wrap items-center justify-between rounded-xl bg-white py-4 px-6 drop-shadow-vshadow mb-1 cursor-pointer">
                                 <div className="flex items-center space-x-4">
@@ -281,43 +287,44 @@ function PaymentDetails({ handleClose, payerData, setReloade }) {
                                 <label htmlFor="payment_type" className="inline-block text-sm font-bold text-yankeesBlue mb-1">Payment Type</label>
                                 {/* <input type="text" name="due_paid_through" className="input_box placeholder:text-[#94A3B8] placeholder:text-base" placeholder='Ex. Google pay' required onChange={(e) => setInputValue("due_paid_through", e.target.value)} /> */}
                                 <Dropdown value={formik.values.payment_type} onChange={(e) => setInputValue("payment_type", e.target.value)} options={payment} optionLabel="name"
-                                    placeholder="Select payment type" className="py-[2px] border bg-lightWhite box-shadow rounded-md w-full" disabled={(paymentRecord.length > 0 )} />{/*disabled={(paymentRecord.length > 0 ? true : false)}*/}
+                                    placeholder="Select payment type" className="py-[2px] border bg-lightWhite box-shadow rounded-md w-full" disabled={(paymentRecord.length > 0)} />{/*disabled={(paymentRecord.length > 0 ? true : false)}*/}
                                 <small className="text-red-500 text-xs">{formik.errors.payment_type}</small>
                             </div>
                             <div className='w-full md:w-1/2 mb-3 md:mb-0'>
                                 {/* <div className={"w-full flex " + (payerData.payment_method === 'Deposit' ? "" : "space-x-3")}> */}
                                 <div className="w-full flex space-x-3">
-                                    <div className={"w-full mb-3 md:mb-0 " + (payerData.payment_method === 'Deposit' ? 'md:w-2/3' : 'md:w-2/3')}>
-                                        <label htmlFor="deposit_charges" className="inline-block text-sm font-bold text-yankeesBlue mb-1">{payerData.payment_method === 'Deposit' ? 'Deposit Charges' : payerData.payment_method === 'Withdraw' ? 'Withdraw Charges(%)' : payerData.payment_method === 'Cycle' && payerData.cycle_deposit_status === false ? "Cycle Deposit Charges" : "Cycle Withdraw Charges(%)"}</label>
-                                        <input type="number" name="deposit_charges" className="input_box placeholder:text-[#94A3B8] placeholder:text-base" placeholder='Add charges' onChange={(e) => payerData.payment_method === "Withdraw" ? setInputValue("withdraw_charges", formik.values.withdraw_charges = e.target.value) : payerData.payment_method === "Deposit" ? setInputValue("deposit_charges", formik.values.deposit_charges = e.target.value) : (payerData.cycle_deposit_status === false) ? setInputValue("deposit_charges", formik.values.deposit_charges = e.target.value) : setInputValue("withdraw_charges", formik.values.withdraw_charges = e.target.value)} />
-                                        <small className="text-red-500 text-xs">{payerData.payment_method === 'Deposit' ? formik.errors.deposit_charges : payerData.payment_method === 'Withdraw' ? formik.errors.withdraw_charges : (payerData.cycle_deposit_status === false) ? formik.errors.deposit_charges : formik.errors.withdraw_charges}</small>
+                                    <div className='w-full  mb-3 md:mb-0'>
+                                        <label htmlFor="paid_amount" className="inline-block text-sm font-bold text-yankeesBlue mb-1">{payerData.payment_method === "Withdraw" ? "Withdraw Amount" : "Paid Amount"}</label>
+                                        <input type="number" name="paid_amount" className={"input_box placeholder:text-[#94A3B8] placeholder:text-base " + (formik.values.payment_type === 'Full payment' ? "select-none cursor-not-allowed" : "")} placeholder='$2,000' value={formik.values.payment_type === 'Full payment' ? formik.values.paid_amount = payerData.due_amount : formik.values.paid_amount} onChange={(e) => formik.values.payment_type === 'Full payment' ? setInputValue("paid_amount", (payerData.due_amount).toFixed(2)) : setInputValue("paid_amount", e.target.value)} readOnly={formik.values.payment_type === 'Full payment' ? true : false} />
+                                        {/* <input type="number" name="paid_amount" className="input_box placeholder:text-[#94A3B8] placeholder:text-base" placeholder='$2,000' value={formik.values.payment_type === 'Full payment' ? payerData.due_amount : formik.values.paid_amount} onChange={(e) => setInputValue("paid_amount", formik.values.payment_type === 'Full payment' ? payerData.due_amount = e.target.value: e.target.value)} /> */}
+                                        {!formik.values.paid_amount && <small className="text-red-500 text-xs">{formik.errors.paid_amount}</small>}
                                     </div>
-                                        <div className={"w-full mb-3 md:mb-0 " + (payerData.payment_method === 'Deposit' ? 'md:w-1/3' : 'md:w-1/3')}>
-                                            <label htmlFor="profit" className="inline-block text-sm font-bold text-yankeesBlue mb-1">Profit (%)</label>
-                                            <input step="any" type="number" name="profit" defaultValue={payerData?.card.profit} className="input_box placeholder:text-[#94A3B8] placeholder:text-base" placeholder='Add Profit' onChange={(e) => setInputValue("profit", e.target.value)} />
-                                            <small className="text-red-500 text-xs">{formik.errors.profit}</small>
-                                        </div>
+                                    
                                 </div>
                             </div>
                         </div>
 
-                        <div className="w-full flex flex-wrap md:flex-nowrap md:space-x-6 md:mb-7">
-                            <div className='w-full md:w-1/2 mb-3 md:mb-0'>
+                        <div className="paymentpop w-full flex flex-wrap md:flex-nowrap md:space-x-6 md:mb-7">
+                            <div className='w-full  mb-3 md:mb-0'>
                                 <label htmlFor="due_paid_through" className="inline-block text-sm font-bold text-yankeesBlue mb-1">Paid Through</label>
                                 <input type="text" name="due_paid_through" className="input_box placeholder:text-[#94A3B8] placeholder:text-base" placeholder='Ex. Google pay' onChange={(e) => setInputValue("due_paid_through", e.target.value)} />
                                 <small className="text-red-500 text-xs">{formik.errors.due_paid_through}</small>
                             </div>
-                            <div className='w-full md:w-1/2 mb-3 md:mb-0'>
-                                <label htmlFor="paid_amount" className="inline-block text-sm font-bold text-yankeesBlue mb-1">{payerData.payment_method === "Withdraw" ? "Withdraw Amount" : "Paid Amount"}</label>
-                                <input type="number" name="paid_amount" className={"input_box placeholder:text-[#94A3B8] placeholder:text-base " + (formik.values.payment_type === 'Full payment' ? "select-none cursor-not-allowed" : "")} placeholder='$2,000' value={formik.values.payment_type === 'Full payment' ? formik.values.paid_amount = payerData.due_amount : formik.values.paid_amount} onChange={(e) => formik.values.payment_type === 'Full payment' ? setInputValue("paid_amount", (payerData.due_amount).toFixed(2)) : setInputValue("paid_amount", e.target.value)} readOnly={formik.values.payment_type === 'Full payment' ? true : false} />
-                                {/* <input type="number" name="paid_amount" className="input_box placeholder:text-[#94A3B8] placeholder:text-base" placeholder='$2,000' value={formik.values.payment_type === 'Full payment' ? payerData.due_amount : formik.values.paid_amount} onChange={(e) => setInputValue("paid_amount", formik.values.payment_type === 'Full payment' ? payerData.due_amount = e.target.value: e.target.value)} /> */}
-                                {!formik.values.paid_amount && <small className="text-red-500 text-xs">{formik.errors.paid_amount}</small>}
+                            <div className={"w-full mb-3 md:mb-0 md:w-1/2"}>
+                                <label htmlFor="deposit_charges" className="inline-block text-sm font-bold text-yankeesBlue mb-1">{payerData.payment_method === 'Deposit' ? 'Deposit Charges' : payerData.payment_method === 'Withdraw' ? 'Withdraw Charges(%)' : payerData.payment_method === 'Cycle' && payerData.cycle_deposit_status === false ? "Cycle Deposit Charges" : "Cycle Withdraw Charges(%)"}</label>
+                                <input type="number" name="deposit_charges" className="input_box placeholder:text-[#94A3B8] placeholder:text-base" placeholder='Add charges' onChange={(e) => payerData.payment_method === "Withdraw" ? setInputValue("withdraw_charges", formik.values.withdraw_charges = e.target.value) : payerData.payment_method === "Deposit" ? setInputValue("deposit_charges", formik.values.deposit_charges = e.target.value) : (payerData.cycle_deposit_status === false) ? setInputValue("deposit_charges", formik.values.deposit_charges = e.target.value) : setInputValue("withdraw_charges", formik.values.withdraw_charges = e.target.value)} />
+                                <small className="text-red-500 text-xs">{payerData.payment_method === 'Deposit' ? formik.errors.deposit_charges : payerData.payment_method === 'Withdraw' ? formik.errors.withdraw_charges : (payerData.cycle_deposit_status === false) ? formik.errors.deposit_charges : formik.errors.withdraw_charges}</small>
                             </div>
+                            <div className={"w-full mb-3 md:mb-0 md:w-1/2"}>
+                                        <label htmlFor="profit" className="inline-block text-sm font-bold text-yankeesBlue mb-1">Profit (%)</label>
+                                        <input step="any" type="number" name="profit" defaultValue={payerData?.card.profit} className="input_box placeholder:text-[#94A3B8] placeholder:text-base" placeholder='Add Profit' onChange={(e) => setInputValue("profit", e.target.value)} />
+                                        <small className="text-red-500 text-xs">{formik.errors.profit}</small>
+                                    </div>
                         </div>
                     </div>
                     <div className='flex items-center justify-end ml-auto mb-6 mt-2 space-x-5'>
                         <div className='text-xs font-bold text-red-600'>
-                            { payerData.due_amount - sumOfAmount - formik.values.paid_amount >= 0 ? <>Remain : ₹ {payerData.due_amount - sumOfAmount - formik.values.paid_amount} </> : <>advanced : ₹ {Math.abs(payerData.due_amount - sumOfAmount - formik.values.paid_amount)}</>}
+                            {payerData.due_amount - sumOfAmount - formik.values.paid_amount >= 0 ? <>Remain : ₹ {payerData.due_amount - sumOfAmount - formik.values.paid_amount} </> : <>advanced : ₹ {Math.abs(payerData.due_amount - sumOfAmount - formik.values.paid_amount)}</>}
                         </div>
                     </div>
                     <div className="flex justify-center border-t-[1px] border-[#CBD5E1] space-x-5 pt-6">.
@@ -333,11 +340,11 @@ function PaymentDetails({ handleClose, payerData, setReloade }) {
                             :
                             <>
                                 <button type="submit" className={`max-w-[216px] w-full text-center text-base font-extrabold cursor-pointer bg-darkGreen text-white border-2 border-transparent rounded-xl px-6 py-2`}>{formik.values.payment_type === 'Full payment' ? payerData.payment_method === "Withdraw" ? "Withdraw" : "Paid" : payerData.payment_method === "Withdraw" ? "Withdraw Recorded" : "Paid Recorded"}</button>
-                                <button type="button" onClick={() => setIsSummary(true)} className={`max-w-[216px] w-full text-center text-base font-extrabold cursor-pointer bg-darkGreen text-white border-2 border-transparent rounded-xl px-6 py-2`}>open Summary Popup</button>
-                    </>
+                              
+                            </>
                         }
-            </div>
-        </form>
+                    </div>
+                </form>
             </div >
             <ToastContainer
                 position="bottom-right"
@@ -352,7 +359,7 @@ function PaymentDetails({ handleClose, payerData, setReloade }) {
                 theme="colored"
             />
             <Modal isOpen={isSummary}>
-                <Summary handleClose={setIsSummary} paymentRecord={paymentRecord}/>
+                <Summary handleClose={setIsSummary} paymentRecord={paymentRecord} />
             </Modal>
         </div >
     )
