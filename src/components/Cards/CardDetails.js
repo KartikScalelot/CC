@@ -7,7 +7,7 @@ import { ProgressSpinner } from 'primereact/progressspinner';
 import { toast } from 'react-toastify';
 import Modal from '../../common/Modals/Modal';
 import SinglePhotoView from '../Admin/Popup/SinglePhotoView';
-import PaymentDetails from '../Admin/Popup/PaymentDetails';
+import PaymentDetails from '../Admin/Popup/DepositPaymentDetails';
 import CardHolderDueAmount from '../Admin/Popup/CardHolderDueAmount'
 export default function CardDetails() {
 	// const { state } = useLocation();

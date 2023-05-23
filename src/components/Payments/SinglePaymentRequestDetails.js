@@ -8,7 +8,7 @@ import { date } from 'yup';
 import moment from 'moment';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import Modal from '../../common/Modals/Modal';
-import PaymentDetails from '../Admin/Popup/PaymentDetails';
+import PaymentDetails from '../Admin/Popup/DepositPaymentDetails';
 
 function SinglePaymentRequestDetails() {
     const navigate = useNavigate();

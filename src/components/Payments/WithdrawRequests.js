@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import Modal from '../../common/Modals/Modal';
-import PaymentDetails from '../Admin/Popup/PaymentDetails';
+import PaymentDetails from '../Admin/Popup/DepositPaymentDetails';
 import { FilterMatchMode } from 'primereact/api';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';

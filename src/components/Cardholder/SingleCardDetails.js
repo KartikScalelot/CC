@@ -10,7 +10,7 @@ import SinglePhotoView from '../Admin/Popup/SinglePhotoView';
 import DemoImage from "../../assets/images/profile.png";
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import PaymentDetails from '../Admin/Popup/PaymentDetails';
+import PaymentDetails from '../Admin/Popup/DepositPaymentDetails';
 
 export default function SingleCardDetails() {
 	// const { state } = useLocation();

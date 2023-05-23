@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import CycleRequests from './CycleRequests';
 import DepositRequests from './DepositRequests';
 import Modal from '../../common/Modals/Modal';
-import PaymentDetails from '../Admin/Popup/PaymentDetails';
+import PaymentDetails from '../Admin/Popup/DepositPaymentDetails';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { baseurl } from '../../api/baseurl';

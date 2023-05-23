@@ -12,7 +12,7 @@ import DemoImage from "../../assets/images/profile.png"
 import creditCard from "../../assets/images/credit-card.png"
 import moment from 'moment/moment';
 import Modal from '../../common/Modals/Modal';
-import PaymentDetails from '../Admin/Popup/PaymentDetails';
+import PaymentDetails from '../Admin/Popup/DepositPaymentDetails';
 import { FilterMatchMode } from 'primereact/api';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
