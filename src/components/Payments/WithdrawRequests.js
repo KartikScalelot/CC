@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import Modal from '../../common/Modals/Modal';
-import PaymentDetails from '../Admin/Popup/DepositPaymentDetails';
+import PaymentDetails from '../Admin/Popup/WithdrawPaymentDetails';
 import { FilterMatchMode } from 'primereact/api';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
@@ -30,10 +30,10 @@ function WithdrawRequests({ WithdrawData }) {
 	}
 	const getPaymentRequests = () => {
 		setWithdrawRequest(WithdrawData.filter((request) => (request.payment_status === false) && request.payment_method === "Withdraw"));
+		
 		setLoading(false);
 	}
 	// paymentRequests.map((amount) => totalDueAmount += amount.due_amount);
-
 	useEffect(() => {
 		getPaymentRequests();
 	}, []);

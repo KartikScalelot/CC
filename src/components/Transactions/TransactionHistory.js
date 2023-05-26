@@ -160,7 +160,7 @@ export default function TransactionHistory() {
     return (
         <div className="wrapper min-h-full relative">
             <div className="flex items-center justify-between mb-5 sm:mb-10">
-                <h3 className="text-yankeesBlue leading-8">Transaction History</h3>
+                {/* <h3 className="text-yankeesBlue leading-8">Transaction History</h3> */}
                 {/* <div className="flex items-center rounded-lg border-2 border-lightGray cursor-pointer px-2 sm:px-5 py-2 sm:py-3.5">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M6 4.25C5.58579 4.25 5.25 4.58578 5.25 5C5.25 5.41421 5.58579 5.75 6 5.75L14 5.75C14.4142 5.75 14.75 5.41421 14.75 5C14.75 4.58579 14.4142 4.25 14 4.25L6 4.25Z" fill="#94A3B8" />

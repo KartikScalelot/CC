@@ -34,7 +34,6 @@ export default function CardDetails() {
 	const getCardDetails = async () => {
 		try {
 			const response = await axios.get(`${baseurl}/api/cards/cards-list?card_id=${card_id}&user_id=${user_id}`, { headers: header });
-			console.log(">>>>>", response.data.Data);
 			if (response.data.IsSuccess) {
 				setCard(response.data.Data);
 				setData(response.data.Data);

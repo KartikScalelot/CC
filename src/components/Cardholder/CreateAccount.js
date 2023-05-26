@@ -59,7 +59,6 @@ function CreateAccount() {
 		const requestObj = { ...values };
 		try {
 			const response = await axios.post(`${baseurl}/api/user/create-account`, requestObj, { headers: header });
-			console.log("response", response);
 			if (response.data.IsSuccess) {
 				toast.success(response.data.Message);
 				// dispatch(increment());

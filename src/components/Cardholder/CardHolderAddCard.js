@@ -117,7 +117,6 @@ export default function CardHolderAddCard() {
 
 
     const datessss = new Date().toISOString().slice(0, 10);
-    console.log("<><><><>", datessss);
     return (
         <div className="wrapper min-h-full">
             <div className="flex items-center cursor-pointer">

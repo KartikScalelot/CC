@@ -64,7 +64,6 @@ export default function AdminEditCard() {
     const getCardDetails = async () => {
         try {
             const response = await axios.get(`${baseurl}/api/cards/view-admin-card?card_id=${card_id}`, { headers: header });
-            console.log("AC : ", response.data);
             if (response.data.IsSuccess) {
                 setData(response.data.Data);
                 formik.setValues({
@@ -93,7 +92,6 @@ export default function AdminEditCard() {
         const requestObj = { ...values };
         try {
             const response = await axios.patch(`${baseurl}/api/cards/edit-admin-card`, requestObj, { headers: header });
-            console.log("response", response.data);
 
             if (response.data.IsSuccess) {
                 toast.success(response.data.Message);

@@ -11,15 +11,15 @@ import { FilterMatchMode } from 'primereact/api';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import moment from 'moment/moment';
-import { calcPaidProfitAmt, calcUnpaidProfitAmt } from '../Dashboard/services/utils';
+import { calcPaidProfitAmt, calcUnpaidAmt } from '../Dashboard/services/utils';
 
 function Commission() {
     const [commission, setCommission] = useState([]);
     const navigate = useNavigate();
     const [first, setFirst] = useState(false);
     
-    const [unpaidProfitAmt, setUnpaidProfitAmt] = useState();
-    const [paidProfitAmt, setPaidProfitAmt] = useState();
+    const [unpaidProfitAmt, setUnpaidProfitAmt] = useState(0);
+    const [paidProfitAmt, setPaidProfitAmt] = useState(0);
     const [loading, setLoading] = useState(true);
     
     let totalEarningAmount = 0;
@@ -33,10 +33,11 @@ function Commission() {
     const getCommision = async () => {
         try {
             const response = await axios.get(`${baseurl}/api/transaction/all-payment-record-list?payment_status=True`, { headers: header });
+            console.log(response.data.Data);
             if (response.data.IsSuccess) {
                 setCommission(response.data.Data);
                 setPaidProfitAmt(calcPaidProfitAmt(response.data.Data))
-                setUnpaidProfitAmt(calcUnpaidProfitAmt(response.data.Data))
+                // setUnpaidProfitAmt(calcUnpaidAmt(response.data.Data))
                 setLoading(false);
             } else {
                 toast.error("Something went wrong!!");
@@ -205,7 +206,6 @@ function Commission() {
         // <div className="text-xs inline-block font-semibold text-[#097C69] bg-[#E2F8F5] rounded-lg px-3 py-2">"Received"</div>
     ];
 
-    console.log("><><><><><><<<>", commission);
     return (
         <div className="wrapper min-h-full">
             <div className="relative flex flex-wrap items-center- justify-start md:mb-[50px]">
@@ -227,7 +227,7 @@ function Commission() {
                 </div>
                 <div className="w-full md:w-1/2 xl:w-1/4 p-3 2xl:px-5">
                     <div className="bg-[#F3F4F6] py-7 px-7 2xl::px-11 rounded-xl h-full border border-[#CBD5E1]">
-                        <h2 className="text-yankeesBlue mb-3">₹ {unpaidProfitAmt}</h2>
+                        <h2 className="text-yankeesBlue mb-3">₹ {totalEarningAmount - paidProfitAmt}</h2>
                         <span className="text-[#64748B]  text-2xl:text-base xl font-semibold">
                             Total Earnings Pending
                         </span>
@@ -235,7 +235,7 @@ function Commission() {
                 </div>
             </div>
             <div className="flex items-center justify-between mb-5 sm:mb-10 mt-4 md:mt-0">
-                <h3 className="text-yankeesBlue leading-8">Profit History</h3>
+                {/* <h3 className="text-yankeesBlue leading-8">Profit History</h3> */}
             </div>
             {loading ?
                 <div className="flex items-center justify-center">
@@ -246,7 +246,7 @@ function Commission() {
                         filters={filters}
                         globalFilterFields={['card.card_holder_name', 'card.card_number', 'card.card_bank_name', 'due_date']}
                         header={headerf}
-                        onSelectionChange={(col) => { localStorage.setItem("card_id", col.value.card.card_id); navigate("singleusercommissiondetails") }} columnResizeMode={"expand"} resizableColumns={true} scrollable={true} paginator rows={5}>
+                        onSelectionChange={(col) => { localStorage.setItem("transaction_id", col.value.transaction_id); console.log(col.value.transaction_id);;navigate("singleusercommissiondetails") }} columnResizeMode={"expand"} resizableColumns={true} scrollable={true} paginator rows={5}>
                         {columns.map((col, i) => (
 
                             <Column key={col.field} field={col.field} header={col.header} />

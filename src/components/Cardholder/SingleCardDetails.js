@@ -70,7 +70,6 @@ export default function SingleCardDetails() {
 		getCardDetails();
 	}, []);
 
-	console.log("cardDetails",requestDetails);
 
 	const columns = [
 		// {

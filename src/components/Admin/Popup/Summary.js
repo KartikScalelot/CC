@@ -1,3 +1,4 @@
+import moment from 'moment/moment';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import React, { useState } from 'react'
@@ -6,7 +7,6 @@ function Summary({ handleClose, paymentRecord }) {
 
     let TotalsAmounts = 0;
     const sumAllTotals = paymentRecord.map((sum, i) => { TotalsAmounts += sum.total_amount })
-
     const columns = [
         {
             header: 'Paid Through', field: (row) => {
@@ -30,6 +30,16 @@ function Summary({ handleClose, paymentRecord }) {
             }
         },
         {
+            header: 'Paid Date', field: (row) => {
+                return <div className="text-lg font-semibold text-yankeesBlue">{moment(row.due_paid_at).format('ll')}</div>
+            }
+        },
+        {
+            header: 'Paid Time', field: (row) => {
+                return <div className="text-lg font-semibold text-yankeesBlue">{moment(row.due_paid_at).format('LT')}</div>
+            }
+        },
+        {
             header: 'Total Amount', field: (row) => {
                 return <div className="text-lg font-semibold text-yankeesBlue">{row.total_amount}</div>
             }
@@ -41,6 +51,7 @@ function Summary({ handleClose, paymentRecord }) {
                 <button onClick={() => handleClose(false)} className="absolute top-1 right-1 md:top-5 md:right-5 text-xl max-[640px]:pl-6" >
                     <svg className="w-7 h-7" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"><g id="Close"><rect id="Rectangle" fillRule="nonzero" x="0" y="0" width="24" height="24"></rect><line x1="16.9999" y1="7" x2="7.00001" y2="16.9999" id="Path" stroke="#0C0310" strokeWidth="2" strokeLinecap="round"></line><line x1="7.00006" y1="7" x2="17" y2="16.9999" id="Path" stroke="#0C0310" strokeWidth="2" strokeLinecap="round"></line></g></g></svg>
                 </button>
+                {/* <h2 className='flex justify-center mb-7'>{paymentRecord}</h2> */}
                 <h2 className='flex justify-center mb-7'>Payment Summary</h2>
                 <DataTable value={paymentRecord}
                     // filters={filters}
@@ -48,7 +59,6 @@ function Summary({ handleClose, paymentRecord }) {
                     selectionMode="single"
                     columnResizeMode={"expand"} resizableColumns={true} scrollable={true} rows={10}>
                     {columns.map((col, i) => {
-                        console.log("col", col)
                         return <Column key={col.field} field={col.field} header={col.header} />
                     })}
                 </DataTable>

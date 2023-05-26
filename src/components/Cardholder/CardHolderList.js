@@ -174,8 +174,8 @@ function CardHolderList() {
 					</div>
 				</div>
 				<div className="relative flex items-center justify-between pt-5 md:pt-0 pb-9">
-					<h3 className="text-yankeesBlue leading-8">Card-Holder List</h3>
-					<div className="flex items-center space-x-3">
+					{/* <h3 className="text-yankeesBlue leading-8">Card-Holder List</h3> */}
+					<div className="flex items-center space-x-3 ml-auto">
 						<Link to='createaccount' className="btn-secondary flex">
 							<svg className='mr-3' width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<path d="M8.6 1.6C8.6 1.26863 8.33137 1 8 1C7.66863 1 7.4 1.26863 7.4 1.6L7.4 7.4H1.6C1.26863 7.4 1 7.66863 1 8C1 8.33137 1.26863 8.6 1.6 8.6H7.4V14.4C7.4 14.7314 7.66863 15 8 15C8.33137 15 8.6 14.7314 8.6 14.4V8.6H14.4C14.7314 8.6 15 8.33137 15 8C15 7.66863 14.7314 7.4 14.4 7.4H8.6L8.6 1.6Z" fill="white" stroke="white" strokeLinecap="round" />

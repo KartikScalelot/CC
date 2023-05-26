@@ -42,7 +42,6 @@ function CardHolderDueAmount({ handleClose, dueData }) {
         const requestObj = { ...values };
         try {
             const response = await axios.post(`${baseurl}/api/paymentRequest/add-payment-request-byadmin`, requestObj, { headers: header });
-            console.log("Response data", response.data);
             if (response.data.IsSuccess) {
                 toast.success(response.data.Message);
                 navigate("../../payment");
@@ -95,7 +94,6 @@ function CardHolderDueAmount({ handleClose, dueData }) {
                                 <Calendar name="due_date" className='due w-full py-[1px] overflow-hidden box-shadow' minDate={minDateValue} placeholder={new Date().toISOString().slice(0, 10)} onChange={(e) => setInputValue("due_date", moment(e.target.value).toISOString().slice(0, 10))} readOnlyInput />
                                 <small className="text-red-500 text-xs">{formik.errors.due_date}</small>
                             </div>
-                            {console.log("||  formik.values.due_date",formik.values.due_date)}
                             <div className='w-full md:w-1/2 mb-3 md:mb-0'>
                                 <label htmlFor="" className="inline-block text-sm font-bold text-yankeesBlue mb-1">Due Amount</label>
                                 <input type="number" name="due_amount" value={formik.values.due_amount} onChange={(e) => setInputValue("due_amount", e.target.value)} className="input_box placeholder:text-[#94A3B8] placeholder:text-base" placeholder='$2,000' />

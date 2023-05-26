@@ -18,7 +18,7 @@ function Payments() {
     const [paymentRequests, setPaymentRequests] = useState([]);
     const [isPayPopUpOpen, setIsPayPopUpOpen] = useState(false);
     const [payerData, setPayerData] = useState({});
-    const [reload, setReloade] = useState(false);
+    const [reload, setReload] = useState(false);
     let totalDueAmount = 0;
     let totalWithdrawAmount = 0;
 
@@ -122,9 +122,9 @@ function Payments() {
                                 </div>
                             </div> */}
                         </div>
-                        {tab === 1 && <DepositRequests paymentRequestData={paymentRequests} setReloade={setReloade}/>}
-                        {tab === 2 && <CycleRequests paymentPaidData={paymentRequests} setReloade={setReloade}/>}
-                        {tab === 3 && <WithdrawRequests WithdrawData={paymentRequests} setReloade={setReloade}/>}
+                        {tab === 1 && <DepositRequests paymentRequestData={paymentRequests} setReloade={setReload}/>}
+                        {tab === 2 && <CycleRequests paymentPaidData={paymentRequests} setReloade={setReload}/>}
+                        {tab === 3 && <WithdrawRequests WithdrawData={paymentRequests} setReloade={setReload}/>}
                         <ToastContainer
                             position="bottom-right"
                             autoClose={5000}

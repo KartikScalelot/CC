@@ -5,13 +5,14 @@ import { baseurl } from '../../api/baseurl';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { ProgressSpinner } from 'primereact/progressspinner';
+import moment from 'moment/moment';
 
 function SingleUserCommissionDetails() {
 
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const token = localStorage.getItem("Token");
-    const card_id = localStorage.getItem("card_id");
+    const transaction_id = localStorage.getItem("transaction_id");
     const header = {
         'Authorization': `Bearer ${token}`,
     }
@@ -20,7 +21,7 @@ function SingleUserCommissionDetails() {
 
     const getUserCommission = async () => {
         try {
-            const response = await axios.get(`${baseurl}/api/cards/cards-list?card_id=${card_id}`, { headers: header });
+            const response = await axios.get(`${baseurl}/api/transaction/all-payment-record-list?transaction_id=${transaction_id}`, { headers: header });
             if (response.data.IsSuccess) {
                 setUserCommission(response.data.Data);
                 setLoading(false);
@@ -65,17 +66,17 @@ function SingleUserCommissionDetails() {
                                         </div>
                                         <div className="pl-4">
                                             <span className="text-sm sm:text-base 2xl:text-xl font-bold text-lightGray block whitespace-nowrap">Card holder name</span>
-                                            <span className="text-base md:text-2xl 2xl:text-4xl font-bold text-yankeesBlue block">{userCommission.card_holder_name}</span>
+                                            <span className="text-base md:text-2xl 2xl:text-4xl font-bold text-yankeesBlue block">{userCommission.card.card_holder_name}</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="w-full sm:w-1/2 md:w-1/3 pl-0 sm:pl-3 md:pl-0 mb-3 md:mb-0">
                                     <span className="text-sm sm:text-base 2xl:text-xl font-semibold text-lightGray mb-3">Card number</span>
-                                    <h2 className="text-base md:text-2xl 2xl:text-4xl text-yankeesBlue font-bold">{userCommission?.card_number && userCommission?.card_number !== "" ? <>********{(userCommission.card_number).toString().substr(-4)}</> : ""}</h2>
+                                    <h2 className="text-base md:text-2xl 2xl:text-4xl text-yankeesBlue font-bold">{userCommission?.card.card_number && userCommission?.card.card_number !== "" ? <>********{(userCommission.card.card_number).toString().substr(-4)}</> : ""}</h2>
                                 </div>
                                 <div className="hidden  w-full sm:w-1/2 md:w-1/3 md:flex justify-end">
-                                    {userCommission.card_status === false ? <div className="inline-block text-xl font-semibold text-[#ED4D37] bg-[#f3e7e7] rounded-lg px-5 2xl:px-6 py-4 2xl:py-5">Unpaid</div>
-                                        : <div className="inline-block text-xl font-semibold text-[#097C69] bg-[#E2F8F5] rounded-lg px-5 2xl:px-6 py-4 2xl:py-5">Paid</div>}
+                                    {userCommission.payment_received === false ? <div className="inline-block text-xl font-semibold text-[#ED4D37] bg-[#f3e7e7] rounded-lg px-5 2xl:px-6 py-4 2xl:py-5">Unpaid</div>
+                                        : <div className="inline-block text-xl fon  t-semibold text-[#097C69] bg-[#E2F8F5] rounded-lg px-5 2xl:px-6 py-4 2xl:py-5">Paid</div>}
                                 </div>
                             </div>
                             <div className="md:hidden flex justify-start sm:mt-3 md:mt-0">
@@ -86,7 +87,7 @@ function SingleUserCommissionDetails() {
                         <div className="relative flex flex-wrap items-center- justify-start mb-[50px]">
                             <div className="w-full md:w-1/2 xl:w-1/4 p-3 2xl:px-5">
                                 <div className="bg-[#ed4d3714] border border-transparent py-7 px-7 2xl::px-11 rounded-xl h-full">
-                                    <h2 className="text-[#ED4D37] mb-3">₹ {userCommission.profit_amount}</h2>
+                                    <h2 className="text-[#ED4D37] mb-3">₹ {userCommission.paid_amount}</h2>
                                     <span className="text-[#64748B] text-base 2xl:text-xl font-semibold">
                                         Total Paid Commission Amount
                                     </span>
@@ -95,7 +96,7 @@ function SingleUserCommissionDetails() {
                             {/* paid  */}
                             <div className="w-full md:w-1/2 xl:w-1/4 p-3 2xl:px-5">
                                 <div className="bg-[#f4f8e7] border border-transparent py-7 px-7 2xl::px-11 rounded-xl h-full">
-                                    <h2 className="text-darkGreen mb-3">₹ {userCommission.due_amount}</h2>
+                                    <h2 className="text-darkGreen mb-3">₹ {userCommission.payment_request.due_amount}</h2>
                                     <span className="text-[#64748B] text-base 2xl:text-xl font-semibold">
                                         Payment Amount
                                     </span>
@@ -103,7 +104,7 @@ function SingleUserCommissionDetails() {
                             </div>
                             <div className="w-full md:w-1/2 xl:w-1/4 p-3 2xl:px-5">
                                 <div className="bg-white border border-[#CBD5E1] py-7 px-7 2xl::px-11 rounded-xl h-full">
-                                    <h2 className="text-yankeesBlue mb-3">{userCommission.commission} %</h2>
+                                    <h2 className="text-yankeesBlue mb-3">{userCommission.profit} %</h2>
                                     <span className="text-[#64748B] text-base 2xl:text-xl font-semibold">
                                         Commission
                                     </span>
@@ -111,7 +112,7 @@ function SingleUserCommissionDetails() {
                             </div>
                             <div className="w-full md:w-1/2 xl:w-1/4 p-3 2xl:px-5">
                                 <div className="bg-white border border-[#CBD5E1] py-7 px-7 2xl::px-11 rounded-xl h-full">
-                                    <h2 className="text-yankeesBlue mb-3">{userCommission.due_date === true ? "29 Dec 2023" : "-"}</h2>
+                                    <h2 className="text-yankeesBlue mb-3">{moment(userCommission.due_paid_at).format('ll')}</h2>
                                     <span className="text-[#64748B] text-base 2xl:text-xl font-semibold">
                                         Payment Date
                                     </span>

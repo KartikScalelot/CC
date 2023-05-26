@@ -1,8 +1,6 @@
 import React from "react";
 
 export default function SinglePhotoView({ handleClose, id, id2 }) {
-  console.log("id",id);
-  console.log("id2",id2);
   return (
     <div className="fixed inset-0 w-screen h-screen bg-[rgba(0,0,0,0.4)] flex backdrop-blur-[1px] z-50">
       <div className="relative max-w-2xl md:max-h-[400px] md:h-full w-full  m-auto bg-white rounded-lg md:rounded-3xl shadow-shadowbox p-5 sm:p-8">
