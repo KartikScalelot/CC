@@ -3,7 +3,7 @@ import CycleRequests from './CycleRequests';
 import DepositRequests from './DepositRequests';
 import Modal from '../../common/Modals/Modal';
 import PaymentDetails from '../Admin/Popup/DepositPaymentDetails';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { baseurl } from '../../api/baseurl';
 import { ToastContainer, toast } from 'react-toastify';
@@ -11,9 +11,9 @@ import { ProgressSpinner } from 'primereact/progressspinner';
 import WithdrawRequests from './WithdrawRequests';
 
 function Payments() {
-    const [tab, setTab] = useState(1);
-
+    
     const navigate = useNavigate();
+    const location = useLocation();
     const [loading, setLoading] = useState(true);
     const [paymentRequests, setPaymentRequests] = useState([]);
     const [isPayPopUpOpen, setIsPayPopUpOpen] = useState(false);
@@ -21,8 +21,10 @@ function Payments() {
     const [reload, setReload] = useState(false);
     let totalDueAmount = 0;
     let totalWithdrawAmount = 0;
-
-
+    
+    const [tab, setTab] = useState(location?.state?.paymentMethod && (location?.state?.paymentMethod === "Deposit" ? 1 : 
+    location?.state?.paymentMethod === "Cycle" ? 2 : 3)
+    );
     const token = localStorage.getItem("Token");
     localStorage.removeItem("card_id");
     localStorage.removeItem("user_id");

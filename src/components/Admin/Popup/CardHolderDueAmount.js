@@ -44,7 +44,7 @@ function CardHolderDueAmount({ handleClose, dueData }) {
             const response = await axios.post(`${baseurl}/api/paymentRequest/add-payment-request-byadmin`, requestObj, { headers: header });
             if (response.data.IsSuccess) {
                 toast.success(response.data.Message);
-                navigate("../../payment");
+                navigate("../../payment", {state:{paymentMethod : formik.values.payment_method}});
                 handleClose(false);
             } else {
                 toast.error(response.data.Message);

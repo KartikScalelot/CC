@@ -66,6 +66,15 @@ export default function TransactionHistory() {
         setGlobalFilterValue(value);
     };
 
+    const getInvoice = async (requestId) => {
+        const response = await axios.get(`${baseurl}/api/transaction/pdf?request_id=${requestId}`, { headers: header });
+        const invoiceURL = window.URL.createObjectURL(new Blob([response.data]));
+        let alink = document.createElement('a');
+        alink.href = invoiceURL;
+        alink.download = `${requestId}.pdf`;
+        alink.click();
+    }
+
     const renderHeader = () => {
         return (
             <div className={"flex justify-between dataTables"}>
@@ -152,6 +161,12 @@ export default function TransactionHistory() {
             header: 'Status', field: (row) => {
                 return <>{row.payment_request.payment_status === false ? <div className="text-xs inline-block font-semibold text-[#F6A351] bg-[#FFF0E0] rounded-lg px-3 py-2">Unpaid</div> : <div className="text-xs inline-block font-semibold text-[#097C69] bg-[#E2F8F5] rounded-lg px-3 py-2">Paid</div>
                 }
+                </>
+            }
+        },
+        {
+            header: 'Invoice', field: (row) => {
+                return <><div onClick={(e) => { e.stopPropagation(); getInvoice(row?.payment_request?.request_id); }} className="text-xs inline-block font-semibold text-[#097C69] bg-[#E2F8F5] rounded-lg px-3 py-2">Download</div>
                 </>
             }
         },

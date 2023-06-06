@@ -1,12 +1,30 @@
+import axios from 'axios';
 import moment from 'moment/moment';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import React, { useState } from 'react'
+import { baseurl } from '../../../api/baseurl';
 
 function Summary({ handleClose, paymentRecord }) {
 
     let TotalsAmounts = 0;
     const sumAllTotals = paymentRecord.map((sum, i) => { TotalsAmounts += sum.total_amount })
+
+    const token = localStorage.getItem("Token");
+    console.log(paymentRecord[0]?.payment_request?.request_id);
+    const requestId = paymentRecord[0]?.payment_request?.request_id;
+
+    const header = {
+        'Authorization': `Bearer ${token}`,
+    }
+    const getInvoice = async () => {
+        const response = await axios.get(`${baseurl}/api/transaction/pdf?request_id=${requestId}`, { headers: header });
+        const invoiceURL = window.URL.createObjectURL(new Blob([response.data]));
+        let alink = document.createElement('a');
+        alink.href = invoiceURL;
+        alink.download = `${requestId}.pdf`;
+        alink.click();
+    }
     const columns = [
         {
             header: 'Paid Through', field: (row) => {
@@ -53,6 +71,10 @@ function Summary({ handleClose, paymentRecord }) {
                 </button>
                 {/* <h2 className='flex justify-center mb-7'>{paymentRecord}</h2> */}
                 <h2 className='flex justify-center mb-7'>Payment Summary</h2>
+                {paymentRecord ? 
+                <button onClick={() => getInvoice()} className="btn-secondary flex ml-2">
+                    Get Invoice
+                </button> : ""}
                 <DataTable value={paymentRecord}
                     // filters={filters}
                     // globalFilterFields={['card.card_holder_name', 'card.card_number', 'card.card_bank_name', 'due_date']}
