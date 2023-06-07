@@ -71,10 +71,10 @@ function Summary({ handleClose, paymentRecord }) {
                 </button>
                 {/* <h2 className='flex justify-center mb-7'>{paymentRecord}</h2> */}
                 <h2 className='flex justify-center mb-7'>Payment Summary</h2>
-                {paymentRecord ? 
-                <button onClick={() => getInvoice()} className="btn-secondary flex ml-2">
-                    Get Invoice
-                </button> : ""}
+                {paymentRecord ?
+                    <button onClick={() => getInvoice()} className="btn-secondary flex ml-auto mb-2">
+                        Get Invoice
+                    </button> : ""}
                 <DataTable value={paymentRecord}
                     // filters={filters}
                     // globalFilterFields={['card.card_holder_name', 'card.card_number', 'card.card_bank_name', 'due_date']}
