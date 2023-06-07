@@ -155,8 +155,9 @@ function DepositRequests({ paymentRequestData, setReloade }) {
 						filters={filters}
 						globalFilterFields={['card.card_holder_name', 'card.card_number', 'card.card_bank_name', 'due_date']}
 						header={headerf}
-						selectionMode="single"
-						onSelectionChange={(col) => { localStorage.setItem("request_id", col.value.request_id); navigate("singlepaymentrequestdetails") }} columnResizeMode={"expand"} resizableColumns={true} scrollable={true} paginator rows={5}>
+						// selectionMode="single"
+						// onSelectionChange={(col) => { localStorage.setItem("request_id", col.value.request_id); navigate("singlepaymentrequestdetails") }} 
+						columnResizeMode={"expand"} resizableColumns={true} scrollable={true} paginator rows={5}>
 						{columns.map((col, i) => (
 
 							<Column key={col.field} field={col.field} header={col.header} />

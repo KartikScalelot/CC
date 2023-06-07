@@ -21,9 +21,9 @@ function Payments() {
     const [reload, setReload] = useState(false);
     let totalDueAmount = 0;
     let totalWithdrawAmount = 0;
-    
-    const [tab, setTab] = useState(location?.state?.paymentMethod && (location?.state?.paymentMethod === "Deposit" ? 1 : 
-    location?.state?.paymentMethod === "Cycle" ? 2 : 3)
+    console.log("loc : ", location?.state?.paymentMethod);
+    const [tab, setTab] = useState(location?.state?.paymentMethod ? (location?.state?.paymentMethod === "Deposit" ? 1 : 
+    location?.state?.paymentMethod === "Cycle" ? 2 : 3) : 1
     );
     const token = localStorage.getItem("Token");
     localStorage.removeItem("card_id");
