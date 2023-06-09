@@ -11,7 +11,6 @@ import Summary from './Summary';
 import Modal from '../../../common/Modals/Modal';
 
 function WithdrawPaymentDetails({ handleClose, payerData, setReload }) {
-
     const navigate = useNavigate();
     // const dispatch = useDispatch();
 
@@ -78,7 +77,7 @@ function WithdrawPaymentDetails({ handleClose, payerData, setReload }) {
         try {
             if (parseFloat(formik.values.paid_amount) + parseFloat(sumOfAmount) > parseFloat(payerData.due_amount)) {
                 setLoading(false);
-                return toast.error("You are in advanced payment.");
+                // return toast.error("You are in advanced payment.");
                 
             } else if (parseFloat(formik.values.paid_amount) + parseFloat(sumOfAmount) === parseFloat(payerData.due_amount)) {
                 // console.log("111", typeof (formik.values.paid_amount));
@@ -328,9 +327,9 @@ function WithdrawPaymentDetails({ handleClose, payerData, setReload }) {
                         </div>
                     </div>
                     <div className='flex items-center justify-end ml-auto mb-6 mt-2 space-x-5'>
-                        <div className='text-xs font-bold text-red-600'>
+                        {/* <div className='text-xs font-bold text-red-600'>
                             {payerData.due_amount - sumOfAmount - formik.values.paid_amount >= 0 ? <>Remain : ₹ {payerData.due_amount - sumOfAmount - formik.values.paid_amount} </> : <>advanced : ₹ {Math.abs(payerData.due_amount - sumOfAmount - formik.values.paid_amount)}</>}
-                        </div>
+                        </div> */}
                     </div>
                     <div className="flex justify-center border-t-[1px] border-[#CBD5E1] space-x-5 pt-6">.
                         <button type="button" onClick={() => handleClose(false)} className="max-w-[216px] w-full text-center cursor-pointer text-base font-extrabold text-yankeesBlue bg-white border-2 border-[#94A3B8] rounded-xl px-6 py-2">Cancel</button>

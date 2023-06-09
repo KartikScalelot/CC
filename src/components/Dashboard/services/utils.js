@@ -332,5 +332,13 @@ export function calDailyChargePaid(first, m) {
     return totalchargePaid;
 }
 
-
+export function sumdeposited(depositedData) {
+    let depositedamount = 0;
+    depositedData.map((data) => {
+        if (data.payment_request.cycle_deposit_status) {
+            depositedamount += data.total_amount
+        }
+    })
+    return depositedamount;
+}
 
