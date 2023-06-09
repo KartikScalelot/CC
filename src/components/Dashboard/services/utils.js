@@ -3,7 +3,7 @@ import moment from "moment/moment"
 export function calculateTotalDue(paymentData) {
     let totalDue = 0
     paymentData.map(record => {
-        if (!record.payment_status && (record.payment_method === "Deposit" || record.payment_method === "Cycle")) {
+        if ((record.payment_status === false) && (record.payment_method === "Deposit" || record.payment_method === "Cycle")) {
             let totalPaid = 0
             record.paid_amount.map(paid => {
                 if ((record.payment_method === "Cycle" && paid.payment_method_flag === "Cycle Deposit") || record.payment_method === "Deposit") {
@@ -13,23 +13,23 @@ export function calculateTotalDue(paymentData) {
             totalDue += (record.due_amount - totalPaid)
         }
     })
-    return totalDue
+    return totalDue;
 }
 
 export function calculateTotalPaid(paymentData) {
     let totalPaid = 0
     paymentData.map(record => {
+        let total = 0
         if ((record.payment_method === "Deposit" || record.payment_method === "Cycle")) {
-            let total = 0
             record.paid_amount.map(paid => {
                 if ((record.payment_method === "Cycle" && paid.payment_method_flag === "Cycle Deposit") || record.payment_method === "Deposit") {
                     total += paid.paid_amount
                 }
             })
-            totalPaid += total
         }
+        totalPaid += total
     })
-    return totalPaid
+    return totalPaid;
 }
 
 export function calculateMonthlyTotalPaid(first, m) {
@@ -74,6 +74,7 @@ export function calculateDailyTotalPaid(first, d) {
 export function calcUnpaidAmt(paymentData) {
     let totalPaid = 0;
     let totalDue = 0;
+    console.log("data : ", paymentData);
     paymentData.map(record => {
         if ((record.payment_method === "Deposit" || (record.payment_method === "Cycle" && record.payment_method_flag === "Cycle Deposit"))) {
             let total = 0
