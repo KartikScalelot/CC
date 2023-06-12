@@ -74,18 +74,22 @@ export function calculateDailyTotalPaid(first, d) {
 export function calcUnpaidAmt(paymentData) {
     let totalPaid = 0;
     let totalDue = 0;
+    let totalUnpaidAmt = 0;
     console.log("data : ", paymentData);
     paymentData.map(record => {
-        if ((record.payment_method === "Deposit" || (record.payment_method === "Cycle" && record.payment_method_flag === "Cycle Deposit"))) {
-            let total = 0
-            record.paid_amount.map(paid => (
-                total += paid.paid_amount
-            ))
-            totalPaid += total
-            totalDue += record.due_amount;
+        if (record.payment_received === false) {
+            totalUnpaidAmt += record.profit_amount;
         }
+        // if ((record.payment_method === "Deposit" || (record.payment_method === "Cycle" && record.payment_method_flag === "Cycle Deposit"))) {
+        //     let total = 0
+        //     record.paid_amount.map(paid => (
+        //         total += paid.paid_amount
+        //     ))
+        //     totalPaid += total
+        //     totalDue += record.due_amount;
+        // }
     })
-    let totalUnpaidAmt = totalDue - totalPaid;
+    // let totalUnpaidAmt = totalDue - totalPaid;
     return totalUnpaidAmt;
 }
 
@@ -112,6 +116,7 @@ export function calcMonthlyUnpaidAmt(paymentData, m) {
 
 export function calcPaidProfitAmt(paymentData) {
     let totalPaidProfit = 0
+    console.log("pr : ", paymentData);
     paymentData.map(record => {
         if (record.payment_received) {
             totalPaidProfit += record.profit_amount

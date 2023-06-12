@@ -30,6 +30,7 @@ function DepositPaymentDetails({ handleClose, payerData, setReloade }) {
     const [selectedPayment, setSelectedPayment] = useState(null);
     const [loading, setLoading] = useState(false);
     const [isSummary, setIsSummary] = useState(false);
+    const [disabled, setDisabled] = useState(false);
 
     const initialState = {
         request_id: payerData.request_id,
@@ -144,6 +145,7 @@ function DepositPaymentDetails({ handleClose, payerData, setReloade }) {
     const getPaymentRecords = async () => {
         try {
             const response = await axios.get(`${baseurl}/api/transaction/all-payment-record-list?request_id=${payerData.request_id}`, { headers: header })
+            
             if (response.data.IsSuccess) {
 
                 if (payerData.payment_method !== "Cycle") {
@@ -162,6 +164,9 @@ function DepositPaymentDetails({ handleClose, payerData, setReloade }) {
                 }
                 if (response.data.Data.length > 0) {
                     formik.values.payment_type = "Partial payment";
+                }
+                if (response?.data?.Data[0].payment_request.payment_status) {
+                    setDisabled(true);
                 }
             } else {
                 toast.error(response.data.Message);
@@ -340,7 +345,7 @@ function DepositPaymentDetails({ handleClose, payerData, setReloade }) {
                             </button>
                             :
                             <>
-                                <button type="submit" className={`max-w-[216px] w-full text-center text-base font-extrabold cursor-pointer bg-darkGreen text-white border-2 border-transparent rounded-xl px-6 py-2`}>{formik.values.payment_type === 'Full payment' ? payerData.payment_method === "Withdraw" ? "Withdraw" : "Paid" : payerData.payment_method === "Withdraw" ? "Withdraw Recorded" : "Paid Recorded"}</button>
+                                <button type="submit" disabled={disabled} className={`max-w-[216px] w-full text-center text-base font-extrabold cursor-pointer ${disabled ? "bg-[#7d807c]": "bg-darkGreen"}  text-white border-2 border-transparent rounded-xl px-6 py-2 `}>{formik.values.payment_type === 'Full payment' ? payerData.payment_method === "Withdraw" ? "Withdraw" : "Paid" : payerData.payment_method === "Withdraw" ? "Withdraw Recorded" : "Paid Recorded"}</button>
                               
                             </>
                         }

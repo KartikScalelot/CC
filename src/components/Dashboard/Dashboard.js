@@ -106,6 +106,7 @@ export default function Dashboard() {
         setPaidProfitAmt(calcPaidProfitAmt(response.data.Data))
         setTotalTransaction(response.data.Data.length)
         setTotalCharge(calcTotalCharge(response.data.Data))
+        setUnpaidAmt(calcUnpaidAmt(response.data.Data))
         setTotalChargePaid(calcChargePaid(response.data.Data))
         setfirst(response.data.Data);
         setLoading1(false);
@@ -132,7 +133,7 @@ export default function Dashboard() {
         setTotalPaid(calculateTotalPaid(paymentData))
 
         setWithdrawAmt(calcWithdrawAmt(paymentData))
-        setUnpaidAmt(calcUnpaidAmt(paymentData))
+        // setUnpaidAmt(calcUnpaidAmt(paymentData))
         setTotalProfitAmt(calcTotalProfitAmt(paymentData))
         setLoading2(false);
       }

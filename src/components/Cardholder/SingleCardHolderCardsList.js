@@ -104,37 +104,8 @@ export default function SingleCardHolderCardsList() {
                 return <div className="text-lg font-semibold text-yankeesBlue">{row.card_bank_name}</div>
             }
         },
-        // {
-        //     header: 'Total Due', field: (row) => {
-        //         return <div className="text-lg font-semibold text-[#E52B2B]">
-        //             ₹ {row.due_amount}
-        //         </div>
-        //     }
-        // },
-        // {
-        //     header: 'Due Date', field: (row) => {
-        //         return <div className="text-lg font-semibold text-yankeesBlue">
-        //             {moment(row.due_date).format('ll')}
-        //         </div>
-        //     }
-        // },
-        // {
-        //     header: 'Withdraw Charge', field: (row) => {
-        //         return <div className="text-lg font-semibold text-yankeesBlue">₹ {0}</div>
-        //     }
-        // },
-        // {
-        //     header: 'Charges', field: (row) => {
-        //         return <div className="text-lg font-semibold text-yankeesBlue">₹ {0}</div>
-        //     }
-        // },
-        // {
-        //     header: 'Profit', field: (row) => {
-        //         return <div className="text-lg font-semibold text-yankeesBlue">₹ {0}</div>
-        //     }
-        // },
         {
-            header: 'Add Request', field: (row) => {
+            header: '', field: (row) => {
                 return <div onClick={(e) => { e.stopPropagation(); setDueData(row); setDueAmountPop(true); }} className="relative text-base font-semibold text-white inline-block bg-[#8FB50B] rounded-lg px-3 py-2">Add Request</div>
             }
         },
@@ -151,7 +122,7 @@ export default function SingleCardHolderCardsList() {
                             <svg onClick={() => navigate("../")} width="24" height="16" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M7.65995 2.41586C8.0277 2.05138 8.03034 1.4578 7.66586 1.09005C7.30139 0.722305 6.7078 0.719657 6.34005 1.08414L4.09664 3.30762C3.25167 4.14505 2.56108 4.82949 2.07132 5.43932C1.56203 6.07348 1.19337 6.71716 1.09489 7.4898C1.0517 7.82858 1.0517 8.17142 1.09489 8.5102C1.19337 9.28284 1.56203 9.92652 2.07132 10.5607C2.56108 11.1705 3.25167 11.855 4.09665 12.6924L6.34005 14.9159C6.7078 15.2803 7.30138 15.2777 7.66586 14.9099C8.03034 14.5422 8.02769 13.9486 7.65995 13.5841L5.45624 11.4C4.56187 10.5136 3.94837 9.90353 3.53324 9.38662C3.39833 9.21863 3.29307 9.07075 3.21135 8.9375H22C22.5178 8.9375 22.9375 8.51777 22.9375 8C22.9375 7.48223 22.5178 7.0625 22 7.0625H3.21135C3.29308 6.92925 3.39833 6.78137 3.53324 6.61338C3.94837 6.09647 4.56187 5.48642 5.45624 4.6L7.65995 2.41586Z" fill="#0F172A" stroke="#0F172A" strokeLinecap="round" />
                             </svg>
-                            <h3 className="max-w-[270px] sm:max-w-[300px] text-yankeesBlue leading-8 pl-4 smx:pl-7 truncate">{userData.first_name} {userData.last_name}</h3>
+                            <h3 className="max-w-[270px] sm:max-w-[300px] text-yankeesBlue leading-8 pl-4 smx:pl-7 truncate">{userData.first_name && userData.last_name ? <>{userData.first_name} {userData.last_name}'s Cards </>: ""}</h3>
                         </div>
                         <div className="flex justify-end items-center space-x-4">
                             <div onClick={() => navigate("../../transaction")} className="flex items-center rounded-lg border-2 border-lightGray cursor-pointer px-3 sm:px-5 py-1.5 sm:py-2.5">
@@ -270,9 +241,9 @@ export default function SingleCardHolderCardsList() {
                                                             <span className="text-lg text-white font-semibold pr-3">
                                                                 {card.card_holder_name}
                                                             </span>
-                                                            <svg width="40" height="13" viewBox="0 0 40 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            {/* <svg width="40" height="13" viewBox="0 0 40 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                 <path d="M37.0367 12.8124L36.6617 10.9277H32.4717L31.805 12.799L28.4467 12.8057C30.0455 8.94109 31.6477 5.07794 33.2533 1.21624C33.5267 0.561211 34.0117 0.227836 34.7267 0.231186C35.2733 0.236212 36.165 0.236211 37.4033 0.232861L40 12.8073L37.0367 12.8124ZM33.415 8.34613H36.115L35.1067 3.62191L33.415 8.34613ZM11.7667 0.22951L15.1433 0.232861L9.92333 12.814L6.505 12.8107C5.64541 9.48752 4.79652 6.16156 3.95833 2.83286C3.79167 2.16946 3.46167 1.70541 2.82667 1.48595C2.26167 1.28995 1.32 0.988402 0 0.577964V0.234537H5.395C6.32833 0.234537 6.87333 0.688531 7.04833 1.61997C7.225 2.55309 7.66833 4.92861 8.38167 8.74652L11.7667 0.22951ZM19.7833 0.232861L17.1133 12.8107L13.9 12.8073L16.5667 0.22951L19.7833 0.232861ZM26.3 0C27.2617 0 28.4733 0.301547 29.17 0.577964L28.6067 3.18634C27.9767 2.9317 26.94 2.58827 26.0683 2.6C24.8017 2.62178 24.0183 3.15619 24.0183 3.66882C24.0183 4.50309 25.3783 4.92358 26.7783 5.83492C28.3767 6.87358 28.5867 7.8067 28.5667 8.82023C28.545 10.9244 26.7783 13 23.0517 13C21.3517 12.9749 20.7383 12.8308 19.3517 12.3366L19.9383 9.6143C21.35 10.209 21.9483 10.3983 23.155 10.3983C24.26 10.3983 25.2083 9.94936 25.2167 9.16701C25.2233 8.61082 24.8833 8.33441 23.6433 7.64755C22.4033 6.95902 20.6633 6.0058 20.6867 4.09265C20.715 1.64343 23.0233 0 26.3017 0H26.3Z" fill="white" />
-                                                            </svg>
+                                                            </svg> */}
                                                         </div>
 
                                                         <div className="flex flex-col pt-3 lg:pt-6">
@@ -286,18 +257,16 @@ export default function SingleCardHolderCardsList() {
                                                         <div className="flex items-center justify-between pt-3 lg:pt-6">
                                                             <div className='flex flex-col'>
                                                                 <span className="text-[#94A3B8] text-sm lg:text-base leading-7 font-normal">
-                                                                    Total Credit
                                                                 </span>
                                                                 <span className="text-white text-xl lg:text-2xl font-semibold">
-                                                                    ₹ {card.due_amount}{" "}
+                                                                    {card.card_category}
                                                                 </span>
                                                             </div>
                                                             <div className='flex flex-col'>
                                                                 <span className="text-[#94A3B8] text-sm lg:text-base leading-7 font-normal">
-                                                                    Due Date
                                                                 </span>
                                                                 <span className="text-white text-xl lg:text-2xl font-semibold">
-                                                                    29 Dec 2023
+                                                                    {card.card_network}
                                                                 </span>
                                                             </div>
                                                         </div>

@@ -195,7 +195,7 @@ export default function TransactionHistory() {
                         filters={filters}
                         globalFilterFields={['card.card_holder_name', 'card.card_number', 'card.card_bank_name', 'due_paid_through']}
                         header={headerf}
-                        columnResizeMode={"expand"} resizableColumns={true} scrollable={true} paginator rows={5}>
+                        columnResizeMode={"expand"} resizableColumns={true} scrollable={true} paginator rows={5} selectionMode="single">
                         {columns.map((col, i) => (
 
                             <Column key={col.field} field={col.field} header={col.header} />

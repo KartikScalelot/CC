@@ -13,7 +13,7 @@ function Summary({ handleClose, paymentRecord }) {
     const token = localStorage.getItem("Token");
     console.log(paymentRecord[0]?.payment_request?.request_id);
     const requestId = paymentRecord[0]?.payment_request?.request_id;
-
+    console.log("rec : ", paymentRecord);
     const header = {
         'Authorization': `Bearer ${token}`,
     }
@@ -24,6 +24,7 @@ function Summary({ handleClose, paymentRecord }) {
         alink.href = invoiceURL;
         alink.download = `${requestId}.pdf`;
         alink.click();
+        handleClose(false);
     }
     const columns = [
         {
@@ -38,8 +39,8 @@ function Summary({ handleClose, paymentRecord }) {
             }
         },
         {
-            header: 'Payable Charges', field: (row) => {
-                return <div className="text-lg font-semibold text-yankeesBlue">{row.deposit_charges}</div>
+            header: 'Bank Charges', field: (row) => {
+                return <div className="text-lg font-semibold text-yankeesBlue">{row.deposit_charges + row.withdraw_charges}</div>
             }
         },
         {
