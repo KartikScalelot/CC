@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link, NavLink, Route, Routes, useNavigate } from "react-router-dom";
+import { Link, NavLink, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Logo from "../../assets/images/logo.png";
-import DashboardIcon from "../../assets/svg/dashboard-lcon.svg";
-import CardHolderIcon from "../../assets/svg/cardHolder-icon.svg";
-import PaymentIcon from "../../assets/svg/payment.svg";
-import TransactIons from "../../assets/svg/transactions.svg";
-import CommissionIcon from "../../assets/svg/commission.svg";
 import HelpIcon from "../../assets/svg/help.svg";
 import LogoutIcon from "../../assets/svg/logout.svg";
 import SearchIcon from "../../assets/svg/search.svg";
@@ -42,6 +37,9 @@ import CardDetails from "../Cards/CardDetails";
 import EditCardDetails from "../Cards/EditCardDetails";
 import AdminCardDetails from "../Admin/AdminCardDetails";
 import AdminEditCard from "../Admin/AdminEditCard";
+import SingleCardHolderPayment from "../Cardholder/SingleCardHolderPayment";
+import Charges from "../Charges/Charges";
+import { iconFunction } from "../../common/Icons/Icon";
 
 function SideBar() {
   const navigate = useNavigate();
@@ -52,6 +50,9 @@ function SideBar() {
     Authorization: `Bearer ${token}`,
   };
 
+  const location = useLocation();
+  const [loc, setLoc] = useState(location.pathname);
+  console.log("loc : ", window.location.pathname);
   const getCardDetails = async () => {
     try {
       const response = await axios.get(`${baseurl}/api/user/user-profile`, {
@@ -63,6 +64,26 @@ function SideBar() {
     }
   };
 
+  function getPath() {
+    switch (location.pathname) {
+      case "/":
+        return "Dashboard";
+      case "/dashboard":
+        return "Dashboard";
+      case "/cardholder":
+        return "Card Holder";
+      case "/cards":
+        return "All Cards";
+      case "/payment":
+        return "Payments";
+      case "/transaction":
+        return "Transactions";
+      case "/commission":
+        return "Profit";
+      default:
+        return "";
+    }
+  }
   const handleLogout = () => {
     localStorage.clear();
     setTimeout(() => {
@@ -78,8 +99,6 @@ function SideBar() {
     navigate("./");
     localStorage.clear();
   };
-
-  const [tab, setTab] = useState("Dashboard");
 
   return (
     <div className="main flex min-h-screen bg-white">
@@ -148,10 +167,10 @@ function SideBar() {
             <NavLink
               to="../dashboard"
               activeclassname="active"
-              onClick={() => setTab("Dashboard")}
               className="SideLink flex items-center rounded-lg px-[18px] py-4 text-lightGray "
             >
-              <img src={DashboardIcon} alt="DashboardIcon" />
+              {/* <img src={DashboardIcon} alt="DashboardIcon" /> */}
+              {iconFunction("dashboard")}
               <span className="text-sm font-bold leading-5  pl-[13px]">
                 Dashboard
               </span>
@@ -159,10 +178,10 @@ function SideBar() {
             <NavLink
               to="../cardholder"
               activeclassname="active"
-              onClick={() => setTab("Cardholder")}
               className="SideLink flex items-center rounded-lg px-[18px] py-4 text-lightGray"
             >
-              <img src={CardHolderIcon} alt="DashboardIcon" />
+              {/* <img src={CardHolderIcon} alt="DashboardIcon" /> */}
+              {iconFunction("cardholder")}
               <span className="text-sm font-bold leading-5 pl-[13px]">
                 Cards Holder
               </span>
@@ -170,10 +189,10 @@ function SideBar() {
             <NavLink
               to="../cards"
               activeclassname="active"
-              onClick={() => setTab("All Cards")}
               className="SideLink flex items-center rounded-lg px-[18px] py-4 text-lightGray"
             >
-              <img src={CardHolderIcon} alt="DashboardIcon" />
+              {/* <img src={CardHolderIcon} alt="DashboardIcon" /> */}
+              {iconFunction("allcards")}
               <span className="text-sm font-bold leading-5 pl-[13px]">
                 All Cards
               </span>
@@ -181,34 +200,50 @@ function SideBar() {
             <NavLink
               to="../payment"
               activeclassname="active"
-              onClick={() => setTab("Payment")}
               className="SideLink flex items-center rounded-lg px-[18px] py-4 text-lightGray"
             >
-              <img src={PaymentIcon} alt="DashboardIcon" />
+              {/* <img src={PaymentIcon} alt="DashboardIcon" /> */}
+              {/* <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.95 1.84332L7.94167 6.51832H5.93333C5.6 6.51832 5.275 6.54332 4.95833 6.60998L5.79167 4.60998L5.825 4.53498L5.875 4.40165C5.9 4.34332 5.91667 4.29332 5.94167 4.25165C6.90833 2.00998 7.99167 1.30998 9.95 1.84332ZM15.6092 6.74165L15.5925 6.73332C15.0925 6.59165 14.5842 6.51665 14.0675 6.51665H8.85083L10.7258 2.15832L10.7508 2.09998C10.8675 2.14165 10.9925 2.19998 11.1175 2.24165L12.9592 3.01665C13.9842 3.44165 14.7008 3.88332 15.1425 4.41665C15.2175 4.51665 15.2842 4.60832 15.3508 4.71665C15.4258 4.83332 15.4842 4.94998 15.5175 5.07498C15.5508 5.14998 15.5758 5.21665 15.5925 5.29165C15.7175 5.71665 15.7258 6.19998 15.6092 6.74165ZM10.4333 14.715H10.6417C10.8917 14.715 11.1 14.49 11.1 14.215C11.1 13.865 11 13.815 10.7833 13.7317L10.4333 13.6066V14.715Z" fill="#94A3B8" />
+                <path d="M15.24 7.93327C14.865 7.82494 14.4733 7.7666 14.065 7.7666H5.93167C5.365 7.7666 4.83167 7.87494 4.33167 8.0916C3.60009 8.40632 2.97667 8.92835 2.53833 9.59326C2.09999 10.2582 1.86592 11.0369 1.865 11.8333V13.4583C1.865 13.6583 1.88167 13.8499 1.90667 14.0499C2.09 16.6999 3.50667 18.1166 6.15667 18.2916C6.34833 18.3166 6.54 18.3333 6.74833 18.3333H13.2483C16.3317 18.3333 17.9567 16.8666 18.115 13.9499C18.1233 13.7916 18.1317 13.6249 18.1317 13.4583V11.8333C18.1305 10.9593 17.8489 10.1088 17.3284 9.40683C16.8079 8.70481 16.0759 8.18831 15.24 7.93327ZM11.065 12.9166C11.4483 13.0499 11.965 13.3333 11.965 14.2166C11.965 14.9749 11.3733 15.5833 10.64 15.5833H10.4317V15.7666C10.4317 16.0083 10.24 16.1999 9.99833 16.1999C9.75667 16.1999 9.565 16.0083 9.565 15.7666V15.5833H9.49C8.69 15.5833 8.03167 14.9083 8.03167 14.0749C8.03167 13.8333 8.22333 13.6416 8.465 13.6416C8.70667 13.6416 8.89834 13.8333 8.89834 14.0749C8.89834 14.4249 9.165 14.7166 9.49 14.7166H9.565V13.3083L8.93167 13.0833C8.54834 12.9499 8.03167 12.6666 8.03167 11.7833C8.03167 11.0249 8.62333 10.4166 9.35667 10.4166H9.565V10.2333C9.565 9.9916 9.75667 9.79994 9.99833 9.79994C10.24 9.79994 10.4317 9.9916 10.4317 10.2333V10.4166H10.5067C11.3067 10.4166 11.965 11.0916 11.965 11.9249C11.965 12.1666 11.7733 12.3583 11.5317 12.3583C11.29 12.3583 11.0983 12.1666 11.0983 11.9249C11.0983 11.5749 10.8317 11.2833 10.5067 11.2833H10.4317V12.6916L11.065 12.9166Z" fill="#94A3B8" />
+                <path d="M8.9 11.7834C8.9 12.1334 9 12.1834 9.21667 12.2668L9.56667 12.3918V11.2834H9.35833C9.1 11.2834 8.9 11.5084 8.9 11.7834Z" />
+              </svg> */}
+            {iconFunction("payments")}
               <span className="text-sm font-bold leading-5 pl-[13px]">
                 Payments
               </span>
             </NavLink>
             <NavLink
-              to="../transaction"
+              to="../charges"
               activeclassname="active"
-              onClick={() => setTab("Transaction")}
               className="SideLink flex items-center rounded-lg px-[18px] py-4 text-lightGray"
             >
-              <img src={TransactIons} alt="DashboardIcon" />
+              {/* <img src={TransactIons} alt="DashboardIcon" /> */}
+              {iconFunction("transactions")}
               <span className="text-sm font-bold leading-5 pl-[13px]">
-                Transactions
+                Charges
               </span>
             </NavLink>
             <NavLink
               to="../commission"
               activeclassname="active"
-              onClick={() => setTab("Profit")}
               className="SideLink flex items-center rounded-lg px-[18px] py-4 text-lightGray"
             >
-              <img src={CommissionIcon} alt="DashboardIcon" />
+              {/* <img src={CommissionIcon} alt="DashboardIcon" /> */}
+             {iconFunction("profit")}
               <span className="text-sm font-bold leading-5 pl-[13px]">
                 Profit
+              </span>
+            </NavLink>
+            <NavLink
+              to="../transaction"
+              activeclassname="active"
+              className="SideLink flex items-center rounded-lg px-[18px] py-4 text-lightGray"
+            >
+              {/* <img src={TransactIons} alt="DashboardIcon" /> */}
+              {iconFunction("transactions")}
+              <span className="text-sm font-bold leading-5 pl-[13px]">
+                Transactions
               </span>
             </NavLink>
           </nav>
@@ -259,13 +294,13 @@ function SideBar() {
                 </svg>
               </button>
               <h2 className="block font-bold leading-[48px] text-[#0F172A]">
-                {tab}
+                {getPath()}
               </h2>
             </div>
             <div className="flex items-center space-x-5 sm:space-x-10">
-              <button type="button" className="">
+              {/* <button type="button" className="">
                 <img src={SearchIcon} alt="Search Icon" />
-              </button>
+              </button> */}
               <div className="relative group">
                 <button type="button" className="">
                   <img src={Notification} alt="Notification Icon" />
@@ -581,9 +616,13 @@ function SideBar() {
               <Route path="singlecarddetails" element={<SingleCardDetails />} />
               <Route path="addcardholdercard" element={<CardHolderAddCard />} />
               <Route path="editcardholdercard" element={<CardHolderEditCard />} />
+              <Route path="singlecardholderpayment" element={<SingleCardHolderPayment />} />
             </Route>
             <Route path="transaction">
               <Route index element={<TransactionHistory />} />
+            </Route>
+            <Route path="charges">
+              <Route index element={<Charges />} />
             </Route>
             <Route path="payment">
               <Route index element={<Payments />} />

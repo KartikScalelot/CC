@@ -106,14 +106,16 @@ function Commission() {
 
     const renderHeader = () => {
         return (
-            <div className={"flex justify-between dataTables"}>
+            <div className={"flex items-center justify-between dataTables search_field w-fit"}>
                 <span className="p-input-icon-left bg-white">
                     <i className="pi pi-search" />
-                    <InputText className='bg-white' value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search" />
+                    <InputText className='bg-white search_input ' value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search" />
+
                 </span>
-                <div className='flex space-x-3 items-center'>
-                    <Button type="button" icon="pi pi-filter-slash" label="Clear" onClick={clearFilter} />
-                </div>
+                <svg onClick={clearFilter} className="w-7 h-7" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"><g id="Close"><rect id="Rectangle" fillRule="nonzero" x="0" y="0" width="24" height="24"></rect><line x1="16.9999" y1="7" x2="7.00001" y2="16.9999" id="Path" stroke="#6c757d" strokeWidth="1.5" strokeLinecap="round"></line><line x1="7.00006" y1="7" x2="17" y2="16.9999" id="Path" stroke="#6c757d" strokeWidth="1.5" strokeLinecap="round"></line></g></g></svg>
+                {/* <div className='flex space-x-3 items-center'>
+                    <Button type="button" icon="pi pi-filter-slash" label="Clear" outlined onClick={clearFilter} />
+                </div> */}
             </div>
         );
     };
@@ -174,13 +176,13 @@ function Commission() {
                 </div>
             }
         },
-        {
-            header: 'Charges', field: (row) => {
-                return <div className="text-yankeesBlue text-lg font-semibold">
-                    ₹ {row.deposit_charges || row.withdraw_charges}
-                </div>
-            }
-        },
+        // {
+        //     header: 'Charges', field: (row) => {
+        //         return <div className="text-yankeesBlue text-lg font-semibold">
+        //             ₹ {row.deposit_charges || row.withdraw_charges}
+        //         </div>
+        //     }
+        // },
         // {
         //     header: 'Profit Due Date', field: (row) => {
         //         return <div className="text-yankeesBlue text-lg font-semibold">
@@ -227,7 +229,7 @@ function Commission() {
                 </div>
                 <div className="w-full md:w-1/2 xl:w-1/4 p-3 2xl:px-5">
                     <div className="bg-[#F3F4F6] py-7 px-7 2xl::px-11 rounded-xl h-full border border-[#CBD5E1]">
-                        <h2 className="text-yankeesBlue mb-3">₹ {totalEarningAmount - paidProfitAmt}</h2>
+                        <h2 className="text-yankeesBlue mb-3">₹ {(totalEarningAmount - paidProfitAmt).toFixed(2)}</h2>
                         <span className="text-[#64748B]  text-2xl:text-base xl font-semibold">
                             Total Earnings Pending
                         </span>
@@ -253,7 +255,9 @@ function Commission() {
 
                         ))}
                     </DataTable>
-                    : "Profit record not found."
+                    : <div className="bg-[#F3F4F6] border border-[#CBD5E1] rounded-md text-center p-8 space-y-2 ng-star-inserted">
+                    <h3 className="w-full text-[#64748B] text-2xl:text-base xl font-semibold">You have not made profit yet.</h3>
+                </div>
             }
 
         </div>

@@ -23,11 +23,11 @@ export default function CardList() {
     // const { data } = state;
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
-	const [dueAmountPop, setDueAmountPop] = useState(false);
+    const [dueAmountPop, setDueAmountPop] = useState(false);
     const [listView, setListView] = useState(false);
     const [isPayPopUpOpen, setIsPayPopUpOpen] = useState(false);
     const [payerData, setPayerData] = useState({});
-	const [dueData, setDueData] = useState({});
+    const [dueData, setDueData] = useState({});
 
     localStorage.removeItem("card_id");
     localStorage.removeItem("user_id");
@@ -42,10 +42,10 @@ export default function CardList() {
     const getUserCards = async () => {
         try {
             const response = await axios.get(`${baseurl}/api/cards/cards-list`, { headers: header });
-            console.log("card List :",response.data);
+            console.log("card List :", response.data);
             if (response.data.IsSuccess) {
                 toast.success(response.data.Message);
-                setCards(response.data.Data);                
+                setCards(response.data.Data);
             }
             setLoading(false);
         } catch (error) {
@@ -62,14 +62,14 @@ export default function CardList() {
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     });
 
-    	const initFilters = () => {
+    const initFilters = () => {
         setFilters({
             global: { value: null, matchMode: FilterMatchMode.CONTAINS },
         });
         setGlobalFilterValue('');
     };
 
-	const clearFilter = () => {
+    const clearFilter = () => {
         initFilters();
     };
 
@@ -85,15 +85,17 @@ export default function CardList() {
 
     const renderHeader = () => {
         return (
-            <div className={"flex justify-between dataTables"}>
-            <span className="p-input-icon-left bg-white">
-                <i className="pi pi-search" />
-                <InputText className='bg-white' value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search" />
-            </span>
-            <div className='flex space-x-3 items-center'>
-                <Button type="button" icon="pi pi-filter-slash" label="Clear" outlined onClick={clearFilter} />
+            <div className={"flex items-center justify-between dataTables search_field w-fit"}>
+                <span className="p-input-icon-left bg-white">
+                    <i className="pi pi-search" />
+                    <InputText className='bg-white search_input ' value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search" />
+
+                </span>
+                <svg onClick={clearFilter} className="w-7 h-7" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"><g id="Close"><rect id="Rectangle" fillRule="nonzero" x="0" y="0" width="24" height="24"></rect><line x1="16.9999" y1="7" x2="7.00001" y2="16.9999" id="Path" stroke="#6c757d" strokeWidth="1.5" strokeLinecap="round"></line><line x1="7.00006" y1="7" x2="17" y2="16.9999" id="Path" stroke="#6c757d" strokeWidth="1.5" strokeLinecap="round"></line></g></g></svg>
+                {/* <div className='flex space-x-3 items-center'>
+                    <Button type="button" icon="pi pi-filter-slash" label="Clear" outlined onClick={clearFilter} />
+                </div> */}
             </div>
-        </div>
         );
     };
     const headerf = renderHeader();
@@ -238,60 +240,60 @@ export default function CardList() {
                     <div className="pt-12 p-5 -mx-5">
                         {cards.length > 0 ?
 
-                        !listView ?
-                            <>
-                                {/* List View  */}
-                                <div className="">
-                                    <DataTable
-                                        scrollable={true}
-                                        value={cards}
-                                        selectionMode="single"
-                                        filters={filters}
-                                        globalFilterFields={['card_holder_name', 'card_number', 'card_bank_name']} 
-                                        header={headerf}
-                                        onSelectionChange={(col) => { localStorage.setItem("card_id", col.value.card_id); navigate("../cards/carddetails") }} paginator 
-                                        rows={5}
-                                    >
-                                        {columns.map((col, i) => (
+                            !listView ?
+                                <>
+                                    {/* List View  */}
+                                    <div className="">
+                                        <DataTable
+                                            scrollable={true}
+                                            value={cards}
+                                            selectionMode="single"
+                                            filters={filters}
+                                            globalFilterFields={['card_holder_name', 'card_number', 'card_bank_name']}
+                                            header={headerf}
+                                            onSelectionChange={(col) => { localStorage.setItem("card_id", col.value.card_id); navigate("../cards/carddetails") }} paginator
+                                            rows={5}
+                                        >
+                                            {columns.map((col, i) => (
 
-                                            <Column className="relative" key={col.field} field={col.field} header={col.header} />
+                                                <Column className="relative" key={col.field} field={col.field} header={col.header} />
 
-                                        ))}
-                                    </DataTable>
-                                </div>
-                            </>
-                            :
-                            <>
-                                {/* Card View  */}
-                                <div className="flex flex-wrap">
-                                    {cards.length > 0 ? cards.map((card) =>
-                                        <div className="relative w-full md:w-1/2 xl:w-1/3 cursor-pointer overflow-hidden sm:px-3 2xl:mb-4 mb-4" onClick={() => { localStorage.setItem("card_id", card.card_id); navigate("../cards/carddetails") }}>
-                                            <div className="bg-[#0F172A] rounded-2xl lg:rounded-[32px] overflow-hidden relative max-w-[412px] md:mr-auto mx-auto">
-                                                <img
-                                                    src={CardBg}
-                                                    alt="Credit card background"
-                                                    className="w-full h-full object-cover absolute inset-0 object-right"
-                                                />
-                                                <div className="px-5 py-7 md:p-10 relative z-10">
-                                                    <div className='flex items-center'>
+                                            ))}
+                                        </DataTable>
+                                    </div>
+                                </>
+                                :
+                                <>
+                                    {/* Card View  */}
+                                    <div className="flex flex-wrap">
+                                        {cards.length > 0 ? cards.map((card) =>
+                                            <div className="relative w-full md:w-1/2 xl:w-1/3 cursor-pointer overflow-hidden sm:px-3 2xl:mb-4 mb-4" onClick={() => { localStorage.setItem("card_id", card.card_id); navigate("../cards/carddetails") }}>
+                                                <div className="bg-[#0F172A] rounded-2xl lg:rounded-[32px] overflow-hidden relative max-w-[412px] md:mr-auto mx-auto">
+                                                    <img
+                                                        src={CardBg}
+                                                        alt="Credit card background"
+                                                        className="w-full h-full object-cover absolute inset-0 object-right"
+                                                    />
+                                                    <div className="px-5 py-7 md:p-10 relative z-10">
+                                                        <div className='flex items-center'>
 
-                                                        <span className="text-lg text-white font-semibold pr-3">
-                                                            {card.card_holder_name}
-                                                        </span>
-                                                        {/* <svg width="40" height="13" viewBox="0 0 40 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <span className="text-lg text-white font-semibold pr-3">
+                                                                {card.card_holder_name}
+                                                            </span>
+                                                            {/* <svg width="40" height="13" viewBox="0 0 40 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                             <path d="M37.0367 12.8124L36.6617 10.9277H32.4717L31.805 12.799L28.4467 12.8057C30.0455 8.94109 31.6477 5.07794 33.2533 1.21624C33.5267 0.561211 34.0117 0.227836 34.7267 0.231186C35.2733 0.236212 36.165 0.236211 37.4033 0.232861L40 12.8073L37.0367 12.8124ZM33.415 8.34613H36.115L35.1067 3.62191L33.415 8.34613ZM11.7667 0.22951L15.1433 0.232861L9.92333 12.814L6.505 12.8107C5.64541 9.48752 4.79652 6.16156 3.95833 2.83286C3.79167 2.16946 3.46167 1.70541 2.82667 1.48595C2.26167 1.28995 1.32 0.988402 0 0.577964V0.234537H5.395C6.32833 0.234537 6.87333 0.688531 7.04833 1.61997C7.225 2.55309 7.66833 4.92861 8.38167 8.74652L11.7667 0.22951ZM19.7833 0.232861L17.1133 12.8107L13.9 12.8073L16.5667 0.22951L19.7833 0.232861ZM26.3 0C27.2617 0 28.4733 0.301547 29.17 0.577964L28.6067 3.18634C27.9767 2.9317 26.94 2.58827 26.0683 2.6C24.8017 2.62178 24.0183 3.15619 24.0183 3.66882C24.0183 4.50309 25.3783 4.92358 26.7783 5.83492C28.3767 6.87358 28.5867 7.8067 28.5667 8.82023C28.545 10.9244 26.7783 13 23.0517 13C21.3517 12.9749 20.7383 12.8308 19.3517 12.3366L19.9383 9.6143C21.35 10.209 21.9483 10.3983 23.155 10.3983C24.26 10.3983 25.2083 9.94936 25.2167 9.16701C25.2233 8.61082 24.8833 8.33441 23.6433 7.64755C22.4033 6.95902 20.6633 6.0058 20.6867 4.09265C20.715 1.64343 23.0233 0 26.3017 0H26.3Z" fill="white" />
                                                         </svg> */}
-                                                    </div>
+                                                        </div>
 
-                                                    <div className="flex flex-col pt-3 lg:pt-6">
-                                                        <span className="text-[#94A3B8] text-sm lg:text-base font-normal">
-                                                            {card.card_bank_name}
-                                                        </span>
-                                                        <span className="text-white text-xl lg:text-2xl font-semibold">
-                                                            ********{card.card_number.toString().substr(-4)}
-                                                        </span>
-                                                    </div>
-                                                    <div className="flex items-center justify-between pt-3 lg:pt-6">
+                                                        <div className="flex flex-col pt-3 lg:pt-6">
+                                                            <span className="text-[#94A3B8] text-sm lg:text-base font-normal">
+                                                                {card.card_bank_name}
+                                                            </span>
+                                                            <span className="text-white text-xl lg:text-2xl font-semibold">
+                                                                ********{card.card_number.toString().substr(-4)}
+                                                            </span>
+                                                        </div>
+                                                        <div className="flex items-center justify-between pt-3 lg:pt-6">
                                                             <div className='flex flex-col'>
                                                                 <span className="text-[#94A3B8] text-sm lg:text-base leading-7 font-normal">
                                                                 </span>
@@ -307,36 +309,36 @@ export default function CardList() {
                                                                 </span>
                                                             </div>
                                                         </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    ) : <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                                        <div className="flex items-center justify-center flex-col">
-                                            <img src={creditCard} alt="Credit Card Images" className='w-full h-full object-cover' />
-                                            <span className="text-[#64748B] text-3xl font-normal pt-5">Please add your cards</span>
-                                        </div>
-                                    </div>}
+                                        ) : <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                                            <div className="flex items-center justify-center flex-col">
+                                                <img src={creditCard} alt="Credit Card Images" className='w-full h-full object-cover' />
+                                                <span className="text-[#64748B] text-3xl font-normal pt-5">No cards of users</span>
+                                            </div>
+                                        </div>}
+                                    </div>
+                                </>
+                            : <div className="flex items-center justify-center">
+                                <div className="flex items-center justify-center flex-col">
+                                    <img
+                                        src={creditCard}
+                                        alt="Credit Card Images"
+                                        className="w-full h-full object-cover"
+                                    />
+                                    <span className="text-[#64748B] text-3xl font-normal pt-5">
+                                        No cards of users
+                                    </span>
                                 </div>
-                            </>
-                        : <div className="flex items-center justify-center">
-                                        <div className="flex items-center justify-center flex-col">
-                                            <img
-                                                src={creditCard}
-                                                alt="Credit Card Images"
-                                                className="w-full h-full object-cover"
-                                            />
-                                            <span className="text-[#64748B] text-3xl font-normal pt-5">
-                                                Please add your cards
-                                            </span>
-                                        </div>
-                                    </div>}
-                        
+                            </div>}
+
 
                         {/* </div> */}
                     </div>
                     <Modal isOpen={dueAmountPop}>
-						<CardHolderDueAmount handleClose={setDueAmountPop} dueData={dueData} />
-					</Modal>
+                        <CardHolderDueAmount handleClose={setDueAmountPop} dueData={dueData} />
+                    </Modal>
                     <Modal isOpen={isPayPopUpOpen}>
                         <PaymentDetails handleClose={setIsPayPopUpOpen} payerData={payerData} />
                     </Modal>

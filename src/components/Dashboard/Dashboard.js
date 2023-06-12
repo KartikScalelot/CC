@@ -347,7 +347,7 @@ export default function Dashboard() {
         <div className="w-full md:w-1/2 xl:w-1/4 p-3 2xl:px-5">
           <div className="bg-[#FFF0E0] py-7 px-7 2xl::px-11 rounded-xl h-full">
             <h2 className="text-[#F6A351] mb-3">₹ {unpaidAmt}</h2>
-            <span className="text-[#64748B]  text-2xl:text-base xl font-semibold">
+            <span className="text-[# 64748B] text-base 2xl:text-xl font-semibold">
               Total Unpaid Profit Amount
             </span>
           </div>
@@ -356,7 +356,7 @@ export default function Dashboard() {
         <div className="w-full md:w-1/2 xl:w-1/4 p-3 2xl:px-5">
           <div className="bg-darkGreen bg-opacity-10 py-7 px-7 2xl::px-11 rounded-xl h-full">
             <h2 className="text-yankeesBlue mb-3">₹ {paidProfitAmt}</h2>
-            <span className="text-[#64748B]  text-2xl:text-base xl font-semibold">
+            <span className="text-[# 64748B] text-base 2xl:text-xl font-semibold">
               Total Received Profit Amount
             </span>
           </div>

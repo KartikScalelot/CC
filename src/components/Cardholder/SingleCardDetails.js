@@ -269,7 +269,9 @@ export default function SingleCardDetails() {
 									))}
 								</DataTable>
 							</div>
-							: "No Due Amount Found."}
+							: <div className="bg-[#F3F4F6] border border-[#CBD5E1] rounded-md text-center p-8 space-y-2 ng-star-inserted">
+							<h3 className="w-full text-[#64748B] text-2xl:text-base xl font-semibold">No payment request yet.</h3>
+						</div>}
 					</div>
 					<Modal isOpen={isPhotoViewPopUpOpen}>
 						<SinglePhotoView handleClose={setIsPhotoViewPopUpOpen} id2={id2} />

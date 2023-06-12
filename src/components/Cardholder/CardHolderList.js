@@ -220,7 +220,9 @@ function CardHolderList() {
 					onRowClicked={(row) => {localStorage.setItem("user_id", row.id); navigate('singlecardholderdetail')}}
 					/> */}
 					</div>
-					 : "No Card Holder Exist"
+					 : <div className="bg-[#F3F4F6] border border-[#CBD5E1] rounded-md text-center p-8 space-y-2 ng-star-inserted">
+					 <h3 className="w-full text-[#64748B] text-2xl:text-base xl font-semibold">You have no users yet.</h3>
+				 </div>
 					
 				}
 			</div>

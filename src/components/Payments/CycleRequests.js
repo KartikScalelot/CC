@@ -62,14 +62,16 @@ function CycleRequests({ paymentPaidData, setReloade }) {
 
     const renderHeader = () => {
         return (
-            <div className={"flex justify-between dataTables"}>
+            <div className={"flex items-center justify-between dataTables search_field w-fit"}>
                 <span className="p-input-icon-left bg-white">
                     <i className="pi pi-search" />
-                    <InputText className='bg-white' value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search" />
+                    <InputText className='bg-white search_input ' value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search" />
+
                 </span>
-                <div className='flex space-x-3 items-center'>
-                    <Button type="button" icon="pi pi-filter-slash" label="Clear" onClick={clearFilter} />
-                </div>
+                <svg onClick={clearFilter} className="w-7 h-7" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"><g id="Close"><rect id="Rectangle" fillRule="nonzero" x="0" y="0" width="24" height="24"></rect><line x1="16.9999" y1="7" x2="7.00001" y2="16.9999" id="Path" stroke="#6c757d" strokeWidth="1.5" strokeLinecap="round"></line><line x1="7.00006" y1="7" x2="17" y2="16.9999" id="Path" stroke="#6c757d" strokeWidth="1.5" strokeLinecap="round"></line></g></g></svg>
+                {/* <div className='flex space-x-3 items-center'>
+                    <Button type="button" icon="pi pi-filter-slash" label="Clear" outlined onClick={clearFilter} />
+                </div> */}
             </div>
         );
     };
@@ -165,7 +167,9 @@ function CycleRequests({ paymentPaidData, setReloade }) {
                             <Column key={col.field} field={col.field} header={col.header} />
                         ))}
                     </DataTable>
-                    : "No Payment Done."
+                    : <div className="bg-[#F3F4F6] border border-[#CBD5E1] rounded-md text-center p-8 space-y-2 ng-star-inserted">
+                        <h3 className="w-full text-[#64748B] text-2xl:text-base xl font-semibold">You have no cycle request yet.</h3>
+                    </div>
             }
             <Modal isOpen={isPayPopUpOpen}>
                 <PaymentDetails handleClose={setIsPayPopUpOpen} payerData={payerData} setReloade={setReloade} />

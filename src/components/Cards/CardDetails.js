@@ -140,8 +140,6 @@ export default function CardDetails() {
 									</span>
 								</div>
 							</div>
-						</div>
-						<div className="relative flex flex-wrap items-center- justify-start -mx-3 md:mb-[50px]">
 							<div className="w-full md:w-1/2 xl:w-1/4 p-3 2xl:px-5">
 								<div className="bg-white border border-[#CBD5E1] py-7 px-7 2xl::px-11 rounded-xl h-full">
 									<h2 className="text-yankeesBlue mb-3">{data.card_cvv}</h2>
@@ -159,6 +157,9 @@ export default function CardDetails() {
 								</div>
 							</div>
 						</div>
+						{/* <div className="relative flex flex-wrap items-center- justify-start -mx-3 md:mb-[50px]">
+							
+						</div> */}
 					</div>
 					<Modal isOpen={isPhotoViewPopUpOpen}>
 						<SinglePhotoView handleClose={setIsPhotoViewPopUpOpen} id2={id2} />

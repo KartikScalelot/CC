@@ -4,7 +4,7 @@
 
 :root{
   --dash1:#1D7C4D;
-  --dash2:#097C69;
+  --dash2:#8fb50b ;
   --dash3:#077597;
   --dash4:#D2E19E;
   --dash5:#8FB50B;
@@ -247,5 +247,15 @@ input[type=number]::-webkit-outer-spin-button {
 }
 /* .card table tr{ @apply my-5 block py-5}
 .card table tr td:first-child{ @apply bg-darkGreen rounded-tl-2xl rounded-bl-2xl} */
+a.SideLink.active svg path {
+  fill: #fff;
+} 
+.search_field{
+  border: 2px solid #eee !important;
+  padding-right: 8px;
+}
 
+.search_field .search_input{
+  border: none !important
+}
 @tailwind utilities;
