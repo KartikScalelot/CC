@@ -19,9 +19,10 @@ export default function AdminEditCard() {
     const [loading, setLoading] = useState(true);
     const card_id = localStorage.getItem("card_id");
     const [data, setData] = useState({});
-    const token = localStorage.getItem("Token");
+    const user = localStorage.getItem("user");
+  
     const header = {
-        'Authorization': `Bearer ${token}`,
+        'Authorization': `Bearer ${JSON.parse(user)?.token}`,
         'Content-Type': 'multipart/form-data'
     }
 

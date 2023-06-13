@@ -28,7 +28,6 @@ export default function Dashboard() {
 
   const [transaction, setTransaction] = useState([]);
 
-  const token = localStorage.getItem("Token");
   const [loading, setLoading] = useState(true);
   const [loading1, setLoading1] = useState(true);
   const [loading2, setLoading2] = useState(true);
@@ -43,7 +42,7 @@ export default function Dashboard() {
   const [totalPaid, setTotalPaid] = useState(0);
   const [unpaidAmt, setUnpaidAmt] = useState(0);
   const [month, setMonth] = useState(0);
-
+  
   const monthName = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   const dateNumber = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"];
   const months = [
@@ -72,7 +71,7 @@ export default function Dashboard() {
   let dailyChargePaid = [];
   let dailyTotalProfit = [];
   let dailyTotalPaid = [];
-
+  
   for (let i = 0; i <= 11; i++) {
     monthlyTransaction.push(calcMonthlyTransaction(first, i+1));
     monthlyTotalcharge.push(calcMonthlyTotalCharge(first, i+1));
@@ -89,10 +88,10 @@ export default function Dashboard() {
     dailyTotalPaid.push(calculateDailyTotalPaid(first, month+'-'+(i+1)+'-2023'));
   }
 
+  const user = localStorage.getItem("user");
   const header = {
-    Authorization: `Bearer ${token}`,
+    "Authorization": `Bearer ${JSON.parse(user)?.token}`,
   };
-
   // bar chart
   const getDashboardData = async () => {
     try {

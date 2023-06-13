@@ -51,7 +51,6 @@ export function calculateMonthlyTotalPaid(first, m) {
 }
 
 export function calculateDailyTotalPaid(first, d) {
-    console.log("f :", first);
     let totalPaid = 0;
     let day = new Date(d).getDate();
     let month = new Date(d).getMonth();

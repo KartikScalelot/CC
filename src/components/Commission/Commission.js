@@ -23,10 +23,10 @@ function Commission() {
     const [loading, setLoading] = useState(true);
     
     let totalEarningAmount = 0;
-    const token = localStorage.getItem("Token");
+    const user = localStorage.getItem("user");
     const header = {
-        'Authorization': `Bearer ${token}`,
-    }
+      Authorization: `Bearer ${JSON.parse(user)?.token}`,
+    };
     // localStorage.removeItem("card_id");
     // localStorage.removeItem("user_id");
     // localStorage.removeItem("request_id");

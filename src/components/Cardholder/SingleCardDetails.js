@@ -16,7 +16,6 @@ export default function SingleCardDetails() {
 	// const { state } = useLocation();
 	// const { data } = state;
 	const [data, setData] = useState({});
-	const token = localStorage.getItem("Token");
 	const navigate = useNavigate();
 	const user_id = localStorage.getItem("user_id");
 	const card_id = localStorage.getItem("card_id");
@@ -28,9 +27,10 @@ export default function SingleCardDetails() {
 	const [payerData, setPayerData] = useState({});
 	const [id2, setId2] = useState({});
 	let totalDueAmount = 0;
-	const header = {
-		Authorization: `Bearer ${token}`,
-	};
+	const user = localStorage.getItem("user");
+  const header = {
+    Authorization: `Bearer ${JSON.parse(user)?.token}`,
+  };
 	const getRequestDeails = async () => {
 		try {
 			const response = await axios.get(

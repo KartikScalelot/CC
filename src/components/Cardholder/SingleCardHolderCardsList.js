@@ -25,13 +25,12 @@ export default function SingleCardHolderCardsList() {
     const [dueData, setDueData] = useState({});
     // const [userDueAmount, setUserDueAmount] = useState({});
     const navigate = useNavigate();
-    const token = localStorage.getItem("Token");
     const user_id = localStorage.getItem("user_id");
     localStorage.removeItem("card_id");
-    const header = {
-        'Authorization': `Bearer ${token}`,
-    }
-
+    const user = localStorage.getItem("user");
+  const header = {
+    Authorization: `Bearer ${JSON.parse(user)?.token}`,
+  };
     const [cards, setCards] = useState([]);
     const getUserProfile = async () => {
         try {

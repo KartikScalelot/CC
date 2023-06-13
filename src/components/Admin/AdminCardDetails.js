@@ -14,7 +14,7 @@ export default function AdminCardDetails() {
 	const [data, setData] = useState({});
 	const [id2, setId2] = useState();
 
-	const token = localStorage.getItem("Token");
+	const user = localStorage.getItem("user");
 	const navigate = useNavigate();
 	const [isPhotoViewPopUpOpen, setIsPhotoViewPopUpOpen] = useState(false);
 
@@ -22,7 +22,7 @@ export default function AdminCardDetails() {
 	const [loading, setLoading] = useState(true);
 
 	const header = {
-		'Authorization': `Bearer ${token}`,
+		'Authorization': `Bearer ${JSON.parse(user)?.token}`,
 	}
 
 	const getCardDetails = async () => {

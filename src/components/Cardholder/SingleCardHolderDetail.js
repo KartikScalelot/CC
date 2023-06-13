@@ -13,7 +13,6 @@ import UserReject from '../Admin/Popup/UserReject';
 
 function SingleCardHolderDetail({ handleClose, details }) {
 
-	const token = localStorage.getItem("Token");
 	// const { state } = useLocation();
 	// const { data } = state;
 	const [loading, setLoading] = useState(true);
@@ -25,9 +24,9 @@ function SingleCardHolderDetail({ handleClose, details }) {
 	const [isPhotoViewPopUpOpen, setIsPhotoViewPopUpOpen] = useState(false);
 	const [isVerifiedPopUpOpen, setIsVerifiedPopUpOpen] = useState(false);
 	const [isRejectPopUpOpen, setIsRejectPopUpOpen] = useState(false);
-
+	
 	const [data, setData] = useState({});
-
+	
 	const initalState = {
 		first_name: "",
 		last_name: "",
@@ -40,9 +39,10 @@ function SingleCardHolderDetail({ handleClose, details }) {
 		// profile_pic: ""
 	}
 
-	const header = {
-		'Authorization': `Bearer ${token}`,
-	}
+	const user = localStorage.getItem("user");
+  const header = {
+    Authorization: `Bearer ${JSON.parse(user)?.token}`,
+  };
 
 	const getUserProfile = async () => {
 		try {

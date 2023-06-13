@@ -7,9 +7,9 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 function AdminCards() {
-  const token = localStorage.getItem("Token");
+  const user = localStorage.getItem("user");
   const header = {
-    Authorization: `Bearer ${token}`,
+    Authorization: `Bearer ${JSON.parse(user)?.token}`,
   };
 
   const [accountDetails, setAccountDetails] = useState({});

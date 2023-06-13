@@ -11,9 +11,9 @@ function CreateAccount() {
 	const navigate = useNavigate();
 	// const dispatch = useDispatch();
 
-	const token = localStorage.getItem("Token");
-	const header = {
-		'Authorization': `Bearer ${token}`,
+	const user = localStorage.getItem("user");
+  const header = {
+		'Authorization': `Bearer ${JSON.parse(user)?.token}`,
 		'Content-Type': 'multipart/form-data'
 	}
 	const [loading, setLoading] = useState(false);

@@ -13,15 +13,15 @@ import { Button } from 'primereact/button';
 
 export default function TransactionHistory() {
     const [transaction, setTransaction] = useState([]);
-    const token = localStorage.getItem("Token");
     const [loading, setLoading] = useState(true);
     localStorage.removeItem("card_id");
     localStorage.removeItem("user_id");
     localStorage.removeItem("request_id");
-
-    const header = {
-        'Authorization': `Bearer ${token}`,
-    }
+    
+    const user = localStorage.getItem("user");
+  const header = {
+    Authorization: `Bearer ${JSON.parse(user)?.token}`,
+  };
     const getTransactions = async () => {
         try {
             const response = await axios.get(`${baseurl}/api/transaction/all-payment-record-list`, { headers: header });

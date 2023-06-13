@@ -15,11 +15,11 @@ function DepositPaymentDetails({ handleClose, payerData, setReloade }) {
     const navigate = useNavigate();
     // const dispatch = useDispatch();
 
-    const token = localStorage.getItem("Token");
+    
+    const user = localStorage.getItem("user");
     const header = {
-        'Authorization': `Bearer ${token}`,
-        // 'Content-Type': 'multipart/form-data'
-    }
+      Authorization: `Bearer ${JSON.parse(user)?.token}`,
+    };
     const [paymentRecord, setPaymentRecord] = useState([]);
     // const [sumOfAmount, setSumOfAmount] = useState(0);
     // let sumOfAmount = 0;

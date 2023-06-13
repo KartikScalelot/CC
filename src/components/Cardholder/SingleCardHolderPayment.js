@@ -17,14 +17,14 @@ export default function SingleCardHolderPayment() {
     const [userData, setUserData] = useState({});
 
     const [transaction, setTransaction] = useState([]);
-    const token = localStorage.getItem("Token");
     const user_id = localStorage.getItem("user_id");
     const [loading2, setLoading2] = useState(true);
     const [loading1, setLoading1] = useState(true);
-
+    
+    const user = localStorage.getItem("user");
     const header = {
-        'Authorization': `Bearer ${token}`,
-    }
+      Authorization: `Bearer ${JSON.parse(user)?.token}`,
+    };
     const getUserProfile = async () => {
         try {
             const response = await axios.get(`${baseurl}/api/user/user-list?id=${user_id}`, { headers: header });

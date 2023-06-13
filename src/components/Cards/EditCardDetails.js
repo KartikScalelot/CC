@@ -20,11 +20,10 @@ export default function EditCardDetails() {
     const user_id = localStorage.getItem("user_id");
     const card_id = localStorage.getItem("card_id");
     const [data, setData] = useState({});
-    const token = localStorage.getItem("Token");
-    const header = {
-        'Authorization': `Bearer ${token}`,
-    }
-
+    const user = localStorage.getItem("user");
+  const header = {
+    Authorization: `Bearer ${JSON.parse(user)?.token}`,
+  };
     const initialState = {
         card_id: data.card_id,
         user_id: data.id,

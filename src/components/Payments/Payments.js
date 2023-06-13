@@ -25,13 +25,13 @@ function Payments() {
     const [tab, setTab] = useState(location?.state?.paymentMethod ? (location?.state?.paymentMethod === "Deposit" ? 1 : 
     location?.state?.paymentMethod === "Cycle" ? 2 : 3) : 1
     );
-    const token = localStorage.getItem("Token");
     localStorage.removeItem("card_id");
     localStorage.removeItem("user_id");
     localStorage.removeItem("request_id");
-    const header = {
-        'Authorization': `Bearer ${token}`,
-    }
+    const user = localStorage.getItem("user");
+  const header = {
+    Authorization: `Bearer ${JSON.parse(user)?.token}`,
+  };
     const getPaymentRequests = async () => {
         try {
             const response = await axios.get(`${baseurl}/api/paymentRequest/payment-request-list`, { headers: header });

@@ -23,11 +23,11 @@ function WithdrawRequests({ WithdrawData }) {
 	const [payerData, setPayerData] = useState({});
 	let totalDueAmount = 0;
 
-	const token = localStorage.getItem("Token");
 	localStorage.removeItem("card_id");
-	const header = {
-		'Authorization': `Bearer ${token}`,
-	}
+	const user = localStorage.getItem("user");
+  const header = {
+    Authorization: `Bearer ${JSON.parse(user)?.token}`,
+  };
 	const getPaymentRequests = () => {
 		setWithdrawRequest(WithdrawData.filter((request) => (request.payment_status === false) && request.payment_method === "Withdraw"));
 		

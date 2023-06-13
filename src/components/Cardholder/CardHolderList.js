@@ -28,11 +28,10 @@ function CardHolderList() {
 	const [loading, setLoading] = useState(true);
 	const [oneUser, setOneUser] = useState({});
 	const [isSingleUserPopUpOpen, setIsSingleUserPopUpOpen] = useState(false);
-	const token = localStorage.getItem("Token");
 	const [cardHolders, setCardHolders] = useState([]);
 	const [isPhotoViewPopUpOpen, setIsPhotoViewPopUpOpen] = useState(false);
 	const [id, setId] = useState();
-	const user = localStorage.getItem("Token");
+	// const user = localStorage.getItem("user");
 	const [update, setUpdate] = useState(false);
 	const navigate = useNavigate();
 	localStorage.removeItem("user_id");
@@ -40,11 +39,12 @@ function CardHolderList() {
 	localStorage.removeItem("request_id");
 
 	// useEffect(() => {
-	//     productService.getProductsSmall().then(data => setProducts(data));
-	// }, []); // eslint-disable-line react-hooks/exhaustive-deps
-	const header = {
-		'Authorization': `Bearer ${user}`
-	}
+		//     productService.getProductsSmall().then(data => setProducts(data));
+		// }, []); // eslint-disable-line react-hooks/exhaustive-deps
+		const user = localStorage.getItem("user");
+		const header = {
+		  Authorization: `Bearer ${JSON.parse(user)?.token}`,
+		};
 	const getCardHolderList = async () => {
 		try {
 			const response = await axios.get(`${baseurl}/api/user/user-list`, { headers: header });

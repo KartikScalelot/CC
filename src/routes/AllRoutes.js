@@ -10,8 +10,8 @@ import VerifyReset from '../components/auth/VerifyReset';
 import RequireAuth from '../components/auth/RequireAuth'
 import Dashboard from '../components/Dashboard/Dashboard';
 function AllRoutes() {
-    const token = localStorage.getItem("Token")
-
+    const user = localStorage.getItem("user")
+    const token = JSON.parse(user)?.token;
     return (
         <Routes className="main min-h-screen h-ful w-full">
             <Route path='/' >
@@ -32,7 +32,7 @@ function AllRoutes() {
                 {/* </Route> */}
                 {/* <Route element={<RequireAuth />}> */}
 
-                <Route path="/*" element={<SideBar />} />
+                <Route path="/*" element={token && token !== "" ? <SideBar /> : <Login />} />
                 {/* </Route> */}
                 <Route path="*"
                     element={<h1 style={{ color: "red", margin: "50px" }}>

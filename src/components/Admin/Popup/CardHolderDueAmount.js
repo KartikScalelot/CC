@@ -10,11 +10,11 @@ import { useNavigate } from 'react-router-dom';
 import moment from 'moment/moment';
 function CardHolderDueAmount({ handleClose, dueData }) {
     const [loading, setLoading] = useState(false);
-    const token = localStorage.getItem("Token");
     const navigate = useNavigate();
-    const header = {
-        'Authorization': `Bearer ${token}`,
-    }
+    const user = localStorage.getItem("user");
+  const header = {
+    Authorization: `Bearer ${JSON.parse(user)?.token}`,
+  };
 
     let minDateValue = new Date(new Date().setDate(new Date().getDate() + 1));
 

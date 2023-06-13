@@ -17,10 +17,11 @@ function AdminDebitCards({ list }) {
   let totalAvailableBalance = 0;
   const [loading, setLoading] = useState(true);
 
-  const token = localStorage.getItem("Token");
+  
 
+  const user = localStorage.getItem("user");
   const header = {
-    Authorization: `Bearer ${token}`,
+    Authorization: `Bearer ${JSON.parse(user)?.token}`,
   };
 
   const getDebitCards = async () => {

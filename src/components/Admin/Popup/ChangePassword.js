@@ -7,14 +7,14 @@ function ChangePassword({ handleClose }) {
 
     const [userData, setUserData] = useState({ old_password: "", password: "", password2: "" });
     const [error, setError] = useState(false);
-    const token = localStorage.getItem("Token");
-
+    
     const setFormField = (field, value) => {
         setUserData({ ...userData, [field]: value })
     }
-    const header = {
-        'Authorization': `Bearer ${token}`,
-    }
+    const user = localStorage.getItem("user");
+  const header = {
+    Authorization: `Bearer ${JSON.parse(user)?.token}`,
+  };
     const handleSubmit = async (e) => {
         e.preventDefault();
 

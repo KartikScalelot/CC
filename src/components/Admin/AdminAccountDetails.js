@@ -12,14 +12,14 @@ import { ProgressSpinner } from 'primereact/progressspinner';
 
 function AdminAccountDetails() {
     const [changePassword, setChangePassword] = useState(false);
-    const token = localStorage.getItem("Token");
+    const user = localStorage.getItem("user");
     const [details, setDetails] = useState({});
     const [profileImage, setProfileImage] = useState(null);
     const [isDisable, setIsDisable] = useState(true);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     const header = {
-        'Authorization': `Bearer ${token}`,
+        'Authorization': `Bearer ${JSON.parse(user)?.token}`,
     }
 
     const initalState = {

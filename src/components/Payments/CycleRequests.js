@@ -22,11 +22,12 @@ function CycleRequests({ paymentPaidData, setReloade }) {
     const [payerData, setPayerData] = useState({});
     const [isPayPopUpOpen, setIsPayPopUpOpen] = useState(false);
 
-    const token = localStorage.getItem("Token");
+    
 
-    const header = {
-        'Authorization': `Bearer ${token}`,
-    }
+    const user = localStorage.getItem("user");
+  const header = {
+    Authorization: `Bearer ${JSON.parse(user)?.token}`,
+  };
     const getPaymentRequests = async () => {
         setPaymentPaid(paymentPaidData.filter((request) => (request.payment_status === false) && request.payment_method === "Cycle"));
         setLoading(false);

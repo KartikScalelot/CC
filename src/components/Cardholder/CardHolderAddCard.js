@@ -17,10 +17,11 @@ export default function CardHolderAddCard() {
     // const { data } = state;
   
     const user_id = localStorage.getItem("user_id");
-    const token = localStorage.getItem("Token");
+    const user = localStorage.getItem("user");
+    
     const [loading, setLoading] = useState(false);
     const header = {
-        'Authorization': `Bearer ${token}`,
+        'Authorization': `Bearer ${JSON.parse(user)?.token}`,
         'Content-Type': 'multipart/form-data'
     }
 

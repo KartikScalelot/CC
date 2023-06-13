@@ -11,11 +11,11 @@ function SingleUserCommissionDetails() {
 
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
-    const token = localStorage.getItem("Token");
     const transaction_id = localStorage.getItem("transaction_id");
-    const header = {
-        'Authorization': `Bearer ${token}`,
-    }
+    const user = localStorage.getItem("user");
+  const header = {
+    Authorization: `Bearer ${JSON.parse(user)?.token}`,
+  };
 
     const [userCommission, setUserCommission] = useState([]);
 

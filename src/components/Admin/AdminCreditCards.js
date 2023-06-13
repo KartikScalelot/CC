@@ -24,11 +24,11 @@ function AdminCreditCards({ list }) {
   const [loading, setLoading] = useState(true);
 	const [update, setUpdate] = useState(false);
 
-  const token = localStorage.getItem("Token");
-  localStorage.removeItem("card_id");
+  const user = localStorage.getItem("user");
   const header = {
-    Authorization: `Bearer ${token}`,
+    Authorization: `Bearer ${JSON.parse(user)?.token}`,
   };
+  localStorage.removeItem("card_id");
 
   const getCreditCards = async () => {
     try {

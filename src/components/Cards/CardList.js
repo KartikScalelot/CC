@@ -32,10 +32,10 @@ export default function CardList() {
     localStorage.removeItem("card_id");
     localStorage.removeItem("user_id");
     localStorage.removeItem("request_id");
-    const token = localStorage.getItem("Token");
-    const header = {
-        'Authorization': `Bearer ${token}`,
-    }
+    const user = localStorage.getItem("user");
+  const header = {
+    'Authorization': `Bearer ${JSON.parse(user)?.token}`,
+  };
 
     const [cards, setCards] = useState([]);
 

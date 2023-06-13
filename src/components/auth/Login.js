@@ -14,17 +14,43 @@ const Login = () => {
     const navigate = useNavigate()
     const loading = useSelector(state => state.authState.loading)
     const userData = useSelector(state => state.authState.userData)
-
+    console.log(userData);
     const setFormField = (field, value) => {
         setUserData({ ...userData, [field]: value })
     }
 
+    const verify = () => {
+        const itemStr = localStorage.getItem("user")
+
+        // if the item doesn't exist, return null
+        if (!itemStr) {
+            return null
+        }
+
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+
+        // compare the expiry time of the item with the current time
+        if (now.getDate() > item.expiry) {
+            // If the item is expired, delete the item from storage
+            // and return null
+            console.log("expire");
+            localStorage.removeItem("user")
+            // localStorage.removeItem("isLoggedIn")
+            return null
+        }
+        navigate("/dashboard");
+        // return item.value
+    }
+    
     useEffect(() => {
         setLoading(false)
-        const token = localStorage.getItem("Token");
-        if (token && token !== "") {
-            navigate("/dashboard");
-        }
+        verify();
+        // const isLoggedIn = localStorage.getItem("isLoggedIn");
+        // if (isLoggedIn && isLoggedIn !== "") {
+        //     navigate("/dashboard");
+        // }
     }, []);
 
     return (
@@ -56,11 +82,11 @@ const Login = () => {
                                     <input type="Password" name="Password" placeholder='Enter your password' className="input_box placeholder:text-[#94A3B8] placeholder:text-base" value={userData.password} onChange={(e) => { setFormField('password', e.target.value) }} required />
                                 </div>
                                 <div className="flex items-center justify-between">
-                                    <div className="flex items-center">
+                                    {/* <div className="flex items-center">
                                         <label className="checkbox w-5 mr-2"><input type="checkbox" className="bg-white" /><i className="icon-right"></i></label>
                                         <span className="text-sm leading-5 text-yankeesBlue font-bold">Remember for 30 Days</span>
-                                    </div>
-                                    <Link to="../forgotpassword" className="text-yankeesBlue font-bold text-xs md:text-sm block text-right">Forgot password</Link>
+                                    </div> */}
+                                    <Link to="../forgotpassword" className="text-yankeesBlue font-bold text-xs md:text-sm block text-right">Forgot password ?</Link>
                                 </div>
                                 {loading ?
                                     <button type="button" className="flex items-center justify-center btn-primary w-full py-[15px] capitalize text-base leading-7 font-extrabold group cursor-not-allowed" disabled="">

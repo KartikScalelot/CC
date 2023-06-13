@@ -16,10 +16,11 @@ function AdminWallet() {
     const [tab, setTab] = useState(1);
     const [listView, setListView] = useState(false);
     const navigate = useNavigate();
-    const token = localStorage.getItem("Token");
-    const header = {
-        'Authorization': `Bearer ${token}`,
-    }
+    
+    const user = localStorage.getItem("user");
+  const header = {
+    Authorization: `Bearer ${JSON.parse(user)?.token}`,
+  };
 
     const [accountDetails, setAccountDetails] = useState({});
     const [cards, setCards] = useState([]);

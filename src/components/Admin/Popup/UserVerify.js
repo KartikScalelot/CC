@@ -10,12 +10,11 @@ function UserVerify({ handleClose }) {
 
 	// const dispatch = useDispatch();
 
-	const token = localStorage.getItem("Token");
 	const user_id = localStorage.getItem("user_id");
-	const header = {
-		'Authorization': `Bearer ${token}`,
-		// 'Content-Type': 'multipart/form-data'
-	}
+	const user = localStorage.getItem("user");
+  const header = {
+    Authorization: `Bearer ${JSON.parse(user)?.token}`,
+  };
 
 	const initialState = {
 		user_id: user_id,

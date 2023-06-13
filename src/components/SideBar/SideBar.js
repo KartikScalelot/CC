@@ -43,11 +43,11 @@ import { iconFunction } from "../../common/Icons/Icon";
 
 function SideBar() {
   const navigate = useNavigate();
-  const token = localStorage.getItem("Token");
+  const user = localStorage.getItem("user");
   const [details, setDetails] = useState({});
   const [navbarOpen, setNavbarOpen] = useState(false);
   const header = {
-    Authorization: `Bearer ${token}`,
+    Authorization: `Bearer ${JSON.parse(user)?.token}`,
   };
 
   const location = useLocation();
@@ -97,6 +97,8 @@ function SideBar() {
 
   const logout = () => {
     navigate("./");
+    localStorage.removeItem("user");
+    // localStorage.removeItem("isLoggedIn");
     localStorage.clear();
   };
 

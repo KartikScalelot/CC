@@ -10,13 +10,13 @@ function Summary({ handleClose, paymentRecord }) {
     let TotalsAmounts = 0;
     const sumAllTotals = paymentRecord.map((sum, i) => { TotalsAmounts += sum.total_amount })
 
-    const token = localStorage.getItem("Token");
     console.log(paymentRecord[0]?.payment_request?.request_id);
     const requestId = paymentRecord[0]?.payment_request?.request_id;
     console.log("rec : ", paymentRecord);
+    const user = localStorage.getItem("user");
     const header = {
-        'Authorization': `Bearer ${token}`,
-    }
+      Authorization: `Bearer ${JSON.parse(user)?.token}`,
+    };
     const getInvoice = async () => {
         const response = await axios.get(`${baseurl}/api/transaction/pdf?request_id=${requestId}`, { headers: header });
         const invoiceURL = window.URL.createObjectURL(new Blob([response.data]));

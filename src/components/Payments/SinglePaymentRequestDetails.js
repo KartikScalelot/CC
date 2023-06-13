@@ -15,11 +15,11 @@ function SinglePaymentRequestDetails() {
     const [loading, setLoading] = useState(true);
     const [isPayPopUpOpen, setIsPayPopUpOpen] = useState(false);
 
-    const token = localStorage.getItem("Token");
     const request_id = localStorage.getItem("request_id");
+    const user = localStorage.getItem("user");
     const header = {
-        'Authorization': `Bearer ${token}`,
-    }
+      Authorization: `Bearer ${JSON.parse(user)?.token}`,
+    };
 
     const [card, setCard] = useState([]);
 
