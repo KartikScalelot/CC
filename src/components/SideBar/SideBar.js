@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Link, NavLink, Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import {
+  Link,
+  NavLink,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import Logo from "../../assets/images/logo.png";
 import HelpIcon from "../../assets/svg/help.svg";
 import LogoutIcon from "../../assets/svg/logout.svg";
@@ -91,9 +98,9 @@ function SideBar() {
     }, 200);
   };
 
-  useEffect(() => {
-    getCardDetails();
-  }, []);
+  // useEffect(() => {
+  //   getCardDetails();
+  // }, []);
 
   const logout = () => {
     navigate("./");
@@ -210,7 +217,7 @@ function SideBar() {
                 <path d="M15.24 7.93327C14.865 7.82494 14.4733 7.7666 14.065 7.7666H5.93167C5.365 7.7666 4.83167 7.87494 4.33167 8.0916C3.60009 8.40632 2.97667 8.92835 2.53833 9.59326C2.09999 10.2582 1.86592 11.0369 1.865 11.8333V13.4583C1.865 13.6583 1.88167 13.8499 1.90667 14.0499C2.09 16.6999 3.50667 18.1166 6.15667 18.2916C6.34833 18.3166 6.54 18.3333 6.74833 18.3333H13.2483C16.3317 18.3333 17.9567 16.8666 18.115 13.9499C18.1233 13.7916 18.1317 13.6249 18.1317 13.4583V11.8333C18.1305 10.9593 17.8489 10.1088 17.3284 9.40683C16.8079 8.70481 16.0759 8.18831 15.24 7.93327ZM11.065 12.9166C11.4483 13.0499 11.965 13.3333 11.965 14.2166C11.965 14.9749 11.3733 15.5833 10.64 15.5833H10.4317V15.7666C10.4317 16.0083 10.24 16.1999 9.99833 16.1999C9.75667 16.1999 9.565 16.0083 9.565 15.7666V15.5833H9.49C8.69 15.5833 8.03167 14.9083 8.03167 14.0749C8.03167 13.8333 8.22333 13.6416 8.465 13.6416C8.70667 13.6416 8.89834 13.8333 8.89834 14.0749C8.89834 14.4249 9.165 14.7166 9.49 14.7166H9.565V13.3083L8.93167 13.0833C8.54834 12.9499 8.03167 12.6666 8.03167 11.7833C8.03167 11.0249 8.62333 10.4166 9.35667 10.4166H9.565V10.2333C9.565 9.9916 9.75667 9.79994 9.99833 9.79994C10.24 9.79994 10.4317 9.9916 10.4317 10.2333V10.4166H10.5067C11.3067 10.4166 11.965 11.0916 11.965 11.9249C11.965 12.1666 11.7733 12.3583 11.5317 12.3583C11.29 12.3583 11.0983 12.1666 11.0983 11.9249C11.0983 11.5749 10.8317 11.2833 10.5067 11.2833H10.4317V12.6916L11.065 12.9166Z" fill="#94A3B8" />
                 <path d="M8.9 11.7834C8.9 12.1334 9 12.1834 9.21667 12.2668L9.56667 12.3918V11.2834H9.35833C9.1 11.2834 8.9 11.5084 8.9 11.7834Z" />
               </svg> */}
-            {iconFunction("payments")}
+              {iconFunction("payments")}
               <span className="text-sm font-bold leading-5 pl-[13px]">
                 Payments
               </span>
@@ -232,7 +239,7 @@ function SideBar() {
               className="SideLink flex items-center rounded-lg px-[18px] py-4 text-lightGray"
             >
               {/* <img src={CommissionIcon} alt="DashboardIcon" /> */}
-             {iconFunction("profit")}
+              {iconFunction("profit")}
               <span className="text-sm font-bold leading-5 pl-[13px]">
                 Profit
               </span>
@@ -596,7 +603,10 @@ function SideBar() {
         {/* <!-- Content In --> */}
         <div className="rightInContent">
           <Routes>
-            <Route path="adminaccountdetails" element={<AdminAccountDetails />} />
+            <Route
+              path="adminaccountdetails"
+              element={<AdminAccountDetails />}
+            />
             <Route path="adminwallet" element={<AdminWallet />} />
             <Route path="adminaddcard" element={<AdminAddCard />} />
             <Route path="admincards" element={<AdminCards />} />
@@ -609,17 +619,31 @@ function SideBar() {
               <Route index element={<CardList />} />
               <Route path="carddetails" element={<CardDetails />} />
               <Route path="editcarddetails" element={<EditCardDetails />} />
+              <Route path="addcardholdercard" element={<CardHolderAddCard />} />
             </Route>
             <Route path="cardholder">
               <Route index element={<CardHolderList />} />
               <Route path="createaccount" element={<CreateAccount />} />
-              <Route path="singlecardholderdetail" element={<SingleCardHolderDetail />} />
-              <Route path="singlecardholdercardlist" element={<SingleCardHolderCardsList />} />
+              <Route
+                path="singlecardholderdetail"
+                element={<SingleCardHolderDetail />}
+              />
+              <Route
+                path="singlecardholdercardlist"
+                element={<SingleCardHolderCardsList />}
+              />
               <Route path="singlecarddetails" element={<SingleCardDetails />} />
-              <Route path="addcardholdercard" element={<CardHolderAddCard />} />
-              <Route path="editcardholdercard" element={<CardHolderEditCard />} />
-              <Route path="singlecardholderpayment" element={<SingleCardHolderPayment />} />
+
+              <Route
+                path="editcardholdercard"
+                element={<CardHolderEditCard />}
+              />
+              <Route
+                path="singlecardholderpayment"
+                element={<SingleCardHolderPayment />}
+              />
             </Route>
+
             <Route path="transaction">
               <Route index element={<TransactionHistory />} />
             </Route>
@@ -628,14 +652,29 @@ function SideBar() {
             </Route>
             <Route path="payment">
               <Route index element={<Payments />} />
-              <Route path="singlepaymentrequestdetails" element={<SinglePaymentRequestDetails />} />
-              <Route path="singlepaymentpaiddetails" element={<SinglePaymentPaidDetails />} />
+              <Route
+                path="singlepaymentrequestdetails"
+                element={<SinglePaymentRequestDetails />}
+              />
+              <Route
+                path="singlepaymentpaiddetails"
+                element={<SinglePaymentPaidDetails />}
+              />
             </Route>
             <Route path="commission">
               <Route index element={<Commission />} />
-              <Route path="commissionpaidhistory" element={<CommissionPaidHistory />} />
-              <Route path="commissionunpaidhistory" element={<CommissionUnpaidHistory />} />
-              <Route path="singleusercommissiondetails" element={<SingleUserCommissionDetails />} />
+              <Route
+                path="commissionpaidhistory"
+                element={<CommissionPaidHistory />}
+              />
+              <Route
+                path="commissionunpaidhistory"
+                element={<CommissionUnpaidHistory />}
+              />
+              <Route
+                path="singleusercommissiondetails"
+                element={<SingleUserCommissionDetails />}
+              />
             </Route>
           </Routes>
         </div>

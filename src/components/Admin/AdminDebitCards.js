@@ -17,7 +17,7 @@ function AdminDebitCards({ list }) {
   let totalAvailableBalance = 0;
   const [loading, setLoading] = useState(true);
 
-  
+
 
   const user = localStorage.getItem("user");
   const header = {

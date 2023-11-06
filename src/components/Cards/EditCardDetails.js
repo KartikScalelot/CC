@@ -15,15 +15,15 @@ export default function EditCardDetails() {
     // const dispatch = useDispatch();
     // const { state } = useLocation();
     // const { data } = state;
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [loading2, setLoading2] = useState(false);
     const user_id = localStorage.getItem("user_id");
     const card_id = localStorage.getItem("card_id");
     const [data, setData] = useState({});
     const user = localStorage.getItem("user");
-  const header = {
-    Authorization: `Bearer ${JSON.parse(user)?.token}`,
-  };
+    const header = {
+        Authorization: `Bearer ${JSON.parse(user)?.token}`,
+    };
     const initialState = {
         card_id: data.card_id,
         user_id: data.id,
@@ -44,7 +44,7 @@ export default function EditCardDetails() {
         card_network: Yup.string().required('Card network is required*'),
         card_bank_name: Yup.string().required('Bank name is required*'),
         card_category: Yup.string().required('Card category is required*'),
-        card_number: Yup.string().test('len', 'Must be exactly 12 characters', val => val.length === 12).required('Card number is required*'),
+        card_number: Yup.string().test('len', 'Must be exactly 12 characters', val => val.length === 16).required('Card number is required*'),
         card_holder_name: Yup.string().required('Card holder name is required*'),
         // card_photo: Yup.string().required('Card photo is required*'),
         frontside_card_photo: Yup.string().required('Card photo is required*'),

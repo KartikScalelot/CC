@@ -13,15 +13,15 @@ import { Button } from 'primereact/button';
 
 export default function TransactionHistory() {
     const [transaction, setTransaction] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     localStorage.removeItem("card_id");
     localStorage.removeItem("user_id");
     localStorage.removeItem("request_id");
-    
+
     const user = localStorage.getItem("user");
-  const header = {
-    Authorization: `Bearer ${JSON.parse(user)?.token}`,
-  };
+    const header = {
+        Authorization: `Bearer ${JSON.parse(user)?.token}`,
+    };
     const getTransactions = async () => {
         try {
             const response = await axios.get(`${baseurl}/api/transaction/all-payment-record-list`, { headers: header });
@@ -205,8 +205,8 @@ export default function TransactionHistory() {
                         ))}
                     </DataTable>
                     : <div className="bg-[#F3F4F6] border border-[#CBD5E1] rounded-md text-center p-8 space-y-2 ng-star-inserted">
-                    <h3 className="w-full text-[#64748B] text-2xl:text-base xl font-semibold">You have not done any transaction yet.</h3>
-                </div>
+                        <h3 className="w-full text-[#64748B] text-2xl:text-base xl font-semibold">You have not done any transaction yet.</h3>
+                    </div>
             }
             <ToastContainer
                 position="bottom-right"

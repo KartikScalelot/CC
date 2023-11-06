@@ -20,7 +20,7 @@ function Commission() {
     
     const [unpaidProfitAmt, setUnpaidProfitAmt] = useState(0);
     const [paidProfitAmt, setPaidProfitAmt] = useState(0);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     
     let totalEarningAmount = 0;
     const user = localStorage.getItem("user");

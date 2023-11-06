@@ -9,14 +9,18 @@ import SideBar from '../components/SideBar/SideBar';
 import VerifyReset from '../components/auth/VerifyReset';
 import RequireAuth from '../components/auth/RequireAuth'
 import Dashboard from '../components/Dashboard/Dashboard';
+
 function AllRoutes() {
     const user = localStorage.getItem("user")
+    console.log('user', user)
     const token = JSON.parse(user)?.token;
+    console.log('token', token)
+
+
     return (
         <Routes className="main min-h-screen h-ful w-full">
             <Route path='/' >
                 {/* <Route index element={<Login />} /> */}
-
                 {/* <Route path='auth'> */}
                 {/* {token ?   */}
                 {/* <Route index element={<SideBar />} />  */}

@@ -16,7 +16,7 @@ import CardHolderDueAmount from '../Admin/Popup/CardHolderDueAmount'
 export default function SingleCardHolderCardsList() {
     // const { state } = useLocation();
     // const { data } = state;
-    const [loading1, setLoading1] = useState(true);
+    const [loading1, setLoading1] = useState(false);
     const [dueAmountPop, setDueAmountPop] = useState(false);
     const [loading2, setLoading2] = useState(true);
     const [listCards, setListCards] = useState([]);
