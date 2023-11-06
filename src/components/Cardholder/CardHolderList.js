@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 // import { DataTable } from 'primereact/datatable';
 // import DataTable from 'react-data-table-component';
 import { DataTable } from 'primereact/datatable';
@@ -44,12 +44,13 @@ function CardHolderList() {
 	const navigate = useNavigate();
 	const [userList, setUserList] = useState([])
 	console.log('userList', userList)
+	const zoomRef = useRef(null);
 
 	const getUserList = async () => {
 
 		const payload = {
 			page: 1,
-			limit: 10,
+			limit: 100000,
 			search: searchUser
 		}
 		setLoading(true)
@@ -308,6 +309,7 @@ function CardHolderList() {
 			<Lightbox
 				open={open}
 				close={() => setOpen(false)}
+				zoom={{ ref: zoomRef }}
 				slides={[
 					{ src: `${baseImageUrl}/${imagePreview}` },
 				]}

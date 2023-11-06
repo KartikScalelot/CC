@@ -2,6 +2,7 @@
 import { LOGIN, RESET_PASSWORD } from "../../api/constApi";
 import Login from "../../components/auth/Login";
 import authHeader from "./authHeader";
+// import authHeader from "./authHeader";
 import { apiInstance } from "./axiosApi";
 
 export const logIn = (payload) => {
@@ -9,7 +10,9 @@ export const logIn = (payload) => {
 };
 
 export const changePass = (payload) => {
-    return apiInstance.post(RESET_PASSWORD, payload);
+    return apiInstance.post(RESET_PASSWORD, payload, {
+        headers: authHeader(),
+    });
 };
 
 // export const newPass = (payload) => {

@@ -39,7 +39,7 @@ export default function SingleCardHolderCardsList() {
         const payload = {
             userid: userid,
             page: 1,
-            limit: 10
+            limit: 1000000
         }
         try {
             setLoading1(true)

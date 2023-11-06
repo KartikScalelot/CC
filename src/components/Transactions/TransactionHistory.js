@@ -208,7 +208,7 @@ export default function TransactionHistory() {
                         <h3 className="w-full text-[#64748B] text-2xl:text-base xl font-semibold">You have not done any transaction yet.</h3>
                     </div>
             }
-          
+
         </div>
     )
 }

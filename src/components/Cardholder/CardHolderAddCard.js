@@ -36,16 +36,16 @@ export default function CardHolderAddCard() {
   }
 
   const validationSchema = Yup.object().shape({
-    card_photo_front: Yup.string().required(),
-    card_photo_back: Yup.string().required(),
-    card_holder: Yup.string().required(),
-    bank_name: Yup.string().required(),
-    purpose: Yup.string().required(),
-    card_type: Yup.string().required(),
-    card_number: Yup.string().required(),
-    expiry_date: Yup.string().required(),
-    cvv: Yup.string().required(),
-    total_limit: Yup.string().required()
+    card_photo_front: Yup.string().required("Photo Require !"),
+    card_photo_back: Yup.string().required("Photo Require !"),
+    card_holder: Yup.string().required("Card HolderName is Require"),
+    bank_name: Yup.string().required("Bank name is Require"),
+    purpose: Yup.string().required("Purpose  is Require"),
+    card_type: Yup.string().required("Card Type  is Require"),
+    card_number: Yup.string().required("Card Number  is Require"),
+    expiry_date: Yup.string().required("Expire Date  is Require"),
+    cvv: Yup.string().required("Cvv  is Require"),
+    total_limit: Yup.string().required("Total Limit  is Require")
   })
 
   const onSubmit = async (values) => {
@@ -241,7 +241,7 @@ export default function CardHolderAddCard() {
                             className="input_box2 placeholder:text-[#94A3B8] placeholder:text-sm md:placeholder:text-xl"
                             placeholder="Enter card number"
                           />
-                          <small className="text-red-500 text-xs">
+                          <small className="text-red-500 text-base ">
                             <ErrorMessage name="card_number" />
                           </small>
                         </div>
@@ -257,7 +257,7 @@ export default function CardHolderAddCard() {
                             className="input_box2 placeholder:text-[#94A3B8] placeholder:text-sm md:placeholder:text-xl"
                             placeholder="Purpose"
                           />
-                          <small className="text-red-500 text-xs">
+                          <small className="text-red-500 text-base ">
                           </small>
                         </div> */}
                         <div className="w-full md:w-1/2 mb-4 md:mb-0">
@@ -279,6 +279,9 @@ export default function CardHolderAddCard() {
 
 
                               />
+                              <small className="text-red-500 text-base ">
+
+                              </small>
                               <div className="flex items-center">
                                 <span className="inline-block w-5 h-5 rounded-full border-2 border-black/20 mr-4 radio"></span>
                               </div>
@@ -307,7 +310,8 @@ export default function CardHolderAddCard() {
                               </span>
                             </label>
                           </div>
-                          <small className="text-red-500 text-xs">
+                          <small className="text-red-500 text-base ">
+                            <ErrorMessage name="purpose" />
                           </small>
                         </div>
                       </div>
@@ -324,8 +328,9 @@ export default function CardHolderAddCard() {
                             placeholder="Enter bank name"
 
                           />
-                          <small className="text-red-500 text-xs">
+                          <small className="text-red-500 text-base ">
                             {/* {formik.errors.card_bank_name} */}
+                            <ErrorMessage name="bank_name" />
                           </small>
                         </div>
                         <div className="w-full md:w-1/2 mb-4 md:mb-0">
@@ -340,8 +345,9 @@ export default function CardHolderAddCard() {
                             placeholder="Enter card holder name"
 
                           />
-                          <small className="text-red-500 text-xs">
+                          <small className="text-red-500 text-base ">
                             {/* {formik.errors.card_holder_name} */}
+                            <ErrorMessage name="card_holder" />
                           </small>
                         </div>
                       </div>
@@ -362,9 +368,10 @@ export default function CardHolderAddCard() {
                             value={new Date()}
                             onChange={(e) => { console.log(e.target.value) }}
                           /> */}
-                          <Calendar className="w-full py-[2px] box-shadow" placeholder="" onChange={(e) => setFieldValue("expiry_date", (moment(e.value).format('MMM YYYY')))} view="month" dateFormat="mm/yy" />
-                          <small className="text-red-500 text-xs">
+                          <Calendar className="w-full py-[2px] box-shadow" placeholder="Enter Date" onChange={(e) => setFieldValue("expiry_date", (moment(e.value).format('MMM YYYY')))} view="month" dateFormat="mm/yy" />
+                          <small className="text-red-500 text-base ">
                             {/* {formik.errors.card_exp_date} */}
+                            <ErrorMessage name="expiry_date" />
                           </small>
                           {/* <img src={CalendarIcon} alt="Calendar icon" className='absolute top-1/2 translate-y-1/2 right-10' /> */}
                         </div>
@@ -380,8 +387,9 @@ export default function CardHolderAddCard() {
                             placeholder="Visa"
 
                           />
-                          <small className="text-red-500 text-xs">
+                          <small className="text-red-500 text-base ">
                             {/* {formik.errors.card_network} */}
+                            <ErrorMessage name="card_type" />
                           </small>
                         </div>
                       </div>
@@ -439,8 +447,10 @@ export default function CardHolderAddCard() {
                               </div>
                             )}
                           </Dropzone>
-                          <small className="text-red-500 text-xs">
+                          <small className="text-red-500 text-base ">
                             {/* {formik.errors.frontside_card_photo} */}
+                            <ErrorMessage name="card_photo_front" />
+
                           </small>
                         </div>
                         <div className="w-full md:w-1/2 mb-4 md:mb-0">
@@ -496,8 +506,9 @@ export default function CardHolderAddCard() {
                               </div>
                             )}
                           </Dropzone>
-                          <small className="text-red-500 text-xs">
+                          <small className="text-red-500 text-base ">
                             {/* {formik.errors.backside_card_photo} */}
+                            <ErrorMessage name="card_photo_back" />
                           </small>
                         </div>
                       </div>
@@ -514,8 +525,9 @@ export default function CardHolderAddCard() {
                             className="input_box2 placeholder:text-[#94A3B8] placeholder:text-sm md:placeholder:text-xl"
                             placeholder="Enter cvv"
                           />
-                          <small className="text-red-500 text-xs">
+                          <small className="text-red-500 text-base ">
                             {/* {formik.errors.card_cvv} */}
+                            <ErrorMessage name="cvv" />
                           </small>
                         </div>
                         <div className="w-full md:w-1/2 mb-4 md:mb-0">
@@ -530,8 +542,9 @@ export default function CardHolderAddCard() {
                             className="input_box2 placeholder:text-[#94A3B8] placeholder:text-xl"
                             placeholder="Card Limit"
                           />
-                          <small className="text-red-500 text-xs">
+                          <small className="text-red-500 text-base ">
                             {/* {formik.errors.commission} */}
+                            <ErrorMessage name="total_limit" />
                           </small>
                         </div>
                       </div>

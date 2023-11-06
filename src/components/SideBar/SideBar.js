@@ -47,9 +47,12 @@ import AdminEditCard from "../Admin/AdminEditCard";
 import SingleCardHolderPayment from "../Cardholder/SingleCardHolderPayment";
 import Charges from "../Charges/Charges";
 import { iconFunction } from "../../common/Icons/Icon";
+import { useDispatch } from "react-redux";
+import { removeToken } from "../auth/AuthSlice";
 
 function SideBar() {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
   const user = localStorage.getItem("user");
   const [details, setDetails] = useState({});
   const [navbarOpen, setNavbarOpen] = useState(false);
@@ -103,10 +106,13 @@ function SideBar() {
   // }, []);
 
   const logout = () => {
-    navigate("./");
-    localStorage.removeItem("user");
-    // localStorage.removeItem("isLoggedIn");
-    localStorage.clear();
+    navigate("/");
+    dispatch(removeToken())
+    // localStorage.removeItem("user");
+    // // localStorage.removeItem("isLoggedIn");
+    // localStorage.clear();
+
+
   };
 
   return (
@@ -542,7 +548,7 @@ function SideBar() {
                 </div>
               </div>
               {/* <button type="button" className=""><img src={CardAdd} alt="New ADD Card Icon" /></button> */}
-              <button
+              {/* <button
                 type="button"
                 className="relative flex items-center bg-azureishWhite rounded-full p-2 sm:py-[6px] sm:px-4 group"
               >
@@ -571,7 +577,6 @@ function SideBar() {
                     />
                   </div>
                 </div>
-                {/* Profile Details Box   */}
                 <div className="absolute w-full top-[54px] right-0 bg-white rounded-2xl shadow-shadowbox max-w-[218px] min-w-[218px] invisible group-hover:visible opacity-0 group-hover:opacity-100 translate-y-10 group-hover:translate-y-0 z-40 anim">
                   <div className="">
                     <span
@@ -580,14 +585,12 @@ function SideBar() {
                     >
                       Account Details
                     </span>
-                    {/* <span onClick={() => navigate('dashboard/admincards')} className='w-full block text-left text-[#334155] hover:text-darkGreen text-sm font-medium anim px-6 py-2'>Cards</span> */}
                     <span
                       onClick={() => navigate("adminwallet")}
                       className="w-full block text-left text-[#334155] hover:text-darkGreen text-sm font-medium anim px-6 py-2"
                     >
                       My wallet
                     </span>
-                    {/* <span className='w-full block text-left text-[#334155] hover:text-darkGreen text-sm font-medium anim px-6 py-2'>Bank Accounts</span> */}
                     <span
                       onClick={() => navigate("transaction")}
                       className="w-full block text-left text-[#334155] hover:text-darkGreen text-sm font-medium anim px-6 py-2 pb-4"
@@ -596,6 +599,10 @@ function SideBar() {
                     </span>
                   </div>
                 </div>
+              </button> */}
+              <button className="h-10 w-36 rounded-3xl bg-azureishWhite" onClick={() => { navigate("/resetpassword") }}>
+
+                Reset Password
               </button>
             </div>
           </div>

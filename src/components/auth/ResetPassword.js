@@ -6,38 +6,66 @@ import topCircle from "../../assets/images/top-circle.png"
 import bottomCircle from "../../assets/images/bottom-circle.png";
 import { baseurl } from '../../api/baseurl';
 import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
+// import { ToastContainer, toast } from 'react-toastify';
+import * as Yup from "yup"
+import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { useDispatch } from 'react-redux';
+import { changePassword } from './AuthSlice';
+import { toast } from 'sonner';
 
 
 function ResetPassword() {
 	const navigate = useNavigate();
+	const dispatch = useDispatch()
 
-	const [userData, setUserData] = useState({ password: "", password2: "" });
-	const [error, setError] = useState(false);
-	const email = localStorage.getItem("email");
-
-	const setFormField = (field, value) => {
-		setUserData({ ...userData, [field]: value })
+	const initialValues = {
+		old_password: "",
+		new_password: ""
 	}
 
-	const handelSubmitNewPassword = async (data) => {
-		data.preventDefault();
+	const validationSchema = Yup.object().shape({
+		old_password: Yup.string().required("Old Password Require !"),
+		new_password: Yup.string().required("New Password Require !")
+	})
+
+	const onSubmit = async (values) => {
+		debugger
+		console.log('values', values)
+
+		const payload = Object.assign({}, values)
+		console.log('payload', payload)
 		try {
-			const response = await axios.post(`${baseurl}/api/user/reset-password`, { email: email, password: userData.password, password2: userData.password2 });
-			if (response.data.IsSuccess) {
-				toast.success(response.data.Message);
-				setTimeout(() => {
-					localStorage.clear();
-					navigate("../")
-				}, 1000);
-			} else {
-				toast.error(response.data.Message);
+			const response = await dispatch(changePassword(payload))
+			console.log('response', response)
+			if (response?.payload?.data?.IsSuccess) {
+				toast.success(response?.payload?.data?.Message)
+				navigate("/")
 			}
 		} catch (error) {
-			toast.error('Something went wrong!!!');
-			setError(true);
+			console.log('error', error)
+
 		}
+
 	}
+
+	// const handelSubmitNewPassword = async (data) => {
+	// 	data.preventDefault();
+	// 	try {
+	// 		const response = await axios.post(`${baseurl}/api/user/reset-password`, { email: email, password: userData.password, password2: userData.password2 });
+	// 		if (response.data.IsSuccess) {
+	// 			toast.success(response.data.Message);
+	// 			setTimeout(() => {
+	// 				localStorage.clear();
+	// 				navigate("../")
+	// 			}, 1000);
+	// 		} else {
+	// 			toast.error(response.data.Message);
+	// 		}
+	// 	} catch (error) {
+	// 		toast.error('Something went wrong!!!');
+	// 		setError(true);
+	// 	}
+	// }
 	return (
 		<div className="flex h-screen">
 			<div className="flex w-full flex-wrap bg-white">
@@ -55,17 +83,33 @@ function ResetPassword() {
 						<h1>Reset Password</h1>
 						<p className="text-base sm:text-lg text-[#64748B] font-normal pt-3.5 xl:pr-8 whitespace-nowrap">Enter your New Password</p>
 						<div className="w-full pt-7 sm:pt-9">
-							<form className="space-y-5">
-								<div>
-									<label htmlFor="" className="input-titel">Enter New Password</label>
-									<input type="Password" name="password" placeholder='Enter new password' className="input_box placeholder:text-[#94A3B8] placeholder:text-base" value={userData.password} onChange={(e) => { setFormField('password', e.target.value); setError(false) }} required />
-								</div>
-								<div>
-									<label htmlFor="" className="input-titel">Confirm New Password</label>
-									<input type="Password" name="password2" placeholder='Enter confirm password' className="input_box placeholder:text-[#94A3B8] placeholder:text-base" value={userData.password2} onChange={(e) => { setFormField('password2', e.target.value); setError(false) }} required />
-								</div>
-								<button type='submit' className="btn-primary w-full py-[15px] uppercase text-base leading-7 font-extrabold" onClick={handelSubmitNewPassword}>Submit a new password</button>
-							</form>
+							<Formik
+								initialValues={initialValues}
+								validationSchema={validationSchema}
+								onSubmit={onSubmit}
+							>
+								{
+									({ formik }) => {
+										return (
+											<>
+												<Form className="space-y-5">
+													<div>
+														<label htmlFor="" className="input-titel">Enter Old Password</label>
+														<Field type="Password" name="old_password" placeholder='Enter old password' className="input_box placeholder:text-[#94A3B8] placeholder:text-base" required />
+														<div className='text-base text-red-500'> <ErrorMessage name="old_password" /></div>
+													</div>
+													<div>
+														<label htmlFor="" className="input-titel">Enter New Password</label>
+														<Field type="Password" name="new_password" placeholder='Enter new password' className="input_box placeholder:text-[#94A3B8] placeholder:text-base" />
+														<div className='text-base text-red-500'><ErrorMessage name="new_password" /></div>
+													</div>
+													<button type='submit' className="btn-primary w-full py-[15px] uppercase text-base leading-7 font-extrabold">Submit a new password</button>
+												</Form>
+											</>
+										)
+									}
+								}
+							</Formik>
 						</div>
 					</div>
 				</div>
@@ -73,18 +117,7 @@ function ResetPassword() {
 					<img src={bgImage} alt="login-bg" className="w-full h-full object-cover object-bottom" />
 				</div>
 			</div>
-			<ToastContainer
-				position="bottom-right"
-				autoClose={5000}
-				hideProgressBar={false}
-				newestOnTop={false}
-				closeOnClick
-				rtl={false}
-				pauseOnFocusLoss
-				draggable
-				pauseOnHover
-				theme="colored"
-			/>
+
 		</div>
 	)
 }

@@ -9,12 +9,14 @@ import { handleSubmit } from "./services/loginServices";
 // import { setLoading, setUserData } from './services/events';
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
-import { logInUser } from "./AuthSlice";
+import { logInUser, useUser } from "./AuthSlice";
 import axios from "axios";
 import { toast } from "sonner";
 // import { toast } from "react-toastify";
 
 const Login = () => {
+  const { user } = useUser();
+  console.log("user", user);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
@@ -37,11 +39,11 @@ const Login = () => {
   });
 
   const onSubmit = async (values) => {
-    debugger;
     console.log("valuess", values);
     const payload = Object.assign({}, values);
     console.log("payload", payload);
     try {
+      setLoading(true);
       const response = await dispatch(logInUser(payload));
       if (response?.payload?.data?.IsSuccess) {
         toast.success(response?.payload?.data?.Message);
@@ -50,6 +52,7 @@ const Login = () => {
       console.log("response", response);
     } catch (error) {}
     //const directResponse = await axios.post("https://cmsapi.scalelot.com/admin/login",payload);
+    setLoading(false);
   };
   const verify = () => {
     const itemStr = localStorage.getItem("user");
@@ -83,6 +86,12 @@ const Login = () => {
   //     //     navigate("/dashboard");
   //     // }
   // }, []);
+
+  useEffect(() => {
+    if (user.token) {
+      navigate("/dashboard");
+    }
+  }, []);
 
   return (
     <div className="flex h-screen">
@@ -152,12 +161,12 @@ const Login = () => {
                                         <label className="checkbox w-5 mr-2"><input type="checkbox" className="bg-white" /><i className="icon-right"></i></label>
                                         <span className="text-sm leading-5 text-yankeesBlue font-bold">Remember for 30 Days</span>
                                     </div> */}
-                          <Link
-                            to="../forgotpassword"
+                          {/* <Link
+                            to="../resetpassword"
                             className="text-yankeesBlue font-bold text-xs md:text-sm block text-right"
                           >
-                            Forgot password ?
-                          </Link>
+                            Reset password ?
+                          </Link> */}
                         </div>
                         {loading ? (
                           <button
@@ -196,7 +205,7 @@ const Login = () => {
                             Sign in
                           </button>
                         )}
-                        <span className="block text-sm text-[#94A3B8] font-bold text-center">
+                        {/* <span className="block text-sm text-[#94A3B8] font-bold text-center">
                           Don’t have an account?
                           <Link
                             to="../register"
@@ -204,7 +213,7 @@ const Login = () => {
                           >
                             Sign up for free
                           </Link>
-                        </span>
+                        </span> */}
                       </Form>
                     </>
                   );
