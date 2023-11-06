@@ -65,18 +65,27 @@ function CreateAccount() {
 	})
 
 	const onSubmit = async (values) => {
+		debugger
 		console.log('values', values)
 		const payload = new FormData();
 		for (const key in values) {
 			payload.append(key, values[key]);
 		}
 		console.log('payload', payload)
-		const response = await dispatch(createUserProfile(payload)).unwrap()
-		if (response?.data?.IsSuccess) {
-			toast.success(response?.data?.Message)
-			navigate("../")
+		setLoading(true)
+		try {
+			const response = await dispatch(createUserProfile(payload)).unwrap()
+			setLoading(true)
+			if (response?.data?.IsSuccess) {
+				toast.success(response?.data?.Message)
+				navigate("../")
+			}
+
+			console.log('response', response)
+		} catch (error) {
+			console.log('error', error)
 		}
-		console.log('response', response)
+		setLoading(false)
 	}
 
 	// const ValidationSchema = Yup.object().shape({

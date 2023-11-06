@@ -45,12 +45,14 @@ function CardHolderDueAmount({ handleClose, dueData }) {
 
         console.log('values', values)
         const payload = Object.assign({}, values)
+        setLoading(true)
         const response = await dispatch(updateCardDueDate(payload))
         if (response?.payload?.data?.IsSuccess) {
             toast.success(response?.payload?.data?.Message)
             handleClose(false)
         }
         console.log('response', response)
+        setLoading(false)
     }
 
 

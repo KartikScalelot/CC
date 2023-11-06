@@ -127,18 +127,7 @@ function Payments() {
                         {tab === 1 && <DepositRequests paymentRequestData={paymentRequests} setReloade={setReload}/>}
                         {tab === 2 && <CycleRequests paymentPaidData={paymentRequests} setReloade={setReload}/>}
                         {tab === 3 && <WithdrawRequests WithdrawData={paymentRequests} setReloade={setReload}/>}
-                        <ToastContainer
-                            position="bottom-right"
-                            autoClose={5000}
-                            hideProgressBar={false}
-                            newestOnTop={false}
-                            closeOnClick
-                            rtl={false}
-                            pauseOnFocusLoss
-                            draggable
-                            pauseOnHover
-                            theme="colored"
-                        />
+                       
                     </div >
             }
         </>

@@ -21,6 +21,7 @@ import CreateAccount from './CreateAccount';
 import { useDispatch } from 'react-redux';
 import { getAllUser } from './UserSlice';
 import FsLightbox from 'fslightbox-react';
+import { toast } from 'sonner';
 
 function CardHolderList() {
 	// const [products, setProducts] = useState([]);
@@ -54,6 +55,7 @@ function CardHolderList() {
 		const response = await dispatch(getAllUser(payload))
 		if (response?.payload?.data?.IsSuccess) {
 			setUserList(response?.payload?.data?.Data?.docs)
+			// toast.success(response?.payload?.data?.Message)
 		}
 		setLoading(false)
 	}

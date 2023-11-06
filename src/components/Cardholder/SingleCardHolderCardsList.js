@@ -3,7 +3,6 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import CardBg from "../../assets/images/card.png";
 import axios from 'axios';
 import { baseurl } from '../../api/baseurl';
-import { ToastContainer, toast } from 'react-toastify';
 import { Column } from 'primereact/column';
 // import DataTable from 'react-data-table-component';
 import { DataTable } from 'primereact/datatable';
@@ -16,6 +15,7 @@ import CardHolderDueAmount from '../Admin/Popup/CardHolderDueAmount'
 import { useDispatch } from 'react-redux';
 import { async } from 'q';
 import { getCardList } from '../Cards/CardSlice';
+import { toast } from 'sonner';
 
 
 
@@ -47,14 +47,15 @@ export default function SingleCardHolderCardsList() {
             const response = await dispatch(getCardList(payload))
             console.log('response', response)
             if (response?.payload?.data?.IsSuccess) {
+                toast.success(response?.payload?.data?.Message)
                 setCardList(response?.payload?.data?.Data?.docs)
             }
-            setLoading1(false)
-            setLoading2(false)
+
         } catch (error) {
             console.log('error', error)
         }
-
+        setLoading1(false)
+        setLoading2(false)
     }
 
     useEffect(() => {
@@ -329,7 +330,7 @@ export default function SingleCardHolderCardsList() {
                             dueData={dueData}
                         />
                     </Modal>
-                   
+
                 </div>
             }</>
     )
