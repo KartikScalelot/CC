@@ -619,11 +619,12 @@ function SideBar() {
               <Route index element={<CardList />} />
               <Route path="carddetails" element={<CardDetails />} />
               <Route path="editcarddetails" element={<EditCardDetails />} />
-              <Route path="addcardholdercard" element={<CardHolderAddCard />} />
+
             </Route>
             <Route path="cardholder">
               <Route index element={<CardHolderList />} />
               <Route path="createaccount" element={<CreateAccount />} />
+              <Route path="addcardholdercard" element={<CardHolderAddCard />} />
               <Route
                 path="singlecardholderdetail"
                 element={<SingleCardHolderDetail />}

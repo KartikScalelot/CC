@@ -4,11 +4,12 @@ import { baseurl } from '../../api/baseurl';
 import { ErrorMessage, Field, Form, Formik, useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
+// import { ToastContainer, toast } from 'react-toastify';
 import Dropzone from 'react-dropzone';
 import authHeader from '../../redux/Services/authHeader';
 import { useDispatch } from 'react-redux';
 import { createUserProfile } from './UserSlice';
+import { toast } from 'sonner';
 
 function CreateAccount() {
 
@@ -65,11 +66,11 @@ function CreateAccount() {
 
 	const onSubmit = async (values) => {
 		console.log('values', values)
-		debugger
 		const payload = new FormData();
 		for (const key in values) {
 			payload.append(key, values[key]);
 		}
+		console.log('payload', payload)
 		const response = await dispatch(createUserProfile(payload)).unwrap()
 		if (response?.data?.IsSuccess) {
 			toast.success(response?.data?.Message)
@@ -363,19 +364,6 @@ function CreateAccount() {
 					)
 				}}
 			</Formik>
-
-			<ToastContainer
-				position="bottom-right"
-				autoClose={5000}
-				hideProgressBar={false}
-				newestOnTop={false}
-				closeOnClick
-				rtl={false}
-				pauseOnFocusLoss
-				draggable
-				pauseOnHover
-				theme="colored"
-			/>
 		</div>
 	)
 }

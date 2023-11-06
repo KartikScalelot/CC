@@ -14,12 +14,13 @@ import DemoImage from "../../assets/images/profile.png"
 import { baseImageUrl, baseurl } from '../../api/baseurl';
 import axios from 'axios';
 import SingleCardHolderDetail from './SingleCardHolderDetail';
-import { ToastContainer, toast } from 'react-toastify';
+// import { ToastContainer, toast } from 'react-toastify';
 import Modal from '../../common/Modals/Modal';
 import SinglePhotoView from '../Admin/Popup/SinglePhotoView';
 import CreateAccount from './CreateAccount';
 import { useDispatch } from 'react-redux';
 import { getAllUser } from './UserSlice';
+import FsLightbox from 'fslightbox-react';
 
 function CardHolderList() {
 	// const [products, setProducts] = useState([]);
@@ -27,6 +28,7 @@ function CardHolderList() {
 	// const productService = new ProductService();
 	// const [users, setUsers] = useState([]);
 	const [totalCardHolders, setTotalCardHolders] = useState(0);
+	const [imagePreview, setImagePreview] = useState("")
 	const [searchUser, setSearchUser] = useState("")
 	const [loading, setLoading] = useState(false);
 	const [oneUser, setOneUser] = useState({});
@@ -35,6 +37,7 @@ function CardHolderList() {
 	const [isPhotoViewPopUpOpen, setIsPhotoViewPopUpOpen] = useState(false);
 	const [id, setId] = useState();
 	const dispatch = useDispatch()
+	const [toggler, setToggler] = useState(false);
 	// const user = localStorage.getItem("user");
 	const navigate = useNavigate();
 	const [userList, setUserList] = useState([])
@@ -135,7 +138,7 @@ function CardHolderList() {
 		},
 		{
 			header: 'Aadhar Front Card', field: row =>
-				<div className="flex justify-center items-center gap-3 border border-[#1E293B] rounded-lg py-1.5 max-w-[78px] w-full px-2" onClick={(e) => { setId(row.aadhar_card_front); setIsPhotoViewPopUpOpen(true); e.stopPropagation(); }}>
+				<div className="flex justify-center items-center gap-3 border border-[#1E293B] rounded-lg py-1.5 max-w-[78px] w-full px-2" onClick={(e) => { setId(row.aadhar_card_front); setImagePreview(row.aadhar_card_front); setIsPhotoViewPopUpOpen(true); e.stopPropagation(); }}>
 					<svg width="12" height="10" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<path d="M13.8529 8.25006L14.4622 8.68744L13.8529 8.25006ZM13.8529 5.75059L13.2437 6.18798L13.8529 5.75059ZM14.4421 7.00033H13.6921H14.4421ZM2.14716 8.25006L2.75641 7.81267L2.14716 8.25006ZM2.14716 5.75059L1.5379 5.31321L2.14716 5.75059ZM1.55798 7.00033H0.807983H1.55798ZM1.5379 8.68745C2.12319 9.50273 2.99916 10.5815 4.07615 11.4633C5.14456 12.3381 6.49021 13.0837 8.00004 13.0837V11.5837C6.98539 11.5837 5.97042 11.0756 5.02642 10.3027C4.09101 9.53679 3.30277 8.57372 2.75641 7.81267L1.5379 8.68745ZM8.00004 13.0837C9.50988 13.0837 10.8555 12.3381 11.9239 11.4633C13.0009 10.5815 13.8769 9.50273 14.4622 8.68744L13.2437 7.81267C12.6973 8.57372 11.9091 9.53679 10.9737 10.3027C10.0297 11.0756 9.01469 11.5837 8.00004 11.5837V13.0837ZM14.4622 5.31321C13.8769 4.49792 13.0009 3.41919 11.9239 2.53737C10.8555 1.66258 9.50988 0.916992 8.00004 0.916992V2.41699C9.01469 2.41699 10.0297 2.92504 10.9737 3.69797C11.9091 4.46386 12.6973 5.42693 13.2437 6.18798L14.4622 5.31321ZM8.00004 0.916992C6.49021 0.916992 5.14456 1.66258 4.07615 2.53737C2.99916 3.41919 2.12319 4.49792 1.5379 5.31321L2.75641 6.18798C3.30277 5.42693 4.09101 4.46386 5.02642 3.69797C5.97042 2.92504 6.98539 2.41699 8.00004 2.41699V0.916992ZM14.4622 8.68744C14.8202 8.18878 15.1921 7.71441 15.1921 7.00033H13.6921C13.6921 7.14433 13.6712 7.21709 13.2437 7.81267L14.4622 8.68744ZM13.2437 6.18798C13.6712 6.78357 13.6921 6.85632 13.6921 7.00033H15.1921C15.1921 6.28624 14.8202 5.81187 14.4622 5.31321L13.2437 6.18798ZM2.75641 7.81267C2.32884 7.21709 2.30798 7.14433 2.30798 7.00033H0.807983C0.807983 7.71441 1.17991 8.18878 1.5379 8.68745L2.75641 7.81267ZM1.5379 5.31321C1.17991 5.81187 0.807983 6.28624 0.807983 7.00033H2.30798C2.30798 6.85632 2.32884 6.78357 2.75641 6.18798L1.5379 5.31321ZM5.25004 7.00033C5.25004 8.51911 6.48126 9.75033 8.00004 9.75033V8.25033C7.30969 8.25033 6.75004 7.69068 6.75004 7.00033H5.25004ZM8.00004 9.75033C9.51883 9.75033 10.75 8.51911 10.75 7.00033H9.25004C9.25004 7.69068 8.6904 8.25033 8.00004 8.25033V9.75033ZM10.75 7.00033C10.75 5.48154 9.51883 4.25033 8.00004 4.25033V5.75033C8.6904 5.75033 9.25004 6.30997 9.25004 7.00033H10.75ZM8.00004 4.25033C6.48126 4.25033 5.25004 5.48154 5.25004 7.00033H6.75004C6.75004 6.30997 7.30969 5.75033 8.00004 5.75033V4.25033Z" fill="#1E293B" />
 					</svg>
@@ -144,7 +147,7 @@ function CardHolderList() {
 		},
 		{
 			header: 'Aadhar Back Card', field: row =>
-				<div className="flex justify-center items-center gap-3 border border-[#1E293B] rounded-lg py-1.5 max-w-[78px] w-full px-2" onClick={(e) => { setId(row.aadhar_card_back); setIsPhotoViewPopUpOpen(true); e.stopPropagation(); }}>
+				<div className="flex justify-center items-center gap-3 border border-[#1E293B] rounded-lg py-1.5 max-w-[78px] w-full px-2" onClick={(e) => { setId(row.aadhar_card_back); setImagePreview(row.aadhar_card_back); setIsPhotoViewPopUpOpen(true); e.stopPropagation(); }}>
 					<svg width="12" height="10" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<path d="M13.8529 8.25006L14.4622 8.68744L13.8529 8.25006ZM13.8529 5.75059L13.2437 6.18798L13.8529 5.75059ZM14.4421 7.00033H13.6921H14.4421ZM2.14716 8.25006L2.75641 7.81267L2.14716 8.25006ZM2.14716 5.75059L1.5379 5.31321L2.14716 5.75059ZM1.55798 7.00033H0.807983H1.55798ZM1.5379 8.68745C2.12319 9.50273 2.99916 10.5815 4.07615 11.4633C5.14456 12.3381 6.49021 13.0837 8.00004 13.0837V11.5837C6.98539 11.5837 5.97042 11.0756 5.02642 10.3027C4.09101 9.53679 3.30277 8.57372 2.75641 7.81267L1.5379 8.68745ZM8.00004 13.0837C9.50988 13.0837 10.8555 12.3381 11.9239 11.4633C13.0009 10.5815 13.8769 9.50273 14.4622 8.68744L13.2437 7.81267C12.6973 8.57372 11.9091 9.53679 10.9737 10.3027C10.0297 11.0756 9.01469 11.5837 8.00004 11.5837V13.0837ZM14.4622 5.31321C13.8769 4.49792 13.0009 3.41919 11.9239 2.53737C10.8555 1.66258 9.50988 0.916992 8.00004 0.916992V2.41699C9.01469 2.41699 10.0297 2.92504 10.9737 3.69797C11.9091 4.46386 12.6973 5.42693 13.2437 6.18798L14.4622 5.31321ZM8.00004 0.916992C6.49021 0.916992 5.14456 1.66258 4.07615 2.53737C2.99916 3.41919 2.12319 4.49792 1.5379 5.31321L2.75641 6.18798C3.30277 5.42693 4.09101 4.46386 5.02642 3.69797C5.97042 2.92504 6.98539 2.41699 8.00004 2.41699V0.916992ZM14.4622 8.68744C14.8202 8.18878 15.1921 7.71441 15.1921 7.00033H13.6921C13.6921 7.14433 13.6712 7.21709 13.2437 7.81267L14.4622 8.68744ZM13.2437 6.18798C13.6712 6.78357 13.6921 6.85632 13.6921 7.00033H15.1921C15.1921 6.28624 14.8202 5.81187 14.4622 5.31321L13.2437 6.18798ZM2.75641 7.81267C2.32884 7.21709 2.30798 7.14433 2.30798 7.00033H0.807983C0.807983 7.71441 1.17991 8.18878 1.5379 8.68745L2.75641 7.81267ZM1.5379 5.31321C1.17991 5.81187 0.807983 6.28624 0.807983 7.00033H2.30798C2.30798 6.85632 2.32884 6.78357 2.75641 6.18798L1.5379 5.31321ZM5.25004 7.00033C5.25004 8.51911 6.48126 9.75033 8.00004 9.75033V8.25033C7.30969 8.25033 6.75004 7.69068 6.75004 7.00033H5.25004ZM8.00004 9.75033C9.51883 9.75033 10.75 8.51911 10.75 7.00033H9.25004C9.25004 7.69068 8.6904 8.25033 8.00004 8.25033V9.75033ZM10.75 7.00033C10.75 5.48154 9.51883 4.25033 8.00004 4.25033V5.75033C8.6904 5.75033 9.25004 6.30997 9.25004 7.00033H10.75ZM8.00004 4.25033C6.48126 4.25033 5.25004 5.48154 5.25004 7.00033H6.75004C6.75004 6.30997 7.30969 5.75033 8.00004 5.75033V4.25033Z" fill="#1E293B" />
 					</svg>
@@ -153,7 +156,7 @@ function CardHolderList() {
 		},
 		{
 			header: 'Pan Card', field: row =>
-				<div className="flex justify-center items-center gap-3 border border-[#1E293B] rounded-lg py-1.5 max-w-[78px] w-full px-2" onClick={(e) => { setId(row.pan_card); setIsPhotoViewPopUpOpen(true); e.stopPropagation(); }}>
+				<div className="flex justify-center items-center gap-3 border border-[#1E293B] rounded-lg py-1.5 max-w-[78px] w-full px-2" onClick={(e) => { setId(row.pan_card); setIsPhotoViewPopUpOpen(true); setImagePreview(row.pan_card); e.stopPropagation(); }}>
 					<svg width="12" height="10" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<path d="M13.8529 8.25006L14.4622 8.68744L13.8529 8.25006ZM13.8529 5.75059L13.2437 6.18798L13.8529 5.75059ZM14.4421 7.00033H13.6921H14.4421ZM2.14716 8.25006L2.75641 7.81267L2.14716 8.25006ZM2.14716 5.75059L1.5379 5.31321L2.14716 5.75059ZM1.55798 7.00033H0.807983H1.55798ZM1.5379 8.68745C2.12319 9.50273 2.99916 10.5815 4.07615 11.4633C5.14456 12.3381 6.49021 13.0837 8.00004 13.0837V11.5837C6.98539 11.5837 5.97042 11.0756 5.02642 10.3027C4.09101 9.53679 3.30277 8.57372 2.75641 7.81267L1.5379 8.68745ZM8.00004 13.0837C9.50988 13.0837 10.8555 12.3381 11.9239 11.4633C13.0009 10.5815 13.8769 9.50273 14.4622 8.68744L13.2437 7.81267C12.6973 8.57372 11.9091 9.53679 10.9737 10.3027C10.0297 11.0756 9.01469 11.5837 8.00004 11.5837V13.0837ZM14.4622 5.31321C13.8769 4.49792 13.0009 3.41919 11.9239 2.53737C10.8555 1.66258 9.50988 0.916992 8.00004 0.916992V2.41699C9.01469 2.41699 10.0297 2.92504 10.9737 3.69797C11.9091 4.46386 12.6973 5.42693 13.2437 6.18798L14.4622 5.31321ZM8.00004 0.916992C6.49021 0.916992 5.14456 1.66258 4.07615 2.53737C2.99916 3.41919 2.12319 4.49792 1.5379 5.31321L2.75641 6.18798C3.30277 5.42693 4.09101 4.46386 5.02642 3.69797C5.97042 2.92504 6.98539 2.41699 8.00004 2.41699V0.916992ZM14.4622 8.68744C14.8202 8.18878 15.1921 7.71441 15.1921 7.00033H13.6921C13.6921 7.14433 13.6712 7.21709 13.2437 7.81267L14.4622 8.68744ZM13.2437 6.18798C13.6712 6.78357 13.6921 6.85632 13.6921 7.00033H15.1921C15.1921 6.28624 14.8202 5.81187 14.4622 5.31321L13.2437 6.18798ZM2.75641 7.81267C2.32884 7.21709 2.30798 7.14433 2.30798 7.00033H0.807983C0.807983 7.71441 1.17991 8.18878 1.5379 8.68745L2.75641 7.81267ZM1.5379 5.31321C1.17991 5.81187 0.807983 6.28624 0.807983 7.00033H2.30798C2.30798 6.85632 2.32884 6.78357 2.75641 6.18798L1.5379 5.31321ZM5.25004 7.00033C5.25004 8.51911 6.48126 9.75033 8.00004 9.75033V8.25033C7.30969 8.25033 6.75004 7.69068 6.75004 7.00033H5.25004ZM8.00004 9.75033C9.51883 9.75033 10.75 8.51911 10.75 7.00033H9.25004C9.25004 7.69068 8.6904 8.25033 8.00004 8.25033V9.75033ZM10.75 7.00033C10.75 5.48154 9.51883 4.25033 8.00004 4.25033V5.75033C8.6904 5.75033 9.25004 6.30997 9.25004 7.00033H10.75ZM8.00004 4.25033C6.48126 4.25033 5.25004 5.48154 5.25004 7.00033H6.75004C6.75004 6.30997 7.30969 5.75033 8.00004 5.75033V4.25033Z" fill="#1E293B" />
 					</svg>
@@ -162,7 +165,12 @@ function CardHolderList() {
 		},
 		{
 			header: 'Cheque', field: row =>
-				<div className="flex justify-center items-center gap-3 border border-[#1E293B] rounded-lg py-1.5 max-w-[78px] w-full px-2" onClick={(e) => { setId(row.cheque); setIsPhotoViewPopUpOpen(true); e.stopPropagation(); }}>
+				<div className="flex justify-center items-center gap-3 border border-[#1E293B] rounded-lg py-1.5 max-w-[78px] w-full px-2" onClick={(e) => {
+					setImagePreview(row.cheque)
+					setIsPhotoViewPopUpOpen(true);
+
+					setToggler(true); e.stopPropagation();
+				}}>
 					<svg width="12" height="10" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<path d="M13.8529 8.25006L14.4622 8.68744L13.8529 8.25006ZM13.8529 5.75059L13.2437 6.18798L13.8529 5.75059ZM14.4421 7.00033H13.6921H14.4421ZM2.14716 8.25006L2.75641 7.81267L2.14716 8.25006ZM2.14716 5.75059L1.5379 5.31321L2.14716 5.75059ZM1.55798 7.00033H0.807983H1.55798ZM1.5379 8.68745C2.12319 9.50273 2.99916 10.5815 4.07615 11.4633C5.14456 12.3381 6.49021 13.0837 8.00004 13.0837V11.5837C6.98539 11.5837 5.97042 11.0756 5.02642 10.3027C4.09101 9.53679 3.30277 8.57372 2.75641 7.81267L1.5379 8.68745ZM8.00004 13.0837C9.50988 13.0837 10.8555 12.3381 11.9239 11.4633C13.0009 10.5815 13.8769 9.50273 14.4622 8.68744L13.2437 7.81267C12.6973 8.57372 11.9091 9.53679 10.9737 10.3027C10.0297 11.0756 9.01469 11.5837 8.00004 11.5837V13.0837ZM14.4622 5.31321C13.8769 4.49792 13.0009 3.41919 11.9239 2.53737C10.8555 1.66258 9.50988 0.916992 8.00004 0.916992V2.41699C9.01469 2.41699 10.0297 2.92504 10.9737 3.69797C11.9091 4.46386 12.6973 5.42693 13.2437 6.18798L14.4622 5.31321ZM8.00004 0.916992C6.49021 0.916992 5.14456 1.66258 4.07615 2.53737C2.99916 3.41919 2.12319 4.49792 1.5379 5.31321L2.75641 6.18798C3.30277 5.42693 4.09101 4.46386 5.02642 3.69797C5.97042 2.92504 6.98539 2.41699 8.00004 2.41699V0.916992ZM14.4622 8.68744C14.8202 8.18878 15.1921 7.71441 15.1921 7.00033H13.6921C13.6921 7.14433 13.6712 7.21709 13.2437 7.81267L14.4622 8.68744ZM13.2437 6.18798C13.6712 6.78357 13.6921 6.85632 13.6921 7.00033H15.1921C15.1921 6.28624 14.8202 5.81187 14.4622 5.31321L13.2437 6.18798ZM2.75641 7.81267C2.32884 7.21709 2.30798 7.14433 2.30798 7.00033H0.807983C0.807983 7.71441 1.17991 8.18878 1.5379 8.68745L2.75641 7.81267ZM1.5379 5.31321C1.17991 5.81187 0.807983 6.28624 0.807983 7.00033H2.30798C2.30798 6.85632 2.32884 6.78357 2.75641 6.18798L1.5379 5.31321ZM5.25004 7.00033C5.25004 8.51911 6.48126 9.75033 8.00004 9.75033V8.25033C7.30969 8.25033 6.75004 7.69068 6.75004 7.00033H5.25004ZM8.00004 9.75033C9.51883 9.75033 10.75 8.51911 10.75 7.00033H9.25004C9.25004 7.69068 8.6904 8.25033 8.00004 8.25033V9.75033ZM10.75 7.00033C10.75 5.48154 9.51883 4.25033 8.00004 4.25033V5.75033C8.6904 5.75033 9.25004 6.30997 9.25004 7.00033H10.75ZM8.00004 4.25033C6.48126 4.25033 5.25004 5.48154 5.25004 7.00033H6.75004C6.75004 6.30997 7.30969 5.75033 8.00004 5.75033V4.25033Z" fill="#1E293B" />
 					</svg>
@@ -172,7 +180,7 @@ function CardHolderList() {
 		{
 			header: 'Cards', field: row =>
 				// <div className="flex justify-center items-center gap-3 border border-[#1E293B] rounded-lg py-1.5 max-w-[78px] w-full" onClick={(e) => { localStorage.setItem("user_id", row.id); navigate("../cardholder/singlecardholdercardlist"); e.stopPropagation(); }}>
-				<div to='createaccount' className="flex justify-center items-center gap-3  rounded-lg py-1.5 max-w-[78px] w-full btn-secondary" onClick={(e) => { localStorage.setItem("user_id", row.id); navigate("../cardholder/singlecardholdercardlist"); e.stopPropagation(); }}>
+				<div to='createaccount' className="flex justify-center items-center gap-3  rounded-lg py-1.5 max-w-[78px] w-full btn-secondary" onClick={(e) => { localStorage.setItem("useridForcard", row.id); navigate("../cardholder/singlecardholdercardlist"); e.stopPropagation(); }}>
 					View
 				</div>
 			// </div>
@@ -260,7 +268,11 @@ function CardHolderList() {
 
 
 							<DataTable value={userList} selectionMode="single" columnResizeMode={"expand"} resizableColumns={true} scrollable={true}
-								onSelectionChange={(col) => { localStorage.setItem("user_id", col.value.id); navigate('singlecardholderdetail') }} paginator rows={5}>
+								onSelectionChange={(col) => {
+									localStorage.setItem("user_id", col.value.id);
+									// navigate('singlecardholderdetail')
+								}}
+								paginator rows={5}>
 								{columns.map((col, i) => (
 									<Column className="relative" key={col.field} field={col.field} header={col.header} />
 								))}
@@ -288,21 +300,9 @@ function CardHolderList() {
 				<SingleCardHolderDetail handleClose={setIsSingleUserPopUpOpen} details={oneUser} />
 			</Modal>
 			<Modal isOpen={isPhotoViewPopUpOpen}>
-				<SinglePhotoView handleClose={setIsPhotoViewPopUpOpen} id={id} />
+				<SinglePhotoView handleClose={setIsPhotoViewPopUpOpen} imagePreview={imagePreview} id={id} />
 			</Modal>
 
-			<ToastContainer
-				position="bottom-right"
-				autoClose={5000}
-				hideProgressBar={false}
-				newestOnTop={false}
-				closeOnClick
-				rtl={false}
-				pauseOnFocusLoss
-				draggable
-				pauseOnHover
-				theme="colored"
-			/>
 		</div >
 	)
 }

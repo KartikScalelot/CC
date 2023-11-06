@@ -4,69 +4,79 @@ import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { baseurl } from '../../api/baseurl';
 import { ProgressSpinner } from 'primereact/progressspinner';
-import { toast } from 'react-toastify';
 import Modal from '../../common/Modals/Modal';
 import SinglePhotoView from '../Admin/Popup/SinglePhotoView';
 import DemoImage from "../../assets/images/profile.png";
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import PaymentDetails from '../Admin/Popup/DepositPaymentDetails';
+import { getSingleCard } from '../Cards/CardSlice';
+import { useDispatch } from 'react-redux';
+import { toast } from 'sonner';
 
 export default function SingleCardDetails() {
+
+
+	const dispatch = useDispatch()
+	const user_id = localStorage.getItem("useridForcard");
+	const card_id = localStorage.getItem("card_id");
+	const [requestDetails, setRequestDetails] = useState([]);
+	const [singleCardDetail, setSingleCardDetail] = useState({})
+	console.log('singleCardDetail', singleCardDetail)
+
+
 	// const { state } = useLocation();
 	// const { data } = state;
 	const [data, setData] = useState({});
 	const navigate = useNavigate();
-	const user_id = localStorage.getItem("user_id");
-	const card_id = localStorage.getItem("card_id");
-	const [loading, setLoading] = useState(true);
-	const [requestDetails, setRequestDetails] = useState([]);
+	const [loading, setLoading] = useState(false);
 	const [cardDetails, setCardDetails] = useState({});
 	const [isPhotoViewPopUpOpen, setIsPhotoViewPopUpOpen] = useState(false);
 	const [isPayPopUpOpen, setIsPayPopUpOpen] = useState(false);
 	const [payerData, setPayerData] = useState({});
 	const [id2, setId2] = useState({});
 	let totalDueAmount = 0;
-	const user = localStorage.getItem("user");
-  const header = {
-    Authorization: `Bearer ${JSON.parse(user)?.token}`,
-  };
-	const getRequestDeails = async () => {
-		try {
-			const response = await axios.get(
-				`${baseurl}/api/paymentRequest/payment-request-list?card_id=${card_id}`,
-				{ headers: header }
-			);
-			if (response.data.IsSuccess) {
-				setRequestDetails(response.data.Data);
-				setLoading(false);
-			} else {
-				toast.error(response.data.Message);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	};
-	requestDetails.map((r, i) => <div key={i}>{totalDueAmount += r.due_amount}</div>)
+	// const user = localStorage.getItem("user");
+	// const header = {
+	// 	Authorization: `Bearer ${JSON.parse(user)?.token}`,
+	// };
+	// const getRequestDeails = async () => {
+	// 	try {
+	// 		const response = await axios.get(
+	// 			`${baseurl}/api/paymentRequest/payment-request-list?card_id=${card_id}`,
+	// 			{ headers: header }
+	// 		);
+	// 		if (response.data.IsSuccess) {
+	// 			setRequestDetails(response.data.Data);
+	// 			setLoading(false);
+	// 		} else {
+	// 			toast.error(response.data.Message);
+	// 		}
+	// 	} catch (error) {
+	// 		console.log(error);
+	// 	}
+	// };
+	// requestDetails.map((r, i) => <div key={i}>{totalDueAmount += r.due_amount}</div>)
+
+
 	const getCardDetails = async () => {
+		const payload = {
+			userid: user_id,
+			cardid: card_id
+		}
 		try {
-			const response = await axios.get(
-				`${baseurl}/api/cards/cards-list?card_id=${card_id}`,
-				{ headers: header }
-			);
-			if (response.data.IsSuccess) {
-				setCardDetails(response.data.Data);
-				setLoading(false);
-			} else {
-				toast.error(response.data.Message);
-				setLoading(false);
+			const response = await dispatch(getSingleCard(payload))
+			console.log('response', response)
+			if (response?.payload?.data?.IsSuccess) {
+				setSingleCardDetail({ ...response?.payload?.data?.Data })
+				toast.success(response?.payload?.data?.Message)
 			}
 		} catch (error) {
 			console.log(error);
 		}
 	};
 	useEffect(() => {
-		getRequestDeails();
+		// getRequestDeails();
 		getCardDetails();
 	}, []);
 
@@ -213,7 +223,7 @@ export default function SingleCardDetails() {
 										Card holder name
 									</span>
 									<span className="text-base md:text-2xl 2xl:text-4xl font-bold text-yankeesBlue block">
-										{cardDetails.card_holder_name}
+										{singleCardDetail?.card_holder}
 									</span>
 								</div>
 								<div className="w-full sm:w-1/2 md:w-1/3 pl-0 sm:pl-3 md:pl-0 mb-3 md:mb-0">
@@ -221,8 +231,8 @@ export default function SingleCardDetails() {
 										Card number
 									</span>
 									<h2 className="text-base md:text-2xl 2xl:text-4xl text-yankeesBlue font-bold">
-										{cardDetails?.card_number && cardDetails?.card_number !== "" ? (
-											<>********{cardDetails.card_number.toString().substr(-4)}</>
+										{singleCardDetail?.card_number && singleCardDetail?.card_number !== "" ? (
+											<>********{singleCardDetail.card_number.toString().substr(-4)}</>
 										) : (
 											""
 										)}
@@ -233,7 +243,7 @@ export default function SingleCardDetails() {
 										Bank name
 									</span>
 									<h2 className="text-base md:text-2xl 2xl:text-4xl text-yankeesBlue font-bold">
-										{cardDetails.card_bank_name}
+										{singleCardDetail.bank_name}
 									</h2>
 								</div>
 							</div>
@@ -242,7 +252,7 @@ export default function SingleCardDetails() {
 							<div className="w-full md:w-1/2 xl:w-1/4 p-3 2xl:px-5">
 								<div className="bg-[#ed4d3714] border border-transparent py-7 px-7 2xl::px-11 rounded-xl h-full">
 									<h2 className="text-[#ED4D37] mb-3">
-										₹ {totalDueAmount}
+										₹ {singleCardDetail.due_amount}
 									</h2>
 									<span className="text-[#64748B] text-base 2xl:text-xl font-semibold">
 										Total Due Amount
@@ -260,6 +270,9 @@ export default function SingleCardDetails() {
 								</div>
 							</div> */}
 						</div>
+
+
+
 						{requestDetails.length > 0 ?
 							<div className="card">
 								<DataTable value={requestDetails} selectionMode="single" columnResizeMode={"expand"} resizableColumns={true} scrollable={true}
@@ -270,8 +283,8 @@ export default function SingleCardDetails() {
 								</DataTable>
 							</div>
 							: <div className="bg-[#F3F4F6] border border-[#CBD5E1] rounded-md text-center p-8 space-y-2 ng-star-inserted">
-							<h3 className="w-full text-[#64748B] text-2xl:text-base xl font-semibold">No payment request yet.</h3>
-						</div>}
+								<h3 className="w-full text-[#64748B] text-2xl:text-base xl font-semibold">No payment request yet.</h3>
+							</div>}
 					</div>
 					<Modal isOpen={isPhotoViewPopUpOpen}>
 						<SinglePhotoView handleClose={setIsPhotoViewPopUpOpen} id2={id2} />

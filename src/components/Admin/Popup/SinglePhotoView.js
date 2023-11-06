@@ -1,6 +1,8 @@
 import React from "react";
+import { baseImageUrl } from "../../../api/baseurl";
 
-export default function SinglePhotoView({ handleClose, id, id2 }) {
+export default function SinglePhotoView({ handleClose, id, id2, imagePreview }) {
+  console.log('imagePreview', imagePreview)
   console.log('id', id)
   console.log('id2', id2)
   return (
@@ -12,10 +14,10 @@ export default function SinglePhotoView({ handleClose, id, id2 }) {
         >
           <svg className="w-7 h-7" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"><g id="Close"><rect id="Rectangle" fillRule="nonzero" x="0" y="0" width="24" height="24"></rect><line x1="16.9999" y1="7" x2="7.00001" y2="16.9999" id="Path" stroke="#0C0310" strokeWidth="2" strokeLinecap="round"></line><line x1="7.00006" y1="7" x2="17" y2="16.9999" id="Path" stroke="#0C0310" strokeWidth="2" strokeLinecap="round"></line></g></g></svg>
         </button>
-        {id === "" || id === undefined || id === null ?
+        {/* {id === "" || id === undefined || id === null ?
           <div className="flex items-center justify-center h-full  ">
             <div className="w-1/2 p-2 md:p-3">
-              <img src={id2.frontside_card_photo} className="w-full h-full object-contain object-center " />
+              <img src={`${baseImageUrl}/${imagePreview}`} className="w-full h-full object-contain object-center " />
             </div>
             <div className="w-1/2 p-2 md:p-3">
               <img src={id2.backside_card_photo} className="w-full h-full object-contain object-center" />
@@ -25,7 +27,10 @@ export default function SinglePhotoView({ handleClose, id, id2 }) {
           <div className="flex items-center justify-center h-full  ">
             <img src={id} className="w-full h-full object-contain object-center p-5" />
           </div>
-        }
+        } */}
+        <div className="w-full h-auto p-2 md:p-3">
+          <img src={`${baseImageUrl}/${imagePreview}`} className="w-full h-full object-contain object-center " />
+        </div>
       </div>
     </div>
   );

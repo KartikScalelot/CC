@@ -11,7 +11,8 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { logInUser } from "./AuthSlice";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
+// import { toast } from "react-toastify";
 
 const Login = () => {
   const [loading, setLoading] = useState(false);

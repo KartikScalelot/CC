@@ -1,7 +1,8 @@
 import axios from "axios";
 // import { baseUrl } from "../../api/baseUrl";
-import { toast, ToastContainer } from "react-toastify";
+// import { toast, ToastContainer } from "react-toastify";
 import { baseurl } from "../../api/baseurl";
+import { toast } from "sonner";
 
 export const apiInstance = axios.create({
     baseURL: "https://cmsapi.scalelot.com",

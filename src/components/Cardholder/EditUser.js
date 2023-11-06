@@ -65,7 +65,6 @@ function EditUser() {
 
     const onSubmit = async (values) => {
         console.log('values', values)
-        debugger
         const payload = new FormData();
         for (const key in values) {
             payload.append(key, values[key]);

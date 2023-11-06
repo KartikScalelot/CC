@@ -10,32 +10,32 @@ import { ToastContainer, toast } from 'react-toastify';
 
 function ForgotPassword() {
     const navigate = useNavigate();
-    const [userData, setUserData] = useState({ email: ""});
-	const [error, setError] = useState(false);
+    const [userData, setUserData] = useState({ email: "" });
+    const [error, setError] = useState(false);
 
     const setFormField = (field, value) => {
-		setUserData({ ...userData, [field]: value })
-	}
+        setUserData({ ...userData, [field]: value })
+    }
 
 
-    const handelReset =async (data) => {
+    const handelReset = async (data) => {
         data.preventDefault();
-		try {
-			const response = await axios.post(`${baseurl}/api/user/reset-password-email`, { email: userData.email });
-			
-            if(response.data.IsSuccess){
+        try {
+            const response = await axios.post(`${baseurl}/api/user/reset-password-email`, { email: userData.email });
+
+            if (response.data.IsSuccess) {
                 toast.success(response.data.Message);
                 setTimeout(() => {
-                    localStorage.setItem("email",userData.email)
+                    localStorage.setItem("email", userData.email)
                     navigate("../verifyreset")
                 }, 1000);
             } else {
                 toast.error(response.data.Message);
             }
-		} catch (error) {
+        } catch (error) {
             toast.error('Something went wrong!!!');
-			setError(true);
-		}
+            setError(true);
+        }
     }
     return (
         <div className="flex h-screen">
@@ -68,18 +68,7 @@ function ForgotPassword() {
                     <img src={bgImage} alt="login-bg" className="w-full h-full object-cover object-bottom" />
                 </div>
             </div>
-            <ToastContainer
-        position="bottom-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
+
         </div>
     )
 }

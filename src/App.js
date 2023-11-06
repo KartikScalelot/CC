@@ -7,6 +7,7 @@ import { store } from "./redux/store";
 import { ToastContainer } from "react-toastify";
 import { history } from "./components/_utils";
 import CardHolderAddCard from "./components/Cardholder/CardHolderAddCard";
+import { Toaster } from "sonner";
 // import { socket } from "./Socket";
 
 function App() {
@@ -16,18 +17,9 @@ function App() {
 
     <>
       <div className="main min-h-screen w-full">
-        <ToastContainer
-          position="bottom-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="colored"
-        />
+        <Toaster position="top-center"
+          richColors={true}
+          theme="light" />
         <AllRoutes />
         {/* <CardHolderAddCard /> */}
       </div>
