@@ -20,7 +20,7 @@ function Charges() {
     
     const [unpaidProfitAmt, setUnpaidProfitAmt] = useState(0);
     const [paidProfitAmt, setPaidProfitAmt] = useState(0);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     
     let totalEarningAmount = 0;
     

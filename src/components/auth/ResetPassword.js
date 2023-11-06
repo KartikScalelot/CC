@@ -24,17 +24,17 @@ function ResetPassword() {
 		data.preventDefault();
 		try {
 			const response = await axios.post(`${baseurl}/api/user/reset-password`, { email: email, password: userData.password, password2: userData.password2 });
-            if(response.data.IsSuccess){
+			if (response.data.IsSuccess) {
 				toast.success(response.data.Message);
 				setTimeout(() => {
 					localStorage.clear();
 					navigate("../")
 				}, 1000);
-            } else {
+			} else {
 				toast.error(response.data.Message);
 			}
 		} catch (error) {
-            toast.error('Something went wrong!!!');
+			toast.error('Something went wrong!!!');
 			setError(true);
 		}
 	}
@@ -62,9 +62,9 @@ function ResetPassword() {
 								</div>
 								<div>
 									<label htmlFor="" className="input-titel">Confirm New Password</label>
-									<input type="Password" name="password2" placeholder='Enter confirm password' className="input_box placeholder:text-[#94A3B8] placeholder:text-base" value={userData.password2} onChange={(e) => { setFormField('password2', e.target.value); setError(false) }}  required />
+									<input type="Password" name="password2" placeholder='Enter confirm password' className="input_box placeholder:text-[#94A3B8] placeholder:text-base" value={userData.password2} onChange={(e) => { setFormField('password2', e.target.value); setError(false) }} required />
 								</div>
-								<button type='submit' className="btn-primary w-full py-[15px] uppercase text-base leading-7 font-extrabold" onClick= {handelSubmitNewPassword}>Submit a new password</button>
+								<button type='submit' className="btn-primary w-full py-[15px] uppercase text-base leading-7 font-extrabold" onClick={handelSubmitNewPassword}>Submit a new password</button>
 							</form>
 						</div>
 					</div>
@@ -74,17 +74,17 @@ function ResetPassword() {
 				</div>
 			</div>
 			<ToastContainer
-        position="bottom-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
+				position="bottom-right"
+				autoClose={5000}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+				theme="colored"
+			/>
 		</div>
 	)
 }

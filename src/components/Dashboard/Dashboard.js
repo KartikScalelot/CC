@@ -28,8 +28,8 @@ export default function Dashboard() {
 
   const [transaction, setTransaction] = useState([]);
 
-  const [loading, setLoading] = useState(true);
-  const [loading1, setLoading1] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
   const [loading2, setLoading2] = useState(true);
   const [first, setfirst] = useState([]);
   const [paidProfitAmt, setPaidProfitAmt] = useState(0);
@@ -42,7 +42,7 @@ export default function Dashboard() {
   const [totalPaid, setTotalPaid] = useState(0);
   const [unpaidAmt, setUnpaidAmt] = useState(0);
   const [month, setMonth] = useState(0);
-  
+
   const monthName = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   const dateNumber = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"];
   const months = [
@@ -71,21 +71,21 @@ export default function Dashboard() {
   let dailyChargePaid = [];
   let dailyTotalProfit = [];
   let dailyTotalPaid = [];
-  
+
   for (let i = 0; i <= 11; i++) {
-    monthlyTransaction.push(calcMonthlyTransaction(first, i+1));
-    monthlyTotalcharge.push(calcMonthlyTotalCharge(first, i+1));
-    monthlyChargePaid.push(calcMonthlyChargePaid(first, i+1));
-    monthlyTotalProfit.push(calcMonthlyTotalProfitAmt(first, i+1));
-    monthlyTotalPaid.push(calculateMonthlyTotalPaid(first, i+1));
+    monthlyTransaction.push(calcMonthlyTransaction(first, i + 1));
+    monthlyTotalcharge.push(calcMonthlyTotalCharge(first, i + 1));
+    monthlyChargePaid.push(calcMonthlyChargePaid(first, i + 1));
+    monthlyTotalProfit.push(calcMonthlyTotalProfitAmt(first, i + 1));
+    monthlyTotalPaid.push(calculateMonthlyTotalPaid(first, i + 1));
   }
 
   for (let i = 0; i <= 30; i++) {
-    dailyTransaction.push(calcDailyTransaction(first, month+'-'+(i+1)+'-2023'));
-    dailyTotalcharge.push(calcDailyTotalCharge(first, month+'-'+(i+1)+'-2023'));
-    dailyChargePaid.push(calDailyChargePaid(first, month+'-'+(i+1)+'-2023'));
-    dailyTotalProfit.push(calcDailyTotalProfitAmt(first, month+'-'+(i+1)+'-2023'));
-    dailyTotalPaid.push(calculateDailyTotalPaid(first, month+'-'+(i+1)+'-2023'));
+    dailyTransaction.push(calcDailyTransaction(first, month + '-' + (i + 1) + '-2023'));
+    dailyTotalcharge.push(calcDailyTotalCharge(first, month + '-' + (i + 1) + '-2023'));
+    dailyChargePaid.push(calDailyChargePaid(first, month + '-' + (i + 1) + '-2023'));
+    dailyTotalProfit.push(calcDailyTotalProfitAmt(first, month + '-' + (i + 1) + '-2023'));
+    dailyTotalPaid.push(calculateDailyTotalPaid(first, month + '-' + (i + 1) + '-2023'));
   }
 
   const user = localStorage.getItem("user");
@@ -160,18 +160,18 @@ export default function Dashboard() {
     );
     const surfaceBorder = documentStyle.getPropertyValue("--surface-border");
     const data = {
-      labels: month ? dateNumber: monthName,
+      labels: month ? dateNumber : monthName,
       datasets: [
         {
           label: "Total Paid Amount",
-          data: month ? dailyTotalPaid: monthlyTotalPaid,
+          data: month ? dailyTotalPaid : monthlyTotalPaid,
           fill: false,
           borderColor: documentStyle.getPropertyValue("--dash4"),
           tension: 0.4,
         },
         {
           label: "Total Earning Amount",
-          data: month ? dailyTotalProfit: monthlyTotalProfit,
+          data: month ? dailyTotalProfit : monthlyTotalProfit,
           fill: false,
           borderColor: documentStyle.getPropertyValue("--dash1"),
           tension: 0.4,
@@ -219,7 +219,7 @@ export default function Dashboard() {
       labels: ["Paid", "Unpiad", "Withdraw"],
       datasets: [
         {
-          data: [month ? calculateMonthlyTotalPaid(first, month+"-01-"+new Date().getFullYear()) : totalPaid, month ? calcMonthlyUnpaidAmt(pieData, month+"-01-"+new Date().getFullYear()) : unpaidAmt, month ? calcMonthlyWithdrawAmt(pieData, month+"-01-"+new Date().getFullYear()) : withdrawAmt],
+          data: [month ? calculateMonthlyTotalPaid(first, month + "-01-" + new Date().getFullYear()) : totalPaid, month ? calcMonthlyUnpaidAmt(pieData, month + "-01-" + new Date().getFullYear()) : unpaidAmt, month ? calcMonthlyWithdrawAmt(pieData, month + "-01-" + new Date().getFullYear()) : withdrawAmt],
           backgroundColor: [
             documentStyle.getPropertyValue("--dash1"),
             documentStyle.getPropertyValue("--dash2"),
@@ -256,31 +256,31 @@ export default function Dashboard() {
     );
     const surfaceBorder = documentStyle.getPropertyValue("--surface-border");
     const data = {
-      labels: month ? dateNumber: monthName,
+      labels: month ? dateNumber : monthName,
       datasets: [
         {
           type: "bar",
           label: "Total Transaction",
           backgroundColor: documentStyle.getPropertyValue("--dash4"),
-          data: month ? dailyTransaction :  monthlyTransaction,
+          data: month ? dailyTransaction : monthlyTransaction,
         },
         {
           type: "bar",
           label: "Total Charges",
           backgroundColor: documentStyle.getPropertyValue("--dash1"),
-          data: month ? dailyTotalPaid: monthlyTotalPaid,
+          data: month ? dailyTotalPaid : monthlyTotalPaid,
         },
         {
           type: "bar",
           label: "Charges Paid By Customer",
           backgroundColor: documentStyle.getPropertyValue("--dash3"),
-          data: month ? dailyTotalcharge: monthlyTotalcharge,
+          data: month ? dailyTotalcharge : monthlyTotalcharge,
         },
         {
           type: "bar",
           label: "Profit",
           backgroundColor: documentStyle.getPropertyValue("--dash5"),
-          data: month ? dailyChargePaid: monthlyChargePaid,
+          data: month ? dailyChargePaid : monthlyChargePaid,
         },
       ],
     };
@@ -351,7 +351,7 @@ export default function Dashboard() {
             </span>
           </div>
         </div>
-        
+
         <div className="w-full md:w-1/2 xl:w-1/4 p-3 2xl:px-5">
           <div className="bg-darkGreen bg-opacity-10 py-7 px-7 2xl::px-11 rounded-xl h-full">
             <h2 className="text-yankeesBlue mb-3">₹ {paidProfitAmt}</h2>
@@ -363,12 +363,12 @@ export default function Dashboard() {
       </div>
       <div className="relative flex items-center justify-between pt-5 md:pt-0 pb-9">
         <div className="card flex">
-          <Dropdown value={month} onChange={(e) => setMonth(e.value)} options={months} optionLabel="name" 
-    placeholder="select month" className="w-full md:w-14rem" />
+          <Dropdown value={month} onChange={(e) => setMonth(e.value)} options={months} optionLabel="name"
+            placeholder="select month" className="w-full md:w-14rem" />
           {/* <button type='button' onClick={() => setMonth(0)} className="text-base md:text-3xl font-bold text-yankeesBlue leading-8 pl-4 md:pl-7">clear</button> */}
           <button onClick={() => setMonth(0)} className="btn-secondary flex ml-2">
-							Clear
-						</button>
+            Clear
+          </button>
         </div>
         <div className="flex items-center space-x-3">
         </div>
@@ -393,12 +393,12 @@ export default function Dashboard() {
         </div>
         <div className="w-full lg:w-1/2 max-h-[500px] lg:pl-5">
           {loading1 && loading2 ? <Skeleton className="w-full h-full bg-[#f8fafc] p-5 border-2 rounded-lg border-[#e5e7eb]"></Skeleton> :
-              <Chart
-                type="pie"
-                className="w-full h-full flex justify-center items-center bg-[#f8fafc] p-5 border-2 rounded-lg border-[#e5e7eb]"
-                data={chartData1}
-                options={chartOptions1}
-              />
+            <Chart
+              type="pie"
+              className="w-full h-full flex justify-center items-center bg-[#f8fafc] p-5 border-2 rounded-lg border-[#e5e7eb]"
+              data={chartData1}
+              options={chartOptions1}
+            />
           }
         </div>
         <div className="w-full h-full pt-5 md:mt-10">

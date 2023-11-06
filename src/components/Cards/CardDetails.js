@@ -19,18 +19,18 @@ export default function CardDetails() {
 	const [isPhotoViewPopUpOpen, setIsPhotoViewPopUpOpen] = useState(false);
 	const [isPayPopUpOpen, setIsPayPopUpOpen] = useState(false);
 	const [dueAmountPop, setDueAmountPop] = useState(false);
-    const [viewNumber, setViewNumber] = useState(false)
-	
+	const [viewNumber, setViewNumber] = useState(false)
+
 	const user_id = localStorage.getItem("user_id");
 	const card_id = localStorage.getItem("card_id");
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(false);
 	const [card, setCard] = useState([]);
 	const [dueData, setDueData] = useState({});
-	
+
 	const user = localStorage.getItem("user");
-  const header = {
-    Authorization: `Bearer ${JSON.parse(user)?.token}`,
-  };
+	const header = {
+		Authorization: `Bearer ${JSON.parse(user)?.token}`,
+	};
 	const getCardDetails = async () => {
 		try {
 			const response = await axios.get(`${baseurl}/api/cards/cards-list?card_id=${card_id}&user_id=${user_id}`, { headers: header });

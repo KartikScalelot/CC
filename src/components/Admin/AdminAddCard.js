@@ -41,7 +41,7 @@ function AdminAddCard() {
 		// card_type: Yup.string().required('Card type is required*'),
 		card_category: Yup.string(),
 		card_bank_name: Yup.string().required('Bank name is required*'),
-		card_number: Yup.string().test('len', 'Must be exactly 12 characters', val => val.length === 12).required('Card number is required*'),
+		card_number: Yup.string().test('len', 'Must be exactly 12 characters', val => val.length === 16).required('Card number is required*'),
 		card_holder_name: Yup.string().required('Card holder name is required*'),
 		card_network: Yup.string().required('Card Network is required*'),
 		frontside_card_photo: Yup.string().required('Frontside Card photo is required*'),
@@ -148,7 +148,7 @@ function AdminAddCard() {
 							{/* <div className={'w-full sm:w-1/2 mb-4 sm:mb-0' + (formik.values.card_type === "Debit Card" ? "opacity-30" : "")}> */}
 							<div className='w-full sm:w-1/2 mb-4 sm:mb-0'>
 								<label htmlFor="card_number" className="input-title2">Card Number*</label>
-								<input maxLength={12} type="text" name="card_number" className="input_box2 placeholder:text-[#94A3B8] text-sm sm:placeholder:text-xl" placeholder='Enter card number' onChange={(e) => setInputValue("card_number", e.target.value)} />
+								<input maxLength={16} type="text" name="card_number" className="input_box2 placeholder:text-[#94A3B8] text-sm sm:placeholder:text-xl" placeholder='Enter card number' onChange={(e) => setInputValue("card_number", e.target.value)} />
 								<small className="text-red-500 text-xs">{formik.errors.card_number}</small>
 							</div>
 							<div className={'w-full sm:w-1/2 mb-4 sm:mb-0'}>

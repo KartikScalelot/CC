@@ -37,17 +37,17 @@ function VerifyReset() {
 
 	const reSendOtp = async () => {
 		try {
-				const response = await axios.post(`${baseurl}/api/user/reset-password-email`, { email: email });
-				if (response.data.IsSuccess) {
-					toast.success("Otp resend successfully.");
-				} else {
-					toast.error("Something went wrong.");
-				}
+			const response = await axios.post(`${baseurl}/api/user/reset-password-email`, { email: email });
+			if (response.data.IsSuccess) {
+				toast.success("Otp resend successfully.");
+			} else {
+				toast.error("Something went wrong.");
+			}
 
 		} catch (error) {
-				toast.error("Something went wrong.");
+			toast.error("Something went wrong.");
 		}
-}
+	}
 
 	const handelVerificationCode = async (e) => {
 		e.preventDefault();
@@ -59,7 +59,7 @@ function VerifyReset() {
 				otp: fullOtp
 			}
 			if (fullOtp != "0000") {
-                const response = await axios.post(`${baseurl}/api/user/verify-admin`, payload);
+				const response = await axios.post(`${baseurl}/api/user/verify-admin`, payload);
 				if (response.data.IsSuccess) {
 					toast.success("Otp verified successfully.")
 					setTimeout(() => {
@@ -68,7 +68,7 @@ function VerifyReset() {
 				} else {
 					toast.error(response.data.Message);
 				}
-            }
+			}
 		} catch (error) {
 			toast.error(error);
 		}
@@ -111,17 +111,17 @@ function VerifyReset() {
 				</div>
 			</div>
 			<ToastContainer
-        position="bottom-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
+				position="bottom-right"
+				autoClose={5000}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+				theme="colored"
+			/>
 		</div>
 	)
 }

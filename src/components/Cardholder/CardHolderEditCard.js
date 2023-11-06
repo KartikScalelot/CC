@@ -44,7 +44,7 @@ export default function CardHolderEditCard() {
         card_network: Yup.string().required('Card network is required*'),
         card_bank_name: Yup.string().required('Bank name is required*'),
         card_category: Yup.string().required('Card category is required*'),
-        card_number: Yup.string().test('len', 'Must be exactly 12 characters', val => val.length === 12).required('Card number is required*'),
+        card_number: Yup.string().test('len', 'Must be exactly 12 characters', val => val.length === 16).required('Card number is required*'),
         card_holder_name: Yup.string().required('Card holder name is required*'),
         // card_photo: Yup.string().required('Card photo is required*'),
         frontside_card_photo: Yup.string().required('Card photo is required*'),
@@ -160,7 +160,7 @@ export default function CardHolderEditCard() {
                             <div className="w-full flex flex-wrap md:flex-nowrap items-center md:space-x-6 md:mb-7">
                                 <div className='w-full md:w-1/2 mb-4 md:mb-0'>
                                     <label htmlFor="card_number" className="input-title2">Card Number*</label>
-                                    <input maxLength={12} type="text" name="card_number" className="input_box2 placeholder:text-[#94A3B8] placeholder:text-sm md:placeholder:text-xl" placeholder='Enter card number' defaultChecked onChange={(e) => setInputValue("card_number", e.target.value)} defaultValue={formik.values?.card_number || ""} />
+                                    <input maxLength={16} type="text" name="card_number" className="input_box2 placeholder:text-[#94A3B8] placeholder:text-sm md:placeholder:text-xl" placeholder='Enter card number' defaultChecked onChange={(e) => setInputValue("card_number", e.target.value)} defaultValue={formik.values?.card_number || ""} />
                                     <small className="text-red-500 text-xs">{formik.errors.card_number}</small>
                                 </div>
                                 <div className='w-full md:w-1/2 mb-4 md:mb-0'>

@@ -43,6 +43,7 @@ const Register = () => {
 	});
 
 	const handelRegister = async (values) => {
+		console.log('values', values)
 		// if (values.password === values.password2) {
 		// return
 		setLoading(true);

@@ -16,7 +16,7 @@ function AdminAccountDetails() {
     const [details, setDetails] = useState({});
     const [profileImage, setProfileImage] = useState(null);
     const [isDisable, setIsDisable] = useState(true);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const header = {
         'Authorization': `Bearer ${JSON.parse(user)?.token}`,
