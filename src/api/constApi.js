@@ -6,6 +6,8 @@ export const RESET_PASSWORD = "/admin/updatepassword";
 
 export const CREATE_USER = "/admin/user/save";
 export const GET_ALL_USER = "/admin/user";
+export const APPROVE_USER = "/admin/user/approve";
+export const DISAPPROVE_USER = "/admin/user/disapprove";
 
 //Card
 export const ADD_CARD = "/admin/card/save";

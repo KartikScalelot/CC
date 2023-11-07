@@ -5,7 +5,7 @@
 //     PINCODEMATCH,
 // } from "../../../api/constApi";
 // import authHeader from "../authHeader";
-import { CREATE_USER, GET_ALL_USER } from "../../../api/constApi";
+import { APPROVE_USER, CREATE_USER, DISAPPROVE_USER, GET_ALL_USER } from "../../../api/constApi";
 import authHeader from "../../../redux/Services/authHeader";
 // import authHeader from "../../../redux/Services/authHeader";
 import { apiInstance } from "../../../redux/Services/axiosApi";
@@ -18,6 +18,16 @@ export const createUserServices = (payload) => {
 };
 export const getAllUserServices = (payload) => {
     return apiInstance.post(GET_ALL_USER, payload, {
+        headers: authHeader(),
+    });
+};
+export const approveUserServices = (payload) => {
+    return apiInstance.post(APPROVE_USER, payload, {
+        headers: authHeader(),
+    });
+};
+export const disApproveUserServices = (payload) => {
+    return apiInstance.post(DISAPPROVE_USER, payload, {
         headers: authHeader(),
     });
 };

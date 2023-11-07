@@ -3,7 +3,7 @@ import { values } from "lodash";
 import { async } from "q";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
-import { createUserServices, getAllUserServices } from "../auth/services/UserServics";
+import { approveUserServices, createUserServices, disApproveUserServices, getAllUserServices } from "../auth/services/UserServics";
 
 const initialState = {
     allusers: [],
@@ -21,6 +21,18 @@ export const getAllUser = createAsyncThunk(
     "user/getalluser",
     async (payload) => {
         return await getAllUserServices(payload);
+    },
+);
+export const approveUser = createAsyncThunk(
+    "user/getalluser",
+    async (payload) => {
+        return await approveUserServices(payload);
+    },
+);
+export const disApproveUser = createAsyncThunk(
+    "user/getalluser",
+    async (payload) => {
+        return await disApproveUserServices(payload);
     },
 );
 

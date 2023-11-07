@@ -261,32 +261,28 @@ export default function CardHolderAddCard() {
                           </small>
                         </div> */}
                         <div className="w-full md:w-1/2 mb-4 md:mb-0">
-                          <label htmlFor="purpose" className="input-title2">
+                          <label htmlFor="" className="input-title2">
                             Card category
                           </label>
                           <div className="cardType flex items-center space-x-10 md:px-4 py-3">
                             <label
                               className="flex items-center relative"
-                              htmlFor="purpose"
+                              htmlFor="business"
                             >
                               <Field
                                 required
                                 type="radio"
                                 name="purpose"
-                                id="purpose"
+                                id="business"
                                 value="Business"
                                 className="absolute inset-0 z-10 cursor-pointer opacity-0 transactiongroup"
 
-
                               />
-                              <small className="text-red-500 text-base ">
-
-                              </small>
                               <div className="flex items-center">
                                 <span className="inline-block w-5 h-5 rounded-full border-2 border-black/20 mr-4 radio"></span>
                               </div>
                               <span className="text-[#475569] text-sm  md:text-xl font-semibold md:pl-3">
-                                Business
+                                Personal
                               </span>
                             </label>
                             <label
@@ -433,7 +429,7 @@ export default function CardHolderAddCard() {
                                 formik.values.frontside_card_photo !== ""
                                 ? formik.values.frontside_card_photo.name
                                 : "Upload"} */}
-                              Upload
+                              {values.card_photo_front ? <p className='text-green-600'>Photo Upload Successfully</p> : "Upload"}
                             </span>
                           </label>
                           <Dropzone
@@ -487,12 +483,8 @@ export default function CardHolderAddCard() {
                                 fill="#94A3B8"
                               />
                             </svg>
-                            <span className="text-[#94A3B8] font-normal text-sm md:text-xl pl-4">
-                              {/* {formik.values.backside_card_photo &&
-                                formik.values.backside_card_photo !== ""
-                                ? formik.values.backside_card_photo.name
-                                : "Upload"} */}
-                              Upload
+                            <span className="text-[#94A3B8] font-normal text-sm sm:text-xl pl-4">
+                              {values.card_photo_back ? <p className='text-green-600'>Photo Upload Successfully</p> : "Upload"}
                             </span>
                           </label>
                           <Dropzone

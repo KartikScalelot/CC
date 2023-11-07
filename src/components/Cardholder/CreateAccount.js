@@ -13,6 +13,7 @@ import { toast } from 'sonner';
 
 function CreateAccount() {
 
+
 	const navigate = useNavigate();
 	const dispatch = useDispatch()
 	// const dispatch = useDispatch();
@@ -65,7 +66,7 @@ function CreateAccount() {
 	})
 
 	const onSubmit = async (values) => {
-		debugger
+
 		console.log('values', values)
 		const payload = new FormData();
 		for (const key in values) {
@@ -80,7 +81,6 @@ function CreateAccount() {
 				toast.success(response?.data?.Message)
 				navigate("../")
 			}
-
 			console.log('response', response)
 		} catch (error) {
 			console.log('error', error)
@@ -202,7 +202,6 @@ function CreateAccount() {
 												<path fillRule="evenodd" clipRule="evenodd" d="M11 16.75C11.4142 16.75 11.75 16.4142 11.75 16V10C11.75 9.5858 11.4142 9.25 11 9.25C10.5858 9.25 10.25 9.5858 10.25 10V16C10.25 16.4142 10.5858 16.75 11 16.75Z" fill="#94A3B8" />
 											</svg>
 											<span className="text-[#94A3B8] font-normal text-sm sm:text-xl pl-4">
-
 												{values.aadhar_card_front ? <p className='text-green-600'>Adhar Upload Successfully</p> : "Upload Adhar Font"}
 											</span>
 										</label>

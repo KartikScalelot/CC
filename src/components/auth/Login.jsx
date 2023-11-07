@@ -16,7 +16,6 @@ import { toast } from "sonner";
 
 const Login = () => {
   const { user } = useUser();
-  console.log("user", user);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
@@ -39,9 +38,7 @@ const Login = () => {
   });
 
   const onSubmit = async (values) => {
-    console.log("valuess", values);
     const payload = Object.assign({}, values);
-    console.log("payload", payload);
     try {
       setLoading(true);
       const response = await dispatch(logInUser(payload));
@@ -49,7 +46,6 @@ const Login = () => {
         toast.success(response?.payload?.data?.Message);
         navigate("/dashboard");
       }
-      console.log("response", response);
     } catch (error) {}
     //const directResponse = await axios.post("https://cmsapi.scalelot.com/admin/login",payload);
     setLoading(false);
@@ -69,7 +65,6 @@ const Login = () => {
     if (now.getDate() > item.expiry) {
       // If the item is expired, delete the item from storage
       // and return null
-      console.log("expire");
       localStorage.removeItem("user");
       // localStorage.removeItem("isLoggedIn")
       return null;

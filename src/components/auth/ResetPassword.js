@@ -29,14 +29,11 @@ function ResetPassword() {
 	})
 
 	const onSubmit = async (values) => {
-		debugger
-		console.log('values', values)
+		
 
 		const payload = Object.assign({}, values)
-		console.log('payload', payload)
 		try {
 			const response = await dispatch(changePassword(payload))
-			console.log('response', response)
 			if (response?.payload?.data?.IsSuccess) {
 				toast.success(response?.payload?.data?.Message)
 				navigate("/")

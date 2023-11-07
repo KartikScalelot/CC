@@ -21,13 +21,12 @@ export default function CardHolderEditCard() {
     const [loading2, setLoading2] = useState(false);
     const [loading1, setLoading1] = useState(false);
     const [singleCardDetail, setSingleCardDetail] = useState({})
-    console.log('singleCardDetail', singleCardDetail)
     const [data, setData] = useState({});
     const user = localStorage.getItem("user");
     const userid = localStorage.getItem("useridForcard");
     const card_id = localStorage.getItem("card_id");
 
-    
+
     const initialValues = {
         card_photo_front: null,
         card_photo_back: null,
@@ -55,20 +54,16 @@ export default function CardHolderEditCard() {
 
     const onSubmit = async (values) => {
 
-        console.log('values', values)
         const payload = new FormData();
         for (const key in values) {
             payload.append(key, values[key]);
         }
         payload.append("userid", userid)
         payload.append("cardid", card_id)
-        for (const [key, value] of payload.entries()) {
-            console.log(`Key: ${key}, Value: ${value}`);
-        }
-        console.log('payload', payload)
+
         try {
             const response = await dispatch(updateCard(payload)).unwrap()
-            console.log('response', response)
+
             if (response?.data?.IsSuccess) {
                 toast.success(response?.data?.Message)
                 navigate("../singlecardholdercardlist")
@@ -182,7 +177,6 @@ export default function CardHolderEditCard() {
         }
         try {
             const response = await dispatch(getSingleCard(payload))
-            console.log('response', response)
             if (response?.payload?.data?.IsSuccess) {
 
                 const fillData = response?.payload?.data?.Data

@@ -29,11 +29,10 @@ export default function SingleCardHolderCardsList() {
     const [listCards, setListCards] = useState([]);
     const [listView, setListView] = useState(false);
     const [dueData, setDueData] = useState({});
-    console.log('dueData', dueData)
-    console.log('cardList', cardList)
+
 
     const userid = localStorage.getItem("useridForcard")
-    console.log('userid', userid)
+
 
     const getCardDetails = async () => {
         const payload = {
@@ -45,10 +44,11 @@ export default function SingleCardHolderCardsList() {
             setLoading1(true)
             setLoading2(true)
             const response = await dispatch(getCardList(payload))
-            console.log('response', response)
+
             if (response?.payload?.data?.IsSuccess) {
                 toast.success(response?.payload?.data?.Message)
                 setCardList(response?.payload?.data?.Data?.docs)
+                setListCards(response?.payload?.data?.Data?.docs)
             }
 
         } catch (error) {
@@ -190,16 +190,16 @@ export default function SingleCardHolderCardsList() {
                                 Add Card
                             </button>
                             <div
-                                // onClick={() => setListView(!listView)} 
+                                onClick={() => setListView(!listView)}
+
 
                                 className="flex items-center rounded-lg border-2 border-lightGray cursor-pointer px-3 sm:px-5 py-2 sm:py-3">
-                                {/* card view Icon */}
-                                <svg width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+                                {listView ? <svg width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1 0.25C0.585786 0.25 0.25 0.585786 0.25 1C0.25 1.41421 0.585786 1.75 1 1.75H15C15.4142 1.75 15.75 1.41421 15.75 1C15.75 0.585786 15.4142 0.25 15 0.25H1Z" fill="#1E293B" />
                                     <path d="M4 6.25C3.58579 6.25 3.25 6.58579 3.25 7C3.25 7.41421 3.58579 7.75 4 7.75H12C12.4142 7.75 12.75 7.41421 12.75 7C12.75 6.58579 12.4142 6.25 12 6.25H4Z" fill="#1E293B" />
                                     <path d="M6 12.25C5.58579 12.25 5.25 12.5858 5.25 13C5.25 13.4142 5.58579 13.75 6 13.75H10C10.4142 13.75 10.75 13.4142 10.75 13C10.75 12.5858 10.4142 12.25 10 12.25H6Z" fill="#1E293B" />
-                                </svg>
-                                <>
+                                </svg> : <>
                                     {/* List view Icon */}
                                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M4 10C4 11.1046 3.10457 12 2 12C0.895431 12 3.49691e-07 11.1046 3.49691e-07 10C3.49691e-07 8.89543 0.895431 8 2 8C3.10457 8 4 8.89543 4 10Z" fill="#1E293B" />
@@ -211,7 +211,10 @@ export default function SingleCardHolderCardsList() {
                                         <path d="M4 18C4 19.1046 3.10457 20 2 20C0.89543 20 0 19.1046 0 18C0 16.8954 0.89543 16 2 16C3.10457 16 4 16.8954 4 18Z" fill="#1E293B" />
                                         <path d="M12 18C12 19.1046 11.1046 20 10 20C8.89544 20 8.00001 19.1046 8.00001 18C8.00001 16.8954 8.89544 16 10 16C11.1046 16 12 16.8954 12 18Z" fill="#1E293B" />
                                         <path d="M20 18C20 19.1046 19.1046 20 18 20C16.8954 20 16 19.1046 16 18C16 16.8954 16.8954 16 18 16C19.1046 16 20 16.8954 20 18Z" fill="#1E293B" />
-                                    </svg></>
+                                    </svg></>}
+                                {/* card view Icon */}
+
+
                             </div>
                         </div>
 
@@ -256,8 +259,8 @@ export default function SingleCardHolderCardsList() {
                                 :
                                 <>
                                     <div className="flex justify-start flex-wrap sm:mt-9">
-                                        {/* {listCards.map((card) => {
-                                            console.log('card', card)
+                                        {listCards.map((card) => {
+
                                             return (
                                                 <>
                                                     <div className="relative w-full md:w-1/2 xl:w-1/3 overflow-hidden sm:px-3 2xl:mb-4 mb-4" onClick={() => { localStorage.setItem("card_id", card._id); navigate("../singlecarddetails") }}>
@@ -271,14 +274,14 @@ export default function SingleCardHolderCardsList() {
                                                                 <div className='flex items-center'>
 
                                                                     <span className="text-lg text-white font-semibold pr-3">
-                                                                        {card.card_holder_name}
+                                                                        {card.card_holder}
                                                                     </span>
-                                                                 
+
                                                                 </div>
 
                                                                 <div className="flex flex-col pt-3 lg:pt-6">
                                                                     <span className="text-[#94A3B8] text-sm lg:text-base font-normal">
-                                                                        {card.card_bank_name}
+                                                                        {card.bank_name}
                                                                     </span>
                                                                     <span className="text-white text-xl lg:text-2xl font-semibold">
                                                                         ********{card.card_number.toString().substr(-4)}
@@ -289,14 +292,14 @@ export default function SingleCardHolderCardsList() {
                                                                         <span className="text-[#94A3B8] text-sm lg:text-base leading-7 font-normal">
                                                                         </span>
                                                                         <span className="text-white text-xl lg:text-2xl font-semibold">
-                                                                            {card.card_category}
+                                                                            {card.purpose}
                                                                         </span>
                                                                     </div>
                                                                     <div className='flex flex-col'>
                                                                         <span className="text-[#94A3B8] text-sm lg:text-base leading-7 font-normal">
                                                                         </span>
                                                                         <span className="text-white text-xl lg:text-2xl font-semibold">
-                                                                            {card.card_network}
+                                                                            {card.card_type}
                                                                         </span>
                                                                     </div>
                                                                 </div>
@@ -306,7 +309,7 @@ export default function SingleCardHolderCardsList() {
                                                 </>
                                             )
                                         }
-                                        )} */}
+                                        )}
                                     </div>
                                 </>
                             : <div className="flex items-center justify-center">

@@ -8,7 +8,7 @@ import { Column } from 'primereact/column';
 import 'primeicons/primeicons.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'primereact/resources/primereact.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useAsyncError, useNavigate } from 'react-router-dom';
 // import 'primeflex/primeflex.css';
 import DemoImage from "../../assets/images/profile.png"
 import { baseImageUrl, baseurl } from '../../api/baseurl';
@@ -19,31 +19,37 @@ import Modal from '../../common/Modals/Modal';
 import SinglePhotoView from '../Admin/Popup/SinglePhotoView';
 import CreateAccount from './CreateAccount';
 import { useDispatch } from 'react-redux';
-import { getAllUser } from './UserSlice';
+import { disApproveUser, getAllUser } from './UserSlice';
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import FsLightbox from 'fslightbox-react';
 import { toast } from 'sonner';
+import { InputSwitch } from 'primereact/inputswitch';
+import ApproveCommisionPopup from '../Admin/Popup/ApproveCommisionPopup';
 
 function CardHolderList() {
 	// const [products, setProducts] = useState([]);
 	// const [multiSortMeta, setMultiSortMeta] = useState([{ field: 'category', order: -1 }]);
 	// const productService = new ProductService();
 	// const [users, setUsers] = useState([]);
+	const [checked, setChecked] = useState()
 	const [open, setOpen] = React.useState(false);
 	const [totalCardHolders, setTotalCardHolders] = useState(0);
 	const [imagePreview, setImagePreview] = useState("")
 	const [searchUser, setSearchUser] = useState("")
 	const [loading, setLoading] = useState(false);
+	const [switchLoader, setSwitchLoader] = useState(false)
 	const [oneUser, setOneUser] = useState({});
 	const [isSingleUserPopUpOpen, setIsSingleUserPopUpOpen] = useState(false);
+	const [appprovePopupOpen, setAppprovePopupOpen] = useState(false)
+	const [user, setUser] = useState({})
+
 	const [id, setId] = useState();
 	const dispatch = useDispatch()
 	const [toggler, setToggler] = useState(false);
 	// const user = localStorage.getItem("user");
 	const navigate = useNavigate();
 	const [userList, setUserList] = useState([])
-	console.log('userList', userList)
 	const zoomRef = useRef(null);
 
 	const getUserList = async () => {
@@ -53,7 +59,8 @@ function CardHolderList() {
 			limit: 100000,
 			search: searchUser
 		}
-		setLoading(true)
+		setLoading(false)
+
 		const response = await dispatch(getAllUser(payload))
 		if (response?.payload?.data?.IsSuccess) {
 			setUserList(response?.payload?.data?.Data?.docs)
@@ -63,7 +70,26 @@ function CardHolderList() {
 	useEffect(() => {
 		getUserList()
 		localStorage.removeItem("useridForcard")
-	}, [searchUser])
+	}, [searchUser, appprovePopupOpen])
+
+
+
+	const approveChange = async (e, row) => {
+
+		if (e.value == true && e.value) {
+			setAppprovePopupOpen(e.value)
+		} else {
+			if (row.is_approved == true) {
+
+				const response = await dispatch(disApproveUser({ userid: row._id }))
+
+				if (response?.payload?.data?.IsSuccess) {
+					toast.success(response?.payload?.data?.Message)
+					getUserList()
+				}
+			}
+		}
+	}
 
 	// localStorage.removeItem("user_id");
 	// localStorage.removeItem("card_id");
@@ -111,7 +137,6 @@ function CardHolderList() {
 	// 	}
 	// }
 
-	console.log('1111111111', "1" - - "1")
 
 	const columns = [
 		{
@@ -182,11 +207,34 @@ function CardHolderList() {
 				</div>
 		},
 		{
+			header: 'Commission', field: row =>
+				<div className="flex">
+					<span className="text-lg text-yankeesBlue font-semibold block">{row?.commission || 0}%</span>
+				</div>
+		},
+		{
+			header: 'Approve', field: row =>
+				<div className="flex"   >
+					{/* <input type='checkbox' className='' /> */}
+					{switchLoader ? <ProgressSpinner style={{ width: '25px', height: '25px' }} strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" /> : <InputSwitch checked={row.is_approved} onChange={(e) => { approveChange(e, row); setUser(row) }} />}
+				</div>
+		},
+		{
 			header: 'Cards', field: row =>
 				// <div className="flex justify-center items-center gap-3 border border-[#1E293B] rounded-lg py-1.5 max-w-[78px] w-full" onClick={(e) => { localStorage.setItem("user_id", row.id); navigate("../cardholder/singlecardholdercardlist"); e.stopPropagation(); }}>
-				<div to='createaccount' className="flex justify-center items-center gap-3  rounded-lg py-1.5 max-w-[78px] w-full btn-secondary" onClick={(e) => { localStorage.setItem("useridForcard", row.id); navigate("../cardholder/singlecardholdercardlist"); e.stopPropagation(); }}>
-					View
+				<div className='relative'>
+					<button disabled={!row.is_approved} to='createaccount' className={`flex justify-center items-center gap-3  rounded-lg py-1.5 max-w-[78px] w-full btn-secondary`} onClick={(e) => { localStorage.setItem("useridForcard", row.id); navigate("../cardholder/singlecardholdercardlist"); e.stopPropagation(); }}>
+						View
+					</button>
+					{
+						!row?.is_approved &&
+						<span className='block absolute inset-0 bg-black/20 border-none rounded-lg cursor-not-allowed'></span>
+					}
 				</div>
+
+			// <button disabled={!row.is_approved} to='createaccount' className={`flex justify-center items-center gap-3  rounded-lg py-1.5 max-w-[78px] w-full ${row.is_approved == true ? "btn-primary" : "btn-disable"}`} onClick={(e) => { localStorage.setItem("useridForcard", row.id); navigate("../cardholder/singlecardholdercardlist"); e.stopPropagation(); }}>
+			// 	View
+			// </button>
 			// </div>
 		},
 		{
@@ -196,7 +244,6 @@ function CardHolderList() {
 					<button type="button" className="p-3" onClick={(e) => {
 						localStorage.setItem("user_id", row.id);
 						//  navigate('singlecardholderdetail');
-						console.log('row', row)
 						e.stopPropagation();
 					}}>
 						<svg width="22" height="21" viewBox="0 0 22 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -302,6 +349,9 @@ function CardHolderList() {
 			</div>
 			<Modal isOpen={isSingleUserPopUpOpen}>
 				<SingleCardHolderDetail handleClose={setIsSingleUserPopUpOpen} details={oneUser} />
+			</Modal>
+			<Modal isOpen={appprovePopupOpen}>
+				<ApproveCommisionPopup handleClose={setAppprovePopupOpen} user={user} />
 			</Modal>
 			{/* <Modal isOpen={isPhotoViewPopUpOpen}>
 				<SinglePhotoView handleClose={setIsPhotoViewPopUpOpen} imagePreview={imagePreview} id={id} />

@@ -62,7 +62,6 @@ function SideBar() {
 
   const location = useLocation();
   const [loc, setLoc] = useState(location.pathname);
-  console.log("loc : ", window.location.pathname);
   const getCardDetails = async () => {
     try {
       const response = await axios.get(`${baseurl}/api/user/user-profile`, {
@@ -312,7 +311,7 @@ function SideBar() {
                 {getPath()}
               </h2>
             </div>
-            <div className="flex items-center space-x-5 sm:space-x-10">
+            <div className="flex items-center space-x-3.5 sm:space-x-5">
               {/* <button type="button" className="">
                 <img src={SearchIcon} alt="Search Icon" />
               </button> */}
@@ -600,7 +599,7 @@ function SideBar() {
                   </div>
                 </div>
               </button> */}
-              <button className="h-10 w-36 rounded-3xl bg-azureishWhite" onClick={() => { navigate("/resetpassword") }}>
+              <button className="py-2 px-4 text-base font-medium rounded bg-azureishWhite" onClick={() => { navigate("/resetpassword") }}>
 
                 Reset Password
               </button>

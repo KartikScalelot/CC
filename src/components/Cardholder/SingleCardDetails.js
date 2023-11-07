@@ -22,7 +22,6 @@ export default function SingleCardDetails() {
 	const card_id = localStorage.getItem("card_id");
 	const [requestDetails, setRequestDetails] = useState([]);
 	const [singleCardDetail, setSingleCardDetail] = useState({})
-	console.log('singleCardDetail', singleCardDetail)
 
 
 	// const { state } = useLocation();
@@ -66,7 +65,6 @@ export default function SingleCardDetails() {
 		}
 		try {
 			const response = await dispatch(getSingleCard(payload))
-			console.log('response', response)
 			if (response?.payload?.data?.IsSuccess) {
 				setSingleCardDetail({ ...response?.payload?.data?.Data })
 				toast.success(response?.payload?.data?.Message)
