@@ -9,7 +9,6 @@ const combineReducer = combineReducers({
     auth: AuthSlice,
     user: UserSlice,
     card: CardSlice
-
 });
 
 const store = configureStore({

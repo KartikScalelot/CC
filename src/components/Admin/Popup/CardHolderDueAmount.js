@@ -3,23 +3,19 @@ import { Calendar } from 'primereact/calendar';
 import { Dropdown } from 'primereact/dropdown';
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import * as Yup from 'yup';
-import { baseurl } from '../../../api/baseurl';
-
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment/moment';
-import { async } from 'q';
 import { useDispatch } from 'react-redux';
 import { updateCardDueDate } from '../../Cards/CardSlice';
 import { toast } from 'sonner';
 function CardHolderDueAmount({ handleClose, dueData }) {
-    console.log('dueData', dueData)
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch()
     const userid = localStorage.getItem("useridForcard")
-    console.log('userid', userid)
     let minDateValue = new Date(new Date().setDate(new Date().getDate() + 1));
+    
 
     // const paymentMethod = [
     //     { name: 'Deposit', value: 'Deposit' },
@@ -43,7 +39,6 @@ function CardHolderDueAmount({ handleClose, dueData }) {
 
     const onSubmit = async (values) => {
 
-        console.log('values', values)
         const payload = Object.assign({}, values)
         setLoading(true)
         const response = await dispatch(updateCardDueDate(payload))
@@ -51,7 +46,6 @@ function CardHolderDueAmount({ handleClose, dueData }) {
             toast.success(response?.payload?.data?.Message)
             handleClose(false)
         }
-        console.log('response', response)
         setLoading(false)
     }
 
@@ -67,7 +61,6 @@ function CardHolderDueAmount({ handleClose, dueData }) {
     //             handleClose(false);
     //         } else {
     //             toast.error(response.data.Message);
-    //             console.log("error");
     //         }
     //         setLoading(false);
     //     } catch (error) {
@@ -105,8 +98,6 @@ function CardHolderDueAmount({ handleClose, dueData }) {
                 >
                     {
                         ({ formik, setFieldValue, values, errors }) => {
-                            console.log('values', values)
-                            console.log('errors', errors)
                             return (
                                 <>
                                     <Form >
@@ -122,7 +113,7 @@ function CardHolderDueAmount({ handleClose, dueData }) {
                                                 <div className='paymentpop w-full md:w-1/2 mb-3 md:mb-0'>
                                                     <label htmlFor="due_date" className="inline-block text-sm font-bold text-yankeesBlue mb-1">Due Date</label>
                                                     <Calendar name="due_date" className='due w-full py-[1px] overflow-hidden box-shadow'
-                                                        onChange={(e) => { console.log(moment(e.value).valueOf()); setFieldValue("due_date", JSON.stringify(moment(e.value).valueOf())) }}
+                                                        onChange={(e) => { setFieldValue("due_date", JSON.stringify(moment(e.value).valueOf())) }}
                                                         minDate={minDateValue} placeholder={new Date().toISOString().slice(0, 10)} readOnlyInput />
                                                     <small className="text-red-500 text-xs">  <ErrorMessage name='due_date' /></small>
 

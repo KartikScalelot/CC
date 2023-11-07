@@ -46,17 +46,18 @@ const userSlice = createSlice({
             // state.user = user ? user : {};
         });
         builder.addCase(getAllUser.fulfilled, (state, action) => {
+            state.allusers = action?.payload?.data?.Data?.docs
+
             // let user = action?.payload?.data?.Data;
-            state.allusers = action?.payload?.data?.Data
             // state.user = user ? user : {};
         });
     },
 });
 export default userSlice.reducer;
 
-// export const selectEvent = (state) => state.eventPersonalDetails.;
+export const selectUsers = (state) => state.user.allusers
 
-// export const useEventList = () => {
-//     const allEventList = useSelector(selectEvent);
-//     return useMemo(() => allEventList, [allEventList]);
-// };
+export const useUserList = () => {
+    const userList = useSelector(selectUsers);
+    return useMemo(() => userList, [userList]);
+};

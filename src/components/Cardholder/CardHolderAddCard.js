@@ -50,28 +50,24 @@ export default function CardHolderAddCard() {
 
   const onSubmit = async (values) => {
 
-    console.log('userId', userId)
-    console.log('values', values)
     const payload = new FormData();
     for (const key in values) {
       payload.append(key, values[key]);
     }
     payload.append("userid", userId)
     for (const [key, value] of payload.entries()) {
-      console.log(`Key: ${key}, Value: ${value}`);
     }
     payload.append("cardid", "")
-    console.log('payload', payload)
     try {
+      setLoading(true)
       const response = await dispatch(addCard(payload)).unwrap()
-      console.log('response', response)
       if (response?.data?.IsSuccess) {
         toast.success(response?.data?.Message)
         navigate("../singlecardholdercardlist")
       }
     } catch (error) {
-      console.log('error', error)
     }
+    setLoading(false)
   }
   // const navigate = useNavigate();
   // const dispatch = useDispatch();
@@ -222,8 +218,7 @@ export default function CardHolderAddCard() {
         >
           {
             ({ formik, setFieldValue, values, errors }) => {
-              console.log('values', values)
-              console.log('errors', errors)
+
               return (
                 <>
                   <Form>
@@ -282,7 +277,7 @@ export default function CardHolderAddCard() {
                                 <span className="inline-block w-5 h-5 rounded-full border-2 border-black/20 mr-4 radio"></span>
                               </div>
                               <span className="text-[#475569] text-sm  md:text-xl font-semibold md:pl-3">
-                                Personal
+                                Business
                               </span>
                             </label>
                             <label

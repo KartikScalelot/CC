@@ -16,10 +16,17 @@ import { useDispatch } from 'react-redux';
 import { async } from 'q';
 import { getCardList } from '../Cards/CardSlice';
 import { toast } from 'sonner';
+import { useUserList } from './UserSlice';
 
 
 
 export default function SingleCardHolderCardsList() {
+    const userList = useUserList()
+    const userid = localStorage.getItem("useridForcard")
+
+    const user = userList.find((items) => {
+        return items.id === userid
+    })
     const navigate = useNavigate();
     const dispatch = useDispatch()
     const [cardList, setCardList] = useState([])
@@ -31,7 +38,6 @@ export default function SingleCardHolderCardsList() {
     const [dueData, setDueData] = useState({});
 
 
-    const userid = localStorage.getItem("useridForcard")
 
 
     const getCardDetails = async () => {
@@ -61,6 +67,8 @@ export default function SingleCardHolderCardsList() {
     useEffect(() => {
         getCardDetails()
     }, [])
+
+
 
 
 
@@ -171,8 +179,8 @@ export default function SingleCardHolderCardsList() {
                                 <path d="M7.65995 2.41586C8.0277 2.05138 8.03034 1.4578 7.66586 1.09005C7.30139 0.722305 6.7078 0.719657 6.34005 1.08414L4.09664 3.30762C3.25167 4.14505 2.56108 4.82949 2.07132 5.43932C1.56203 6.07348 1.19337 6.71716 1.09489 7.4898C1.0517 7.82858 1.0517 8.17142 1.09489 8.5102C1.19337 9.28284 1.56203 9.92652 2.07132 10.5607C2.56108 11.1705 3.25167 11.855 4.09665 12.6924L6.34005 14.9159C6.7078 15.2803 7.30138 15.2777 7.66586 14.9099C8.03034 14.5422 8.02769 13.9486 7.65995 13.5841L5.45624 11.4C4.56187 10.5136 3.94837 9.90353 3.53324 9.38662C3.39833 9.21863 3.29307 9.07075 3.21135 8.9375H22C22.5178 8.9375 22.9375 8.51777 22.9375 8C22.9375 7.48223 22.5178 7.0625 22 7.0625H3.21135C3.29308 6.92925 3.39833 6.78137 3.53324 6.61338C3.94837 6.09647 4.56187 5.48642 5.45624 4.6L7.65995 2.41586Z" fill="#0F172A" stroke="#0F172A" strokeLinecap="round" />
                             </svg>
                             <h3 className=" text-yankeesBlue leading-8 pl-4 smx:pl-7 truncate">
-                                ASD
-                                {/* {userData.first_name && userData.last_name ? <>{userData.first_name} {userData.last_name}'s Cards </> : ""} */}
+
+                                {`${user.fname} ${user.lname}`.toLocaleUpperCase()}
                             </h3>
                         </div>
                         <div className="flex justify-end items-center space-x-4">

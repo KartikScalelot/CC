@@ -2,7 +2,7 @@ import axios from 'axios';
 import moment from 'moment/moment';
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
-import { baseurl } from '../../api/baseurl';
+import { baseImageUrl, baseurl } from '../../api/baseurl';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import Modal from '../../common/Modals/Modal';
 import SinglePhotoView from '../Admin/Popup/SinglePhotoView';
@@ -13,6 +13,8 @@ import PaymentDetails from '../Admin/Popup/DepositPaymentDetails';
 import { getSingleCard } from '../Cards/CardSlice';
 import { useDispatch } from 'react-redux';
 import { toast } from 'sonner';
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
 
 export default function SingleCardDetails() {
 
@@ -22,6 +24,7 @@ export default function SingleCardDetails() {
 	const card_id = localStorage.getItem("card_id");
 	const [requestDetails, setRequestDetails] = useState([]);
 	const [singleCardDetail, setSingleCardDetail] = useState({})
+	const [open, setOpen] = useState(false)
 
 
 	// const { state } = useLocation();
@@ -210,7 +213,7 @@ export default function SingleCardDetails() {
 									</svg>
 									Edit Details
 								</button>
-								<button to='createaccount' className="btn-secondary flex" onClick={() => { setId2(cardDetails); setIsPhotoViewPopUpOpen(true); }}>View Card Photo</button>
+								<button to='createaccount' className="btn-secondary flex" onClick={() => { setOpen(true) }}>View Card Photo</button>
 							</div>
 							{/* </div> */}
 						</div>
@@ -290,6 +293,14 @@ export default function SingleCardDetails() {
 					<Modal isOpen={isPayPopUpOpen}>
 						<PaymentDetails handleClose={setIsPayPopUpOpen} payerData={payerData} />
 					</Modal>
+					<Lightbox
+						open={open}
+						close={() => setOpen(false)}
+						slides={[
+							{ src: `${baseImageUrl}/${singleCardDetail.card_photo_back}` },
+							{ src: `${baseImageUrl}/${singleCardDetail.card_photo_front}` },
+						]}
+					/>
 				</div>
 			)}
 		</>
